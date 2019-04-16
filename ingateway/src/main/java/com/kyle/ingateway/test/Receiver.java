@@ -1,9 +1,8 @@
 package com.kyle.ingateway.test;
 
-import com.alibaba.fastjson.JSON;
 import com.kyle.common.util.ConsoleLogUtils;
+import com.kyle.common.util.JsonUtils;
 import com.kyle.common.util.QueuesNames;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +22,7 @@ public class Receiver {
     @RabbitListener(queues = QueuesNames.IM_GATEWAY_IN)
     public void inGatewayHandler(String content){
         ConsoleLogUtils.print("inGatewayHandler Receiver",content);
-        ConsoleLogUtils.print("Object",JSON.parseObject(content,UserInfo.class));
+        ConsoleLogUtils.print("Object",JsonUtils.parseObject(content,UserInfo.class));
     }
 
 

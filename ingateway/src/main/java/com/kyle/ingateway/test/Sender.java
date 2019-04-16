@@ -1,9 +1,8 @@
 package com.kyle.ingateway.test;
 
-import com.alibaba.fastjson.JSON;
 import com.kyle.common.util.ConsoleLogUtils;
+import com.kyle.common.util.JsonUtils;
 import com.kyle.common.util.QueuesNames;
-import org.apache.catalina.User;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,7 +27,7 @@ public class Sender {
         userInfo.setCreateTime(new Date());
         ConsoleLogUtils.print("Sender",content);
         rabbitTemplate.convertAndSend(QueuesNames.IM_USER,content);
-        rabbitTemplate.convertAndSend(QueuesNames.IM_GATEWAY_IN,JSON.toJSONString(userInfo));
+        rabbitTemplate.convertAndSend(QueuesNames.IM_GATEWAY_IN,JsonUtils.toJSONString(userInfo));
     }
 
 }
