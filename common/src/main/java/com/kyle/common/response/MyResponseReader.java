@@ -2,7 +2,7 @@ package com.kyle.common.response;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.kyle.common.util.ConfigUtils;
+import com.kyle.common.util.Constants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -25,10 +25,10 @@ public class MyResponseReader {
             return false;
         }
         JSONObject jsonObject = getJSONObject(response);
-        if(jsonObject.get(ConfigUtils.SUCCESS_KEY) == null){
+        if(jsonObject.get(Constants.SUCCESS_KEY) == null){
             return false;
         }
-        return jsonObject.getInteger(ConfigUtils.SUCCESS_KEY) == ConfigUtils.RESPONSE_RESULT_CODE_SUCCESS_VALUE;
+        return jsonObject.getInteger(Constants.SUCCESS_KEY) == Constants.RESPONSE_RESULT_CODE_SUCCESS_VALUE;
     }
 
     /**
@@ -40,7 +40,7 @@ public class MyResponseReader {
      */
     public static <T> List<T> getList(ResponseEntity response, Class<T> clazz){
         JSONObject jsonObject = JSON.parseObject(getJSONString(response));
-        return JSON.parseArray(jsonObject.getString(ConfigUtils.DATA_KEY), clazz);
+        return JSON.parseArray(jsonObject.getString(Constants.DATA_KEY), clazz);
     }
 
     /**
@@ -49,7 +49,7 @@ public class MyResponseReader {
      * @return
      */
     public static Integer getInteger(ResponseEntity responseEntity){
-        return getJSONObject(responseEntity).getInteger(ConfigUtils.DATA_KEY);
+        return getJSONObject(responseEntity).getInteger(Constants.DATA_KEY);
     }
 
     /**
@@ -60,7 +60,7 @@ public class MyResponseReader {
      * @return
      */
     public static <T> T getObject(ResponseEntity responseEntity,Class<T> clazz){
-        return getJSONObject(responseEntity).getObject(ConfigUtils.DATA_KEY,clazz);
+        return getJSONObject(responseEntity).getObject(Constants.DATA_KEY,clazz);
     }
 
     /**
@@ -87,7 +87,7 @@ public class MyResponseReader {
      * @return
      */
     public static JSONObject getDataJSONObject(ResponseEntity responseEntity){
-        return JSON.parseObject(getJSONString(responseEntity)).getJSONObject(ConfigUtils.DATA_KEY);
+        return JSON.parseObject(getJSONString(responseEntity)).getJSONObject(Constants.DATA_KEY);
     }
 
     /**

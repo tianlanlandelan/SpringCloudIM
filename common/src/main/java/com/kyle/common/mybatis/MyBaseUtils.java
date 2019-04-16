@@ -1,7 +1,7 @@
 package com.kyle.common.mybatis;
 
 import com.kyle.common.response.ResultData;
-import com.kyle.common.util.ConfigUtils;
+import com.kyle.common.util.Constants;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -80,7 +80,7 @@ public class MyBaseUtils {
      * @return
      */
     public static <T extends MyBaseMapper> ResultData getPageList(int currentPage, int pageSize, T mapper, MyBaseEntity baseEntity){
-        if(currentPage < 1 || pageSize < 0 || pageSize > ConfigUtils.MAX_PAGE_SIZE){
+        if(currentPage < 1 || pageSize < 0 || pageSize > Constants.MAX_PAGE_SIZE){
             return ResultData.error("非法数据");
         }else {
             PageList pageList = new PageList();

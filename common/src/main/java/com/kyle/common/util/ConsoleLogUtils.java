@@ -1,4 +1,4 @@
-package com.kyle.ingateway.test;
+package com.kyle.common.util;
 
 /**
  * @author yangkaile

@@ -1,11 +1,17 @@
 package com.kyle.ingateway;
 
+import com.alibaba.fastjson.JSON;
+import com.kyle.common.util.ConsoleLogUtils;
 import com.kyle.ingateway.test.Sender;
+import com.kyle.ingateway.test.UserInfo;
+import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -23,4 +29,13 @@ public class IngatewayApplicationTests {
         sender.send();
     }
 
+    @Test
+    public void testJson(){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setAge(29);
+        userInfo.setName("王刚");
+        userInfo.setCreateTime(new Date());
+        ConsoleLogUtils.print("json",JSON.toJSONString(userInfo));
+
+    }
 }

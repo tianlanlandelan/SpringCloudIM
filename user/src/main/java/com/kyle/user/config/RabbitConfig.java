@@ -1,4 +1,4 @@
-package com.kyle.ingateway.config;
+package com.kyle.user.config;
 
 import com.kyle.common.util.QueuesNames;
 import org.springframework.amqp.core.Queue;
@@ -16,6 +16,6 @@ public class RabbitConfig {
 
     @Bean
     public Queue helloQueue(){
-        return new Queue(QueuesNames.IM_USER);
+        return new Queue(QueuesNames.IM_GATEWAY_IN);
     }
 }
