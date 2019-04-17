@@ -18,9 +18,15 @@
         <module name="service" />
         <module name="user" />
       </profile>
-      <profile name="Annotation profile for common" enabled="true">
+      <profile name="Annotation profile for common-im" enabled="true">
         <sourceOutputDir name="../../../jars/generated-sources/annotations" />
         <sourceTestOutputDir name="../../../jars/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="common111" />
+      </profile>
+      <profile name="Annotation profile for common" enabled="true">
+        <sourceOutputDir name="../../../jars/common-im/generated-sources/annotations" />
+        <sourceTestOutputDir name="../../../jars/common-im/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common" />
       </profile>
@@ -28,6 +34,7 @@
     <bytecodeTargetLevel>
       <module name="admin" target="1.8" />
       <module name="common" target="1.8" />
+      <module name="common111" target="1.8" />
       <module name="file" target="1.8" />
       <module name="forum" target="1.8" />
       <module name="friend" target="1.8" />

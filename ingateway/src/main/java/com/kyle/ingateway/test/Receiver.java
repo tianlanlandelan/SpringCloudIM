@@ -1,8 +1,8 @@
 package com.kyle.ingateway.test;
 
-import com.kyle.common.util.ConsoleLogUtils;
-import com.kyle.common.util.JsonUtils;
-import com.kyle.common.util.QueuesNames;
+import com.kyle.mycommon.util.ConsoleLogUtils;
+import com.kyle.mycommon.util.JsonUtils;
+import com.kyle.mycommon.util.QueuesNames;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 

@@ -8,9 +8,9 @@
         <version>2.1.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.kyle.user</groupId>
+    <groupId>com.kyle.im</groupId>
     <artifactId>user</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>user</name>
     <description>Spring Cloud IM - 用户管理</description>
 
@@ -39,8 +39,21 @@
         <!--通用组件-->
         <dependency>
             <groupId>com.kyle</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>common-im</artifactId>
             <version>0.0.1</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 

@@ -8,9 +8,9 @@
         <version>2.1.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.kyle.log</groupId>
+    <groupId>com.kyle.im</groupId>
     <artifactId>log</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>log</name>
     <description>Spring Cloud IM - 日志组件</description>
 

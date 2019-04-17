@@ -8,9 +8,9 @@
         <version>2.1.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.kyle.group</groupId>
+    <groupId>com.kyle.im</groupId>
     <artifactId>group</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>group</name>
     <description>Spring Cloud IM - 群组</description>
 

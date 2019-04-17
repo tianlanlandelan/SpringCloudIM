@@ -8,9 +8,9 @@
         <version>2.1.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.kyle.ingateway</groupId>
+    <groupId>com.kyle.im</groupId>
     <artifactId>ingateway</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>ingateway</name>
     <description>Spring Cloud IM - 入访网关</description>
 
@@ -39,7 +39,7 @@
         <!--通用组件-->
         <dependency>
             <groupId>com.kyle</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>common-im</artifactId>
             <version>0.0.1</version>
         </dependency>
 

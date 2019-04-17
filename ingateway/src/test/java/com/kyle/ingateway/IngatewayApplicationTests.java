@@ -1,7 +1,7 @@
 package com.kyle.ingateway;
 
-import com.kyle.common.util.ConsoleLogUtils;
-import com.kyle.common.util.JsonUtils;
+import com.kyle.mycommon.util.ConsoleLogUtils;
+import com.kyle.mycommon.util.JsonUtils;
 import com.kyle.ingateway.test.Sender;
 import com.kyle.ingateway.test.UserInfo;
 import org.junit.Test;

@@ -8,9 +8,9 @@
         <version>2.1.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.kyle.forum</groupId>
+    <groupId>com.kyle.im</groupId>
     <artifactId>forum</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>forum</name>
     <description>Spring Cloud IM - 论坛/博客/朋友圈</description>
 

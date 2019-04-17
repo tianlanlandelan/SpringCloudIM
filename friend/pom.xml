@@ -8,9 +8,9 @@
         <version>2.1.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.kyle.friend</groupId>
+    <groupId>com.kyle.im</groupId>
     <artifactId>friend</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>friend</name>
     <description>Spring Cloud IM - 好友关系</description>
 

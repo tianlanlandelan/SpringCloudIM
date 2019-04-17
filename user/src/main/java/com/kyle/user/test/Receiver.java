@@ -1,7 +1,7 @@
 package com.kyle.user.test;
 
-import com.kyle.common.util.ConsoleLogUtils;
-import com.kyle.common.util.QueuesNames;
+import com.kyle.mycommon.util.ConsoleLogUtils;
+import com.kyle.mycommon.util.QueuesNames;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;

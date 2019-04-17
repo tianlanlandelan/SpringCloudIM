@@ -1,6 +1,6 @@
 package com.kyle.user.config;
 
-import com.kyle.common.util.QueuesNames;
+import com.kyle.mycommon.util.QueuesNames;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -8,11 +8,10 @@
         <version>2.1.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.kyle.common</groupId>
+    <groupId>com.kyle.im</groupId>
     <artifactId>common</artifactId>
     <version>0.0.1</version>
-    <name>common</name>
-    <description>Spring Cloud IM -  通用组件</description>
+    <description>Spring Cloud IM - 通用组件</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -49,8 +48,8 @@
 
         <!-- redis-->
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-data-redis</artifactId>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-data-redis</artifactId>-->
         <!--</dependency>-->
 
     </dependencies>
@@ -58,7 +57,8 @@
     <build>
         <finalName>common-im</finalName>
         <directory>
-            /Users/yangkaile/jars/
+            /Users/yangkaile/jars/common-im/
         </directory>
     </build>
+
 </project>
