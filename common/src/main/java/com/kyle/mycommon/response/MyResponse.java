@@ -20,6 +20,15 @@ public class MyResponse {
     }
 
     /**
+     * 返回OK
+     * @return
+     */
+    public static ResponseEntity ok(){
+        ResultData response = ResultData.success();
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
+    }
+
+    /**
      * 异常请求
      * @return
      */
