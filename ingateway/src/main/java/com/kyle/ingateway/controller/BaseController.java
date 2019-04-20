@@ -27,7 +27,7 @@ import java.util.Map;
  * @author yangkaile
  * @date 2018-11-23 14:34:52
  */
-@Controller
+@RestController
 @RequestMapping("/base")
 @CrossOrigin(origins = "*",allowedHeaders="*", maxAge = 3600)
 public class BaseController {
