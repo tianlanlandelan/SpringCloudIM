@@ -12,11 +12,13 @@
         <module name="friend" />
         <module name="group" />
         <module name="ingateway" />
+        <module name="ingateway (1)" />
         <module name="log" />
         <module name="message" />
         <module name="outgateway" />
         <module name="service" />
         <module name="user" />
+        <module name="user (1)" />
       </profile>
       <profile name="Annotation profile for common-im" enabled="true">
         <sourceOutputDir name="../../../jars/generated-sources/annotations" />
@@ -34,17 +36,20 @@
     <bytecodeTargetLevel>
       <module name="admin" target="1.8" />
       <module name="common" target="1.8" />
+      <module name="common (1)" target="1.8" />
       <module name="common111" target="1.8" />
       <module name="file" target="1.8" />
       <module name="forum" target="1.8" />
       <module name="friend" target="1.8" />
       <module name="group" target="1.8" />
       <module name="ingateway" target="1.8" />
+      <module name="ingateway (1)" target="1.8" />
       <module name="log" target="1.8" />
       <module name="message" target="1.8" />
       <module name="outgateway" target="1.8" />
       <module name="service" target="1.8" />
       <module name="user" target="1.8" />
+      <module name="user (1)" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

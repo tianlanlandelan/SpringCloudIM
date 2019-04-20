@@ -10,11 +10,13 @@
       <module fileurl="file://$PROJECT_DIR$/friend/friend.iml" filepath="$PROJECT_DIR$/friend/friend.iml" />
       <module fileurl="file://$PROJECT_DIR$/group/group.iml" filepath="$PROJECT_DIR$/group/group.iml" />
       <module fileurl="file://$PROJECT_DIR$/ingateway/ingateway.iml" filepath="$PROJECT_DIR$/ingateway/ingateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/001/ingateway/ingateway (1).iml" filepath="$PROJECT_DIR$/001/ingateway/ingateway (1).iml" />
       <module fileurl="file://$PROJECT_DIR$/log/log.iml" filepath="$PROJECT_DIR$/log/log.iml" />
       <module fileurl="file://$PROJECT_DIR$/message/message.iml" filepath="$PROJECT_DIR$/message/message.iml" />
       <module fileurl="file://$PROJECT_DIR$/outgateway/outgateway.iml" filepath="$PROJECT_DIR$/outgateway/outgateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/service/service.iml" filepath="$PROJECT_DIR$/service/service.iml" />
       <module fileurl="file://$PROJECT_DIR$/user/user.iml" filepath="$PROJECT_DIR$/user/user.iml" />
+      <module fileurl="file://$PROJECT_DIR$/001/user/user (1).iml" filepath="$PROJECT_DIR$/001/user/user (1).iml" />
     </modules>
   </component>
 </project>

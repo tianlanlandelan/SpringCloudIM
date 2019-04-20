@@ -1,0 +1,14 @@
+HELP.md
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+/*/.idea
+/*/.mvn
+/*/src/main/resources/application-prod.properties
+/*/target/
+/*/*.iml

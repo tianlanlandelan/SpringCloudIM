@@ -19,6 +19,8 @@
         <option value="$PROJECT_DIR$/forum/pom.xml" />
         <option value="$PROJECT_DIR$/common/pom.xml" />
         <option value="$PROJECT_DIR$/mycommon/pom.xml" />
+        <option value="$PROJECT_DIR$/001/ingateway/pom.xml" />
+        <option value="$PROJECT_DIR$/001/user/pom.xml" />
       </list>
     </option>
   </component>
