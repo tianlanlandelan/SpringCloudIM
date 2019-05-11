@@ -1,5 +1,6 @@
 package com.kyle.mycommon.router;
 
+import com.kyle.mycommon.entity.Router;
 import com.kyle.mycommon.response.MyResponseReader;
 import com.kyle.mycommon.util.Constants;
 import com.kyle.mycommon.util.StringUtils;
@@ -85,7 +86,7 @@ public class MyRouters {
                 if(routerAttribute != null){
                     Router routerObject = new Router();
                     routerObject.setId(routerAttribute.id());
-                    routerObject.setName(method.getName() + routerObject.getId());
+                    routerObject.setName(routerAttribute.name());
                     routerObject.setDescription(routerAttribute.description());
                     routerObject.setServiceName(serviceName);
                     routerObject.setControllerName(t.getSimpleName());

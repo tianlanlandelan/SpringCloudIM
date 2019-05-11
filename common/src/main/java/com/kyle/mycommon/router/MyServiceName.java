@@ -1,33 +1,61 @@
 package com.kyle.mycommon.router;
 
 /**
+ * @author yangkaile
+ * @date 2019-05-10 09:06:32
  * 维护组件名
  * 新增的组件在这里注册
  */
 public class MyServiceName {
     /**
-     * 服务注册中心
-     * 维护所有已启动的组件ServiceRegistryCenter
+     * 入访控制
      */
-    public final static String SERVICE_REGISTRY_CENTER = "ServiceRegistryCenter";
+    public final static String IN_GATEWAY = "InGateway";
 
     /**
      * 用户管理中心
-     * 维护用户信息，负责用户登录、注册UserManagerCenter
      */
-    public final static String USER_MANAGER_CENTER = "UserManagerCenter";
+    public final static String USER = "USER";
 
     /**
      * 日志中心
-     * 负责所有组件的日志记录、查询等功能LogCenter
      */
-    public final static String LOG_CENTER = "LogCenter";
+    public final static String LOG = "Log";
 
     /**
-     * 外部服务中心
-     * 负责提供邮件发送、短信发送等对外服务PublicServiceCenter
+     * 出访控制
      */
-    public final static String PUBLIC_SERVICE_CENTER = "PublicServiceCenter";
+    public final static String OUT_GATEWAY = "OutGateway";
+
+    /**
+     * 后台管理
+     */
+    public final static String ADMIN = "Admin";
+
+    /**
+     * 文件服务
+     */
+    public final static String FILE = "File";
+
+    /**
+     * 博客、论坛
+     */
+    public final static String FORUM = "Forum";
+
+    /**
+     * 好友服务
+     */
+    public final static String FRIEND = "Friend";
+
+    /**
+     * 群组服务
+     */
+    public final static String GROUP = "Group";
+
+    /**
+     * 消息服务
+     */
+    public final static String MESSAGE = "Message";
 
 
 

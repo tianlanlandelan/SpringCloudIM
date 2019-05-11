@@ -8,8 +8,17 @@ package com.kyle.mycommon.response;
  */
 public class ResultData {
 
+    /**
+     * 业务状态 0：成功  1：失败
+     */
     private int success ;
+    /**
+     * 返回数据
+     */
     private Object data ;
+    /**
+     * 文字描述，一般放业务处理失败时返回的错误信息
+     */
     private String message ;
 
     public final static int SUCCESS_CODE_SUCCESS = 0;
