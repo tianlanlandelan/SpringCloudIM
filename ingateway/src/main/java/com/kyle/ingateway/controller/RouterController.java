@@ -17,6 +17,7 @@ import javax.annotation.Resource;
  * @author yangkaile
  * @date 2018-10-11 09:06:32
  */
+@RequestMapping("/router")
 @RestController
 public class RouterController {
     private Logger logger = LoggerFactory.getLogger(RouterController.class);
@@ -41,7 +42,4 @@ public class RouterController {
     public ResponseEntity getRouters(){
         return MyResponse.ok(routerService.getAll());
     }
-
-
-
 }

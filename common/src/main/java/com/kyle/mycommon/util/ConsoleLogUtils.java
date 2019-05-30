@@ -9,7 +9,7 @@ public class ConsoleLogUtils {
     public static void print(String title,Object ... objects){
         System.out.println("=======" + title + "=======begin========");
         for(Object object : objects){
-            System.out.print(object + " , ");
+            System.out.println(object);
         }
         System.out.println("=======" + title + "=======end==========");
 
