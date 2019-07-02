@@ -5,14 +5,13 @@ package com.kyle.mycommon.util;
  * @date 2019-04-16 11:00:56
  * 控制台日志输出工具类
  */
-public class ConsoleLogUtils {
+public class Console {
     public static void print(String title,Object ... objects){
-        System.out.println("=======" + title + "=======begin========");
+        System.out.println("=======" + title + "========");
         for(Object object : objects){
             System.out.println(object);
         }
-        System.out.println("=======" + title + "=======end==========");
-
+        System.out.println();
     }
 
 }

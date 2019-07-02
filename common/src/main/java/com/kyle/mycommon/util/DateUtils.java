@@ -53,8 +53,8 @@ public class DateUtils {
     }
 
     public static void main(String[] args){
-        ConsoleLogUtils.print("getDate",DateUtils.getDate());
-        ConsoleLogUtils.print("getDateTime",DateUtils.getDateTime());
-        ConsoleLogUtils.print("getTimeMask",DateUtils.getTimeMask());
+        Console.print("getDate",DateUtils.getDate());
+        Console.print("getDateTime",DateUtils.getDateTime());
+        Console.print("getTimeMask",DateUtils.getTimeMask());
     }
 }
