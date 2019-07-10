@@ -15,7 +15,12 @@ public class RabbitConfig {
 
 
     @Bean
-    public Queue helloQueue(){
-        return new Queue(QueuesNames.IM_GATEWAY_IN);
+    public Queue saveEmailVerificationCode(){
+        return new Queue(QueuesNames.SAVE_EMAIL_VERIFICATION_CODE);
     }
+    @Bean
+    public Queue saveSMSVerificationCode(){
+        return new Queue(QueuesNames.SAVE_SMS_VERIFICATION_CODE);
+    }
+
 }

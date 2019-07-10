@@ -1,8 +1,13 @@
 package com.kyle.outgateway.utils;
 //import com.cloopen.rest.sdk.CCPRestSmsSDK;
 
+import com.kyle.mycommon.entity.SMSEntity;
+import com.kyle.mycommon.util.StringUtils;
+import com.kyle.outgateway.config.ServiceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
 
 
 /**
@@ -46,28 +51,28 @@ public class SendSMSUtils {
      * @param entity
      * @return
      */
-//    public static SMSEntity sendSMS(SMSEntity entity){
-//        HashMap<String, Object> result;
+    public static SMSEntity sendSMS(SMSEntity entity){
+        HashMap<String, Object> result;
 //        result = init().sendTemplateSMS(entity.getPhone(),entity.getTemplateId(),
 //                new String[]{entity.getCodeStr(),entity.getMinuteStr()});
 //        logger.info(result.toString());
 //        entity.setResult(result.toString());
 //        entity.setStatusCode(result.get(RESULT_STATUS_CODE).toString());
-//        return entity;
-//    }
+        return entity;
+    }
 
     /**
      * 发送短信验证码
      * @param phone 手机号
      * @return
      */
-//    public static SMSEntity sendVerificationCode(String phone){
-//        SMSEntity entity = new SMSEntity(phone,ServiceConfig.SMS_SEND_TYPE_REGISTER);
-//        entity.setTemplateId(ServiceConfig.SMS_SEND_TEMPLATE_ID_REGISTER);
-//        entity.setCodeStr(StringUtils.getNumbserString(ServiceConfig.SMS_SEND_LENGTH));
-//        entity.setMinuteStr(ServiceConfig.SMS_SEND_MINUTE_REGISTER);
-//        return sendSMS(entity);
-//    }
+    public static SMSEntity sendVerificationCode(String phone){
+        SMSEntity entity = new SMSEntity(phone,ServiceConfig.SMS_SEND_TYPE_REGISTER);
+        entity.setTemplateId(ServiceConfig.SMS_SEND_TEMPLATE_ID_REGISTER);
+        entity.setCodeStr(StringUtils.getNumbserString(ServiceConfig.SMS_VERIFICATIONCODE_LENGTH));
+        entity.setMinuteStr(ServiceConfig.SMS_SEND_MINUTE_REGISTER);
+        return sendSMS(entity);
+    }
 
     /**
      * @param args

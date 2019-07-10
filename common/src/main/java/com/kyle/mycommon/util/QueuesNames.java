@@ -7,48 +7,34 @@ package com.kyle.mycommon.util;
  */
 public class QueuesNames {
     /**
-     * 群组组件
+     * 发送验证码
      */
-    public final static String IM_GROUP = "IM_GROUP";
+    public final static String SEND_VERIFICATION_CODE = "SEND_VERIFICATION_CODE";
+
     /**
-     * 好友组件
+     * 保存邮件验证码
      */
-    public final static String IM_FRIEND = "IM_FRIEND";
+    public final static String SAVE_EMAIL_VERIFICATION_CODE = "SAVE_EMAIL_VERIFICATION_CODE";
+
+    /**
+     * 保存短信验证码
+     */
+    public final static String SAVE_SMS_VERIFICATION_CODE = "SAVE_SMS_VERIFICATION_CODE";
+
+
+
+
     /**
      * 用户管理
+     * TODO 测试用
      */
     public final static String IM_USER = "IM_USER";
-    /**
-     * 消息组件
-     */
-    public final static String IM_MESSAGE = "IM_MESSAGE";
-    /**
-     * 文件服务
-     */
-    public final static String IM_FILE = "IM_FILE";
-    /**
-     * 日志组件
-     */
-    public final static String IM_LOG = "IM_LOG";
-    /**
-     * 服务注册
-     */
-    public final static String IM_SERVICE = "IM_SERVICE";
-    /**
-     * 论坛、博客、朋友圈
-     */
-    public final static String IM_FORUM = "IM_FORUM";
-    /**
-     * 出访火墙
-     */
-    public final static String IM_GATEWAY_OUT = "IM_GATEWAY_OUT";
+
     /**
      * 入访火墙
+     * TODO 测试用
      */
     public final static String IM_GATEWAY_IN = "IM_GATEWAY_IN";
-    /**
-     * 后台管理组件
-     */
-    public final static String IM_ADMIN = "IM_ADMIN";
+
 
 }

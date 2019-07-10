@@ -68,7 +68,7 @@ public class SendEmailUtils {
         MimeMessage message = new MimeMessage(session);
         //指明邮件的发件人
         message.setFrom(new InternetAddress(USER));
-        //指明邮件的收件人，现在发件人和收件人是一样的，那就是自己给自己发
+        //指明邮件的收件人
         message.setRecipient(Message.RecipientType.TO, new InternetAddress(toEmailAddress));
         //邮件的标题
         message.setSubject(title);

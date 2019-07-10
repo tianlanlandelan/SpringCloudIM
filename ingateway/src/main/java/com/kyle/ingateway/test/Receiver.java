@@ -1,6 +1,6 @@
 package com.kyle.ingateway.test;
 
-import com.kyle.mycommon.util.ConsoleLogUtils;
+import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.JsonUtils;
 import com.kyle.mycommon.util.QueuesNames;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -17,13 +17,18 @@ public class Receiver {
 
     @RabbitListener(queues = QueuesNames.IM_USER)
     public void userHandler(String content){
-        ConsoleLogUtils.print("Receiver",content);
+        Console.print("Receiver",content);
     }
     @RabbitListener(queues = QueuesNames.IM_GATEWAY_IN)
     public void inGatewayHandler(String content){
-        ConsoleLogUtils.print("inGatewayHandler Receiver",content);
-        ConsoleLogUtils.print("Object",JsonUtils.parseObject(content,UserInfo.class));
+        Console.print("inGatewayHandler Receiver",content);
+        Console.print("Object",JsonUtils.parseObject(content,UserInfo.class));
     }
+    @RabbitListener(queues = QueuesNames.SEND_VERIFICATION_CODE)
+    public void a(String content){
+        Console.print("Receiver",content);
+    }
+
 
 
 }

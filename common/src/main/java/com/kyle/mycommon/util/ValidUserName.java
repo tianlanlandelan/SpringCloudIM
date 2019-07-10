@@ -24,13 +24,13 @@ public class ValidUserName {
     private static final String EMAIL_ADDRESS_PATTERN = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|" +
             "(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
 
-    public static boolean isValidUserName(String userName) {
+    public static boolean isUserName(String userName) {
         Pattern pattern = Pattern.compile(USER_NAME_PATTERN);
         Matcher matcher = pattern.matcher(userName);
         return matcher.matches();
     }
 
-    public static boolean isValidPhoneNumber(String userName) {
+    public static boolean isPhoneNo(String userName) {
         Pattern pattern = Pattern.compile(PHONE_NUMBER_PATTERN);
         Matcher matcher = pattern.matcher(userName);
         return matcher.matches();
@@ -42,8 +42,7 @@ public class ValidUserName {
      * @param userName
      * @return
      */
-    public static boolean isValidEmailAddress(String userName) {
-
+    public static boolean isEmail(String userName) {
         Pattern pattern = Pattern.compile(EMAIL_ADDRESS_PATTERN);
         Matcher matcher = pattern.matcher(userName);
         return matcher.matches();

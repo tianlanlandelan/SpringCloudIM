@@ -1,4 +1,4 @@
-package com.kyle.ingateway.config;
+package com.kyle.log.config;
 
 import com.kyle.mycommon.util.QueuesNames;
 import org.springframework.amqp.core.Queue;
@@ -13,14 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-
     @Bean
-    public Queue testQueue(){
-        return new Queue(QueuesNames.IM_USER);
-    }
-
-    @Bean
-    public Queue sendVerificationCodeQueue(){
+    public Queue saveEmailVerificationCodeQueue(){
         return new Queue(QueuesNames.SEND_VERIFICATION_CODE);
     }
 

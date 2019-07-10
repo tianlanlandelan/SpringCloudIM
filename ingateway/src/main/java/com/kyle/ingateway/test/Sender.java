@@ -1,6 +1,6 @@
 package com.kyle.ingateway.test;
 
-import com.kyle.mycommon.util.ConsoleLogUtils;
+import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.JsonUtils;
 import com.kyle.mycommon.util.QueuesNames;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -25,7 +25,7 @@ public class Sender {
         userInfo.setAge(29);
         userInfo.setName("王刚");
         userInfo.setCreateTime(new Date());
-        ConsoleLogUtils.print("Sender",content);
+        Console.print("Sender",content);
         rabbitTemplate.convertAndSend(QueuesNames.IM_USER,content);
         rabbitTemplate.convertAndSend(QueuesNames.IM_GATEWAY_IN,JsonUtils.toJSONString(userInfo));
     }

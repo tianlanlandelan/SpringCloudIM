@@ -1,27 +1,23 @@
 package com.kyle.ingateway.controller;
 
 import com.kyle.mycommon.response.MyResponse;
-import com.kyle.mycommon.response.MyResponseReader;
 import com.kyle.mycommon.response.ResultData;
-import com.kyle.mycommon.router.MyRouters;
-import com.kyle.mycommon.router.MyUserManagerRouter;
-import com.kyle.mycommon.util.ConsoleLogUtils;
-import com.kyle.mycommon.util.JsonUtils;
+import com.kyle.mycommon.util.Console;
+import com.kyle.mycommon.util.QueuesNames;
 import com.kyle.mycommon.util.StringUtils;
+import com.kyle.mycommon.util.ValidUserName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author yangkaile
@@ -37,6 +33,9 @@ public class BaseController {
     RestTemplate restTemplate;
 
     @Autowired
+    private AmqpTemplate rabbitTemplate;
+
+    @Autowired
     private HttpServletRequest request;
 
     /**
@@ -47,7 +46,7 @@ public class BaseController {
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public ResponseEntity login(String userName, String password){
-        ConsoleLogUtils.print("login",userName,password);
+        Console.print("login",userName,password);
         return MyResponse.ok();
     }
 
@@ -60,18 +59,30 @@ public class BaseController {
      */
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public ResponseEntity register(String userName,String password,String verificationCode){
-        ConsoleLogUtils.print("login",userName,password,verificationCode);
+        Console.print("login",userName,password,verificationCode);
         return  MyResponse.ok();
     }
 
-    @RequestMapping(value = "/sendVCode",method = RequestMethod.GET)
-    public ResponseEntity sendVCode(String userName){
-        ConsoleLogUtils.print("sendVCode",userName);
-        return  MyResponse.ok();
+    /**
+     *
+     * @param userName
+     * @return
+     */
+    @RequestMapping(value = "/sendVerificationCode",method = RequestMethod.GET)
+    public ResponseEntity sendVerificationCode(String userName){
+        Console.print("sendVCode",userName);
+        if(StringUtils.isEmpty(userName)){
+            return MyResponse.badRequest();
+        }
+        if(ValidUserName.isEmail(userName) || ValidUserName.isPhoneNo(userName)){
+            rabbitTemplate.convertAndSend(QueuesNames.SEND_VERIFICATION_CODE,userName);
+            return  MyResponse.ok();
+        }
+        return MyResponse.badRequest();
     }
     @RequestMapping(value = "/checkVCode",method = RequestMethod.GET)
     public ResponseEntity checkVCode(String userName,String code){
-        ConsoleLogUtils.print("checkVCode",userName,code);
+        Console.print("checkVCode",userName,code);
         return  MyResponse.ok();
     }
 

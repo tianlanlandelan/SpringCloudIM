@@ -2,8 +2,6 @@ package com.kyle.outgateway;
 
 import com.kyle.mycommon.router.MyRouters;
 import com.kyle.mycommon.router.MyServiceName;
-import com.kyle.outgateway.controller.EmailController;
-import com.kyle.outgateway.controller.SMSController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
