@@ -25,7 +25,7 @@ public class Receiver {
         Console.print("Object",JsonUtils.parseObject(content,UserInfo.class));
     }
     @RabbitListener(queues = QueuesNames.SEND_VERIFICATION_CODE)
-    public void a(String content){
+    public void sendVerificationCode(String content){
         Console.print("Receiver",content);
     }
 

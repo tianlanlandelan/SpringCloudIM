@@ -15,7 +15,12 @@ public class RabbitConfig {
 
     @Bean
     public Queue saveEmailVerificationCodeQueue(){
-        return new Queue(QueuesNames.SEND_VERIFICATION_CODE);
+        return new Queue(QueuesNames.SAVE_EMAIL_VERIFICATION_CODE);
     }
+    @Bean
+    public Queue saveSMSVerificationCodeQueue(){
+        return new Queue(QueuesNames.SAVE_SMS_VERIFICATION_CODE);
+    }
+
 
 }
