@@ -1,5 +1,7 @@
 package com.kyle.mycommon.entity;
 
+import java.util.Date;
+
 public class EmailEntity {
     /**
     * 邮件发送类型
@@ -32,6 +34,31 @@ public class EmailEntity {
      */
      private int statusCode = 0;
 
+    /**
+     * 发送时间，验证码邮件的有效时间为5分钟
+     */
+    private Date createTime = new Date();
+
+    /**
+     * 验证码是否已使用 0:未使用 1:已使用
+     */
+    private int isUsed = 0;
+
+    public EmailEntity(){
+        super();
+    }
+
+    /**
+     * 是否是有效的验证码
+     * 要求成功发送，发送时间在5分钟内，且未使用过
+     * @return
+     */
+    public boolean isEfficientVerificationCode(){
+        return (System.currentTimeMillis() - createTime.getTime() < 5 * 60 * 1000
+                && isUsed == 0
+                && statusCode == 0
+        );
+    }
 
     public Integer getType() {
         return type;
@@ -89,9 +116,25 @@ public class EmailEntity {
         this.statusCode = statusCode;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public int getIsUsed() {
+        return isUsed;
+    }
+
+    public void setIsUsed(int isUsed) {
+        this.isUsed = isUsed;
+    }
+
     @Override
     public String toString() {
-        return "EmailLog{" +
+        return "EmailEntity{" +
                 "type=" + type +
                 ", email='" + email + '\'' +
                 ", title='" + title + '\'' +
@@ -99,6 +142,8 @@ public class EmailEntity {
                 ", code='" + code + '\'' +
                 ", result='" + result + '\'' +
                 ", statusCode=" + statusCode +
+                ", createTime=" + createTime +
+                ", isUsed=" + isUsed +
                 '}';
     }
 }

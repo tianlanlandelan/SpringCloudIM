@@ -1,6 +1,8 @@
 package com.kyle.mycommon.entity;
 
 
+import java.util.Date;
+
 public class SMSEntity {
     /**
     * 用户ID
@@ -32,10 +34,25 @@ public class SMSEntity {
      *  {data={templateSMS={dateCreated=20180827170721, smsMessageSid=a21809d2dbe84872878a3e9cd9a3da17}}, statusCode=000000}
      */
     private String result;
+
     /**
     * 返回码
     */
      private String statusCode;
+
+    /**
+     * 发送时间，短信验证码5分钟内有效
+     */
+    private Date createTime = new Date();
+
+    /**
+     * 验证码是否已使用  0:未使用 1:已使用
+     */
+    private int isUsed = 0;
+
+    public SMSEntity(){
+        super();
+    }
 
     /**
      * 创建对象时需指定手机号和发送类型
@@ -45,6 +62,18 @@ public class SMSEntity {
     public SMSEntity(String phone, Integer type) {
         this.phone = phone;
         this.type = type;
+    }
+
+    /**
+     * 是否是有效的验证码
+     * 要求成功发送，发送时间在5分钟内，且未使用过
+     * @return
+     */
+    public boolean isEfficientVerificationCode(){
+        return (System.currentTimeMillis() - createTime.getTime() < 5 * 60 * 1000
+                && isUsed == 0
+                && statusCode.equals("000000")
+        );
     }
 
     public String getPhone(){
@@ -90,10 +119,26 @@ public class SMSEntity {
            this.statusCode = stateCode;
      }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+
+    public int getIsUsed() {
+        return isUsed;
+    }
+
+    public void setIsUsed(int isUsed) {
+        this.isUsed = isUsed;
+    }
 
     @Override
     public String toString() {
-        return "SMSLog{" +
+        return "SMSEntity{" +
                 "phone='" + phone + '\'' +
                 ", type=" + type +
                 ", templateId='" + templateId + '\'' +
@@ -101,6 +146,8 @@ public class SMSEntity {
                 ", minuteStr='" + minuteStr + '\'' +
                 ", result='" + result + '\'' +
                 ", statusCode='" + statusCode + '\'' +
+                ", createTime=" + createTime +
+                ", isUsed=" + isUsed +
                 '}';
     }
 }

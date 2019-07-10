@@ -42,10 +42,10 @@ public class RabbitMQHandler {
         }
         if(ValidUserName.isEmail(content)){
             EmailEntity entity = SendEmailUtils.sendVerificationCode(content);
-            rabbitTemplate.convertAndSend(JsonUtils.toJSONString(entity));
+            rabbitTemplate.convertAndSend(QueuesNames.SAVE_EMAIL_VERIFICATION_CODE,JsonUtils.toJSONString(entity));
         }else if(ValidUserName.isPhoneNo(content)){
             SMSEntity entity =  SendSMSUtils.sendVerificationCode(content);
-            rabbitTemplate.convertAndSend(JsonUtils.toJSONString(entity));
+            rabbitTemplate.convertAndSend(QueuesNames.SAVE_SMS_VERIFICATION_CODE,JsonUtils.toJSONString(entity));
         }
     }
 
