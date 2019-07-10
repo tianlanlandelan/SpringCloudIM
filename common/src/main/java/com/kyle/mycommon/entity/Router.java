@@ -13,7 +13,7 @@ public class Router {
     /**
      * 接口ID
      */
-    private Integer id;
+    private String id;
     /**
      * 接口名称
      */
@@ -51,11 +51,11 @@ public class Router {
      */
     private Date createTime = new Date();
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

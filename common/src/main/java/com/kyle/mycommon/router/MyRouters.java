@@ -5,10 +5,10 @@ import com.kyle.mycommon.response.MyResponseReader;
 import com.kyle.mycommon.util.Constants;
 import com.kyle.mycommon.util.StringUtils;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Method;
@@ -23,7 +23,7 @@ import java.util.Map;
  * @date 2018-10-09 09:37:33
  */
 public class MyRouters {
-    public static Map<Integer,Router> routerMap = new HashMap();
+    public static Map<String,Router> routerMap = new HashMap();
     public static void initRouterMap(List<Router> list){
         routerMap.clear();
         for (Router router:list){
@@ -77,7 +77,7 @@ public class MyRouters {
         for(Class t:controllerArray){
             //获取Class上的RequestMapping信息（路由前缀）
 
-            String urlPrefix = getRequestMappingValueStr((RequestMapping)t.getAnnotation(RequestMapping.class));
+            String urlPrefix = getRequestUrlPrefix(t);
             //获取Class的方法列表
             Method[] methods = t.getDeclaredMethods();
             for(Method method:methods){
@@ -91,13 +91,15 @@ public class MyRouters {
                     routerObject.setServiceName(serviceName);
                     routerObject.setControllerName(t.getSimpleName());
                     routerObject.setMethodName(method.getName());
-                    RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
+                    String[] request = readRequestMapping(method);
+                    String requestUrl = request[0];
+                    String requestMethod = request[1];
                     if(StringUtils.isEmpty(urlPrefix)){
-                        routerObject.setRouterUrl(Constants.HTTP_UTL_PREFIX + serviceName + getRequestMappingValueStr(requestMapping));
+                        routerObject.setRouterUrl(Constants.HTTP_UTL_PREFIX + serviceName + requestUrl);
                     }else {
-                        routerObject.setRouterUrl(Constants.HTTP_UTL_PREFIX + serviceName + urlPrefix + getRequestMappingValueStr(requestMapping));
+                        routerObject.setRouterUrl(Constants.HTTP_UTL_PREFIX + serviceName + urlPrefix + requestUrl);
                     }
-                    routerObject.setRequestType(getRequestMappingMethodStr(requestMapping));
+                    routerObject.setRequestType(requestMethod);
                     routerObject.setParameters(getMethodParametersStr(method));
 
                     list.add(routerObject);
@@ -141,41 +143,53 @@ public class MyRouters {
         return restTemplate;
     }
 
-
-    /**
-     * 获取RequestMapping里的value属性，并拼成一个字符串
-     * @param requestMapping
-     * @return
-     */
-    public  static String getRequestMappingValueStr(RequestMapping requestMapping){
-        if(requestMapping != null){
-            StringBuilder requestMappingValues = new StringBuilder();
-            for(String string:requestMapping.value()){
-                requestMappingValues.append(string);
-            }
-            return requestMappingValues.toString();
+    private static String getRequestUrlPrefix(Class t){
+        RequestMapping requestMapping =  (RequestMapping)t.getAnnotation(RequestMapping.class);
+        if(requestMapping == null){
+            return null;
         }
-        return null;
+        return requestMapping.value()[0];
     }
 
-    /**
-     *  获取RequestMapping里的method属性，并拼成一个字符串
-     * @param requestMapping
-     * @return
-     */
-    public static  String getRequestMappingMethodStr(RequestMapping requestMapping){
-        if(requestMapping != null){
-            StringBuilder requestMappingMethods = new StringBuilder();
-            for(RequestMethod requestMethod:requestMapping.method()){
-                requestMappingMethods.append(requestMethod);
-            }
-            return requestMappingMethods.toString();
+    private static String[] readRequestMapping(Method method){
+        String[] result = new String[2];
+        GetMapping getMapping =  method.getAnnotation(GetMapping.class);
+        if(getMapping != null){
+            result[0] = "GET";
+            result[1] = getMapping.value()[0];
+            return result;
         }
-        return null;
+
+        PostMapping postMapping =  method.getAnnotation(PostMapping.class);
+        if(getMapping != null){
+            result[0] = "POST";
+            result[1] = postMapping.value()[0];
+            return result;
+        }
+
+        PutMapping putMapping =  method.getAnnotation(PutMapping.class);
+        if(getMapping != null){
+            result[0] = "PUT";
+            result[1] = putMapping.value()[0];
+            return result;
+        }
+
+        DeleteMapping deleteMapping =  method.getAnnotation(DeleteMapping.class);
+        if(getMapping != null){
+            result[0] = "DELETE";
+            result[1] = deleteMapping.value()[0];
+            return result;
+        }
+        RequestMapping requestMapping =  method.getAnnotation(RequestMapping.class);
+        if(getMapping != null){
+            result[0] = requestMapping.method()[0].name();
+            result[1] = requestMapping.value()[0];
+            return result;
+        }
+        return result;
     }
 
     public static void  main(String[] args){
-        System.out.println(getRouterUrl(MyUserManagerRouter.LOGON));
     }
 
 }

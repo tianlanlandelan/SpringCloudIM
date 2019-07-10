@@ -3,7 +3,6 @@ package com.kyle.user.entity;
 import com.kyle.mycommon.mybatis.TableAttribute;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author yangkaile
@@ -23,10 +22,7 @@ public class UserInfo {
     * 手机号，不重复，可用于登录
     */
      private String phone;
-    /**
-    * 微信号，不重复，可用于登录
-    */
-     private String wxId;
+
     /**
     * 邮箱，不重复，可用于登录
     */
@@ -61,12 +57,6 @@ public class UserInfo {
      public void setPhone(String phone){
            this.phone = phone;
      }
-     public String getWxId(){
-           return this.wxId;
-     }
-     public void setWxId(String wxId){
-           this.wxId = wxId;
-     }
      public String getEmail(){
            return this.email;
      }
@@ -95,7 +85,7 @@ public class UserInfo {
 @Override
     public String toString() {
         return "UserInfo{" +
-            "  id:" + id + "  userName:" + userName + "  phone:" + phone + "  wxId:" + wxId + "  email:" + email + "  password:" + password + "  createTime:" + createTime + "  mask:" + mask + 
+            "  id:" + id + "  userName:" + userName + "  phone:" + phone + "  email:" + email + "  password:" + password + "  createTime:" + createTime + "  mask:" + mask +
         "}";
     }
   }

@@ -17,7 +17,7 @@ public @interface RouterAttribute {
      * 接口ID
      * @return
      */
-    int id();
+    String id();
 
     /**
      * 接口名

@@ -50,11 +50,11 @@
         </dependency>
 
         <!--通用组件-->
-        <dependency>
-            <groupId>com.kyle</groupId>
-            <artifactId>common-im</artifactId>
-            <version>0.0.1</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.kyle</groupId>-->
+            <!--<artifactId>common-im</artifactId>-->
+            <!--<version>0.0.1</version>-->
+        <!--</dependency>-->
 
         <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>

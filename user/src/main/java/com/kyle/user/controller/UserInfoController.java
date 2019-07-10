@@ -1,5 +1,7 @@
 package com.kyle.user.controller;
 
+import com.kyle.mycommon.response.MyResponse;
+import com.kyle.mycommon.router.MyRouter;
 import com.kyle.mycommon.router.RouterAttribute;
 import com.kyle.user.entity.UserInfo;
 import com.kyle.user.service.UserInfoService;
@@ -7,19 +9,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * @author yangkaile
  * @date 2019-04-18 19:53:43
  */
 @RestController
-@RequestMapping("/userInfo")
+@RequestMapping("/info")
 public class UserInfoController {
 
     private Logger logger = LoggerFactory.getLogger(UserInfoController.class);
@@ -27,11 +26,25 @@ public class UserInfoController {
     @Resource
     private UserInfoService userInfoService;
 
-    @RouterAttribute(id=1,name = "",description = "")
-    @RequestMapping(value = "/getById",method = RequestMethod.GET)
-    ResponseEntity getById(Integer id){
-        UserInfo result = userInfoService.getById(id);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
+    @RouterAttribute(id=MyRouter.A_ADD_EMAIL,name = "",description = "")
+    @PostMapping("/addEmail")
+    public ResponseEntity addEmail(int id,String email){
+        return MyResponse.ok();
+    }
+    @RouterAttribute(id=MyRouter.A_ADD_PHONE,name = "",description = "")
+    @PostMapping("/addPhoneNo")
+    public ResponseEntity addPhoneNo(int id,String phoneNo){
+        return MyResponse.ok();
+    }
+    @RouterAttribute(id=MyRouter.A_UPDATE_EMAIL,name = "",description = "")
+    @PutMapping("/updateEmail")
+    public ResponseEntity updateEmail(int id,String email){
+        return MyResponse.ok();
+    }
+    @RouterAttribute(id=MyRouter.A_UPDATE_PHONE,name = "",description = "")
+    @PutMapping("/updatePhoneNo")
+    public ResponseEntity updatePhoneNo(int id,String phoneNo){
+        return MyResponse.ok();
     }
 
 
