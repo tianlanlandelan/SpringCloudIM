@@ -1,7 +1,10 @@
 package com.kyle.mycommon.entity;
 
+import com.kyle.mycommon.mybatis.TableAttribute;
+
 import java.util.Date;
 
+@TableAttribute("email_log")
 public class EmailEntity {
     /**
     * 邮件发送类型

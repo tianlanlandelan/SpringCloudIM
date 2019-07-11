@@ -1,6 +1,6 @@
 package com.kyle.user.test;
 
-import com.kyle.mycommon.util.ConsoleLogUtils;
+import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.QueuesNames;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class Sender {
 
     public void send(){
         String content = "Hello " + new Date();
-        ConsoleLogUtils.print("Sender",content);
+        Console.print("Sender",content);
         rabbitTemplate.convertAndSend(QueuesNames.IM_GATEWAY_IN,content);
     }
 

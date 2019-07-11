@@ -1,6 +1,6 @@
 package com.kyle.user.test;
 
-import com.kyle.mycommon.util.ConsoleLogUtils;
+import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.QueuesNames;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class Receiver {
     @RabbitHandler
     public void process(String hello){
-        ConsoleLogUtils.print("Receiver",hello);
+        Console.print("Receiver",hello);
     }
 
 }

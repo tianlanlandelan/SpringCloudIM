@@ -1,8 +1,11 @@
 package com.kyle.mycommon.entity;
 
 
+import com.kyle.mycommon.mybatis.TableAttribute;
+
 import java.util.Date;
 
+@TableAttribute("sms_log")
 public class SMSEntity {
     /**
     * 用户ID

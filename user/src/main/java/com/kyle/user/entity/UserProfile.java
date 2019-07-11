@@ -18,6 +18,18 @@ public class UserProfile {
      */
     private String nickName;
     /**
+     * 在名片中展示的手机号，与登录手机号无关
+     */
+    private String phone;
+    /**
+     * 在名片中展示的邮箱，与登录邮箱无关
+     */
+    private String email;
+    /**
+     * 在名片中展示的个人主页，与该平台主页无关
+     */
+    private String homepage;
+    /**
      * 国家/地区
      */
     private String region;
@@ -43,6 +55,8 @@ public class UserProfile {
      * 生日
      */
     private Date birthday;
+
+
 
     public int getId() {
         return id;
@@ -108,11 +122,38 @@ public class UserProfile {
         this.birthday = birthday;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getHomepage() {
+        return homepage;
+    }
+
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
+    }
+
     @Override
     public String toString() {
         return "UserProfile{" +
                 "id=" + id +
                 ", nickName='" + nickName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", homepage='" + homepage + '\'' +
                 ", region='" + region + '\'' +
                 ", province='" + province + '\'' +
                 ", city='" + city + '\'' +
