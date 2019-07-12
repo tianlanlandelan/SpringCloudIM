@@ -8,6 +8,10 @@ import com.kyle.user.entity.UserInfo;
 import com.kyle.user.mapper.UserInfoMapper;
 import java.util.List;
 
+/**
+ * @author yangkaile
+ * @date 2019-07-12 21:20:43
+ */
 @Service
 public class UserInfoService {
     @Resource
@@ -27,7 +31,7 @@ public class UserInfoService {
     public ResultData getByPhone(String phone){
         UserInfo userInfo = new UserInfo();
         userInfo.setPhone(phone);
-        List<UserInfo> list = userInfoMapper.baseSelectByIndexWithAnd(userInfo);
+        List<UserInfo> list = userInfoMapper.baseSelectByIndexAnd(userInfo);
         return ResultData.success(list);
     }
     public ResultData insert(){
