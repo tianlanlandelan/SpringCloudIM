@@ -14,12 +14,6 @@ public class UserProfileService {
     @Resource
     private UserProfileMapper userProfileMapper;
 
-    MyBaseEntity baseEntity = MyBaseUtils.getBaseEntity(UserProfile.class);
 
-    public ResultData getById(int id){
-        baseEntity.setId(id);
-        UserProfile profile = userProfileMapper.baseGetById(baseEntity);
-        return ResultData.success();
-    }
 
 }

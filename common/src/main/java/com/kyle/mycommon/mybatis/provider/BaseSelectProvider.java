@@ -40,6 +40,10 @@ public class BaseSelectProvider {
         return sql;
     }
 
+    public static <T> String selectCount(T entity){
+        return "SELECT COUNT(1) FROM " + BaseProvider.getTableName(entity.getClass());
+    }
+
     public static <T> String selectAll(T entity){
         Class cls = entity.getClass();
         String className = cls.getName();
@@ -125,8 +129,9 @@ public class BaseSelectProvider {
         router.setName("routerName");
         router.setServiceName("Cdd");
         Console.print("selectById",selectById(router));
-        Console.print("",selectByIndexAnd(router));
-        Console.print("",selectByIndexOr(router));
+        Console.print("selectByIndexAnd",selectByIndexAnd(router));
+        Console.print("selectByIndexOr",selectByIndexOr(router));
+        Console.print("selectCount",selectCount(router));
     }
 
 }
