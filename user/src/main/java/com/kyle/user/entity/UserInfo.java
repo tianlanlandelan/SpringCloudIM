@@ -1,5 +1,6 @@
 package com.kyle.user.entity;
 
+import com.kyle.mycommon.mybatis.FieldAttribute;
 import com.kyle.mycommon.mybatis.TableAttribute;
 
 import java.util.Date;
@@ -13,31 +14,38 @@ public class UserInfo {
     /**
     * id
     */
+    @FieldAttribute
      private Integer id;
     /**
     * 用户名,不重复，默认为手机号，可用于登录
     */
+    @FieldAttribute
      private String userName;
     /**
     * 手机号，不重复，可用于登录
     */
+    @FieldAttribute
      private String phone;
 
     /**
     * 邮箱，不重复，可用于登录
     */
+    @FieldAttribute
      private String email;
     /**
     * 密码
     */
+    @FieldAttribute
      private String password;
     /**
     * 创建时间
     */
+    @FieldAttribute
      private Date createTime = new Date();
     /**
     * 掩码值，用来表示一系列开关（如：是否开启用户名登录、是否已删除、是否开启邮箱登录等）
     */
+    @FieldAttribute
      private long mask;
 
     /**

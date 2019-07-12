@@ -26,6 +26,12 @@ public class UserInfoController {
     @Resource
     private UserInfoService userInfoService;
 
+    @GetMapping("/getById")
+    public ResponseEntity getById(Integer id){
+        return MyResponse.ok(userInfoService.getById(id));
+    }
+
+
     @RouterAttribute(id=MyRouter.A_ADD_EMAIL,name = "",description = "")
     @PostMapping("/addEmail")
     public ResponseEntity addEmail(int id,String email){
