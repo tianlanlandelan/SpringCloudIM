@@ -2,8 +2,13 @@ package com.kyle.mycommon.mybatis.provider;
 
 import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
+import com.kyle.mycommon.util.StringUtils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by yangkaile on 2019/7/12.
@@ -47,5 +52,54 @@ public class BaseProvider {
         }else {
             return  null;
         }
+    }
+
+    /**
+     * 获取所有字段列表
+     * 读取类中带@FieldAttribute注解的字段，如果都没有带该注解，则返回类中所有字段
+     * @param cls
+     * @return
+     */
+    public static List<String> getFields(Class cls){
+        Field[] fields = cls.getDeclaredFields();
+        List<String> fieldList = new ArrayList<>();
+        List<String> allList = new ArrayList<>();
+        //带@FieldAttribute注解的属性名
+        for(Field field:fields){
+            allList.add(field.getName());
+            if(field.getAnnotation(FieldAttribute.class) != null){
+                fieldList.add(field.getName());
+            }
+        }
+        if(fieldList.size() == 0){
+            return allList;
+        }
+        return fieldList;
+    }
+
+    /**
+     * 判断一个对象的指定字段有没有值
+     * @param entity 对象
+     * @param fieldName 对象的字段名
+     * @param <T>
+     * @return
+     */
+    public static <T> boolean hasValue(T entity,String fieldName){
+        try {
+            Class cls = entity.getClass();
+            Method method = cls.getMethod("get" + StringUtils.captureName(fieldName));
+            if(method.invoke(entity) == null){
+                return false;
+            }else {
+                return true;
+            }
+        }catch (IllegalAccessException e){
+            e.printStackTrace();
+        }catch (NoSuchMethodException e){
+            e.printStackTrace();
+        }catch (InvocationTargetException e){
+            e.printStackTrace();
+        }
+       return false;
     }
 }

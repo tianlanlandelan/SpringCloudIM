@@ -28,26 +28,14 @@ public class BaseSelectProvider {
 
     public static Map<String,String> selectAllMap = new ConcurrentHashMap<>(16);
 
-    public static void main(String[] args){
-        Router router = new Router();
-        router.setName("routerName");
-        router.setControllerName("Cdd");
-        Console.print("selectById",selectById(router));
-        Console.print("",selectByIndex(router));
-    }
-
-
-
-
-
     public static  <T> String selectById(T entity){
         Class cls = entity.getClass();
         String className = cls.getName();
-
-        if(StringUtils.isNotEmpty(selectByIdMap.get(className))){
-            return selectByIdMap.get(className);
+        String sql = selectByIdMap.get(className);
+        if(StringUtils.isNotEmpty(sql)){
+            return sql;
         }
-        String sql = getSelectPrefix(cls) + " WHERE id = #{id}";
+        sql = getSelectPrefix(cls) + " WHERE id = #{id}";
         selectByIdMap.put(className,sql);
         return sql;
     }
@@ -55,11 +43,11 @@ public class BaseSelectProvider {
     public static <T> String selectAll(T entity){
         Class cls = entity.getClass();
         String className = cls.getName();
-
-        if(StringUtils.isNotEmpty(selectAllMap.get(className))){
-            return selectAllMap.get(className);
+        String sql = selectAllMap.get(className);
+        if(StringUtils.isNotEmpty(sql)){
+            return sql;
         }
-        String sql = getSelectPrefix(cls);
+        sql = getSelectPrefix(cls);
         selectAllMap.put(className,sql);
         return sql;
     }
@@ -79,8 +67,7 @@ public class BaseSelectProvider {
         try {
             for(Field field:fields){
                 if(field.getAnnotation(IndexAttribute.class) != null){
-                    Method method = cls.getMethod("get" + StringUtils.captureName(field.getName()));
-                    if(method.invoke(entity) != null){
+                    if(BaseProvider.hasValue(entity,field.getName())){
                         builder.append(field.getName())
                                 .append(" = #{").append(field.getName()).append("} ")
                                 .append("AND ");
@@ -96,15 +83,16 @@ public class BaseSelectProvider {
         return null;
     }
 
-
-
-
-
     private static String getSelectPrefix(Class cls){
         return "SELECT " + BaseProvider.getFieldStr(cls) + " FROM " + BaseProvider.getTableName(cls) + " ";
     }
 
-    private static String getUpdatePrefix(Class cls){
-        return "UPDATE " + BaseProvider.getTableName(cls) + " SET ";
+    public static void main(String[] args){
+        Router router = new Router();
+        router.setName("routerName");
+        router.setControllerName("Cdd");
+        Console.print("selectById",selectById(router));
+        Console.print("",selectByIndex(router));
     }
+
 }
