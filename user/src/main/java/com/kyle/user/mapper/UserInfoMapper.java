@@ -1,6 +1,6 @@
 package com.kyle.user.mapper;
 
-import com.kyle.mycommon.mybatis.provider.BaseMapper;
+import com.kyle.mycommon.mybatis.BaseMapper;
 import com.kyle.user.entity.UserInfo;
 import org.apache.ibatis.annotations.*;
 

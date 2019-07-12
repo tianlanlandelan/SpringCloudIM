@@ -53,13 +53,46 @@ public class BaseSelectProvider {
     }
 
     /**
+     *
      * 根据索引字段查询，该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
+     * 多个查询条件用And连接
      * @param entity
      * @param <T>
      * @return
      */
-    public static <T> String selectByIndex(T entity){
+    public static <T> String selectByIndexAnd(T entity){
+        return selectByIndex(entity,true);
+    }
+    /**
+     *
+     * 根据索引字段查询，该查询为动态查询，不可缓存
+     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
+     * 多个查询条件用Or连接
+     * @param entity
+     * @param <T>
+     * @return
+     */
+    public static <T> String selectByIndexOr(T entity){
+        return selectByIndex(entity,false);
+    }
+
+
+    /**
+     * 根据索引字段查询，该查询为动态查询，不可缓存
+     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
+     * @param entity
+     * @param isAnd
+     * @param <T>
+     * @return
+     */
+    private static <T> String selectByIndex(T entity,boolean isAnd){
+        String condition;
+        if(isAnd){
+            condition = "AND";
+        }else {
+            condition = "OR";
+        }
         Class cls = entity.getClass();
         Field[] fields = cls.getDeclaredFields();
         StringBuilder builder = new StringBuilder();
@@ -70,12 +103,12 @@ public class BaseSelectProvider {
                     if(BaseProvider.hasValue(entity,field.getName())){
                         builder.append(field.getName())
                                 .append(" = #{").append(field.getName()).append("} ")
-                                .append("AND ");
+                                .append(condition).append(" ");
                     }
 
                 }
             }
-            return builder.substring(0,builder.lastIndexOf("AND"));
+            return builder.substring(0,builder.lastIndexOf(condition));
 
         }catch (Exception e){
             e.printStackTrace();
@@ -90,9 +123,10 @@ public class BaseSelectProvider {
     public static void main(String[] args){
         Router router = new Router();
         router.setName("routerName");
-        router.setControllerName("Cdd");
+        router.setServiceName("Cdd");
         Console.print("selectById",selectById(router));
-        Console.print("",selectByIndex(router));
+        Console.print("",selectByIndexAnd(router));
+        Console.print("",selectByIndexOr(router));
     }
 
 }

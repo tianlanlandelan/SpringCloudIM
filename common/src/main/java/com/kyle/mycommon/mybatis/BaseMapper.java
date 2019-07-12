@@ -52,13 +52,32 @@ public interface BaseMapper<K> {
     @SelectProvider(type= BaseSelectProvider.class,method = "selectById")
     K baseSelectById(K entity);
 
+    /**
+     * 查询全部数据
+     * @param entity
+     * @return
+     */
     @SelectProvider(type= BaseSelectProvider.class,method = "selectAll")
     List<K> baseSelectAll(K entity);
 
-    @SelectProvider(type= BaseSelectProvider.class,method = "selectByIndex")
-    List<K> baseSelectByIndex(K entity);
+    /**
+     * 根据索引字段查询，多个查询条件之间用And连接
+     * 要求索引字段使用@IndexAttribute注解
+     * @param entity
+     * @return
+     */
+    @SelectProvider(type= BaseSelectProvider.class,method = "selectByIndexAnd")
+    List<K> baseSelectByIndexAnd(K entity);
 
 
+    /**
+     * 根据索引字段查询，多个查询条件之间用Or连接
+     * 要求索引字段使用@IndexAttribute注解
+     * @param entity
+     * @return
+     */
+    @SelectProvider(type= BaseSelectProvider.class,method = "selectByIndexOr")
+    List<K> baseSelectByIndexOr(K entity);
 
 
 }
