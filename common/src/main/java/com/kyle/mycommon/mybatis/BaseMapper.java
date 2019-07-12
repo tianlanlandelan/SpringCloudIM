@@ -1,5 +1,7 @@
-package com.kyle.mycommon.provider;
+package com.kyle.mycommon.mybatis;
 
+import com.kyle.mycommon.mybatis.provider.BaseInsertProvider;
+import com.kyle.mycommon.mybatis.provider.BaseSelectProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.SelectProvider;
 
@@ -17,7 +19,7 @@ public interface BaseMapper<K> {
      * @param entity
      * @return
      */
-    @InsertProvider(type = BaseProvider.class,method = "insert")
+    @InsertProvider(type = BaseInsertProvider.class,method = "insert")
     Integer baseInsert(K entity);
 
     /**
@@ -25,13 +27,13 @@ public interface BaseMapper<K> {
      * @param entity
      * @return
      */
-    @SelectProvider(type= BaseProvider.class,method = "selectById")
+    @SelectProvider(type= BaseSelectProvider.class,method = "selectById")
     K baseSelectById(K entity);
 
-    @SelectProvider(type= BaseProvider.class,method = "selectAll")
+    @SelectProvider(type= BaseSelectProvider.class,method = "selectAll")
     List<K> baseSelectAll(K entity);
 
-    @SelectProvider(type= BaseProvider.class,method = "selectByIndex")
+    @SelectProvider(type= BaseSelectProvider.class,method = "selectByIndex")
     List<K> baseSelectByIndex(K entity);
 
 
