@@ -24,6 +24,12 @@ public class UserInfoService {
         List<UserInfo> list = userInfoMapper.baseSelectAll(userInfo);
         return ResultData.success(list);
     }
+    public ResultData getByPhone(String phone){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setPhone(phone);
+        List<UserInfo> list = userInfoMapper.baseSelectByIndex(userInfo);
+        return ResultData.success(list);
+    }
     public ResultData insert(){
         UserInfo userInfo = new UserInfo();
         userInfo.setId(100);

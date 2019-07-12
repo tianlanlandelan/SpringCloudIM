@@ -1,6 +1,6 @@
 package com.kyle.mycommon.entity;
 
-import com.kyle.mycommon.mybatis.TableAttribute;
+import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 
 import java.util.Date;
 

@@ -1,6 +1,7 @@
 package com.kyle.mycommon.entity;
 
-import com.kyle.mycommon.mybatis.TableAttribute;
+import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
+import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 
 import java.util.Date;
 
@@ -17,10 +18,12 @@ public class Router {
     /**
      * 接口名称
      */
+    @IndexAttribute
     private String name;
     /**
      * 组件名称
      */
+    @IndexAttribute
     private String serviceName;
     /**
      * Controller名称

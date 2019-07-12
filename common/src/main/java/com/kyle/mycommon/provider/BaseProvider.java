@@ -1,13 +1,14 @@
 package com.kyle.mycommon.provider;
 
 import com.kyle.mycommon.entity.Router;
-import com.kyle.mycommon.mybatis.FieldAttribute;
-import com.kyle.mycommon.mybatis.TableAttribute;
+import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
+import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
+import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.StringUtils;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -35,8 +36,10 @@ public class BaseProvider {
 //        provider();
         Router router = new Router();
         router.setName("routerName");
+        router.setControllerName("Cdd");
         Console.print("selectById",selectById(router));
         Console.print("insert",insert(router));
+        Console.print("",selectByIndex(router));
     }
 
 
@@ -92,18 +95,39 @@ public class BaseProvider {
         return sql;
     }
 
+    /**
+     * 根据索引字段查询，该查询为动态查询，不可缓存
+     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
+     * @param entity
+     * @param <T>
+     * @return
+     */
+    public static <T> String selectByIndex(T entity){
+        Class cls = entity.getClass();
+        Field[] fields = cls.getDeclaredFields();
+        StringBuilder builder = new StringBuilder();
+        builder.append(getSelectPrefix(cls)).append(" WHERE ");
+        try {
+            for(Field field:fields){
+                if(field.getAnnotation(IndexAttribute.class) != null){
+                    Method method = cls.getMethod("get" + StringUtils.captureName(field.getName()));
+                    if(method.invoke(entity) != null){
+                        builder.append(field.getName())
+                                .append(" = #{").append(field.getName()).append("} ")
+                                .append("AND ");
+                    }
 
-//    public static  <T> String selectById(T entity){
-//        Class cls = entity.getClass();
-//        try {
-//            Method method = cls.getMethod("getId");
-//            Object object = method.invoke(entity);
-//            return getSelectPrefix(cls) + " WHERE id = #{id}";
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+                }
+            }
+            return builder.substring(0,builder.lastIndexOf("AND"));
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 
     /**
      * 读取表名，要求类上有@TableAttribute注解
@@ -130,9 +154,7 @@ public class BaseProvider {
         StringBuilder builder = new StringBuilder();
         //所有属性名
         StringBuilder allFields = new StringBuilder();
-        Map<String,String> map = new HashMap<>(16);
         for(Field field:fields){
-            map.put(field.getName(),field.getType().getSimpleName());
             allFields.append(field.getName()).append(",");
             if(field.getAnnotation(FieldAttribute.class) != null){
                 builder.append(field.getName()).append(",");
@@ -149,5 +171,9 @@ public class BaseProvider {
 
     private static String getSelectPrefix(Class cls){
         return "SELECT " + getFieldStr(cls) + " FROM " + getTableName(cls) + " ";
+    }
+
+    private static String getUpdatePrefix(Class cls){
+        return "UPDATE " + getTableName(cls) + " SET ";
     }
 }

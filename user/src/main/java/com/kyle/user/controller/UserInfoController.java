@@ -3,6 +3,7 @@ package com.kyle.user.controller;
 import com.kyle.mycommon.response.MyResponse;
 import com.kyle.mycommon.router.MyRouter;
 import com.kyle.mycommon.router.RouterAttribute;
+import com.kyle.mycommon.util.ValidUserName;
 import com.kyle.user.entity.UserInfo;
 import com.kyle.user.service.UserInfoService;
 import org.slf4j.Logger;
@@ -32,8 +33,17 @@ public class UserInfoController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity getById(){
+    public ResponseEntity getAll(){
         return MyResponse.ok(userInfoService.getAll());
+    }
+
+    @GetMapping("/getByPhone")
+    public ResponseEntity getByPhone(String phone){
+        if(ValidUserName.isPhoneNo(phone)){
+            return MyResponse.ok(userInfoService.getByPhone(phone));
+        }else {
+            return MyResponse.badRequest();
+        }
     }
     @GetMapping("/insert")
     public ResponseEntity insert(){

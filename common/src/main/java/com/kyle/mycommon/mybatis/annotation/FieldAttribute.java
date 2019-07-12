@@ -1,4 +1,4 @@
-package com.kyle.mycommon.mybatis;
+package com.kyle.mycommon.mybatis.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,5 +1,6 @@
 package com.kyle.mycommon.mybatis;
 
+import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 import com.kyle.mycommon.response.ResultData;
 import com.kyle.mycommon.util.Constants;
 

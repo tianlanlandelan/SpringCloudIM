@@ -1,7 +1,8 @@
 package com.kyle.user.entity;
 
-import com.kyle.mycommon.mybatis.FieldAttribute;
-import com.kyle.mycommon.mybatis.TableAttribute;
+import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
+import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
+import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 
 import java.util.Date;
 
@@ -20,17 +21,20 @@ public class UserInfo {
     * 用户名,不重复，默认为手机号，可用于登录
     */
     @FieldAttribute
-     private String userName;
+    @IndexAttribute
+    private String userName;
     /**
     * 手机号，不重复，可用于登录
     */
     @FieldAttribute
+    @IndexAttribute
      private String phone;
 
     /**
     * 邮箱，不重复，可用于登录
     */
     @FieldAttribute
+    @IndexAttribute
      private String email;
     /**
     * 密码

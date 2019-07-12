@@ -31,4 +31,8 @@ public interface BaseMapper<K> {
     @SelectProvider(type= BaseProvider.class,method = "selectAll")
     List<K> baseSelectAll(K entity);
 
+    @SelectProvider(type= BaseProvider.class,method = "selectByIndex")
+    List<K> baseSelectByIndex(K entity);
+
+
 }
