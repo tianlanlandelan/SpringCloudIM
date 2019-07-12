@@ -19,5 +19,18 @@ public class UserInfoService {
         userInfo = userInfoMapper.baseSelectById(userInfo);
         return ResultData.success(userInfo);
     }
+    public ResultData getAll(){
+        UserInfo userInfo = new UserInfo();
+        List<UserInfo> list = userInfoMapper.baseSelectAll(userInfo);
+        return ResultData.success(list);
+    }
+    public ResultData insert(){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(100);
+        userInfo.setPhone("12345678901");
+        userInfo.setPassword("123456");
+        userInfoMapper.baseInsert(userInfo);
+        return ResultData.success(userInfo);
+    }
 
 }

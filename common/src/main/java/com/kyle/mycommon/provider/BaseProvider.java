@@ -4,12 +4,32 @@ import com.kyle.mycommon.entity.Router;
 import com.kyle.mycommon.mybatis.FieldAttribute;
 import com.kyle.mycommon.mybatis.TableAttribute;
 import com.kyle.mycommon.util.Console;
+import com.kyle.mycommon.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 基础的 Mybatis SQL 提供类
+ * @author yangkaile
+ * @date 2019-07-12 15:44:55
+ *
+ */
 public class BaseProvider {
+    /**
+     * 缓存insert语句
+     */
+    public static Map<String,String> insertMap = new ConcurrentHashMap<>(16);
+
+    /**
+     * 缓存selectById语句
+     * @param args
+     */
+    public static Map<String,String> selectByIdMap = new ConcurrentHashMap<>(16);
+
+    public static Map<String,String> selectAllMap = new ConcurrentHashMap<>(16);
 
     public static void main(String[] args){
 //        provider();
@@ -22,6 +42,11 @@ public class BaseProvider {
 
     public static <T> String insert(T entity) {
         Class cls = entity.getClass();
+        String className = cls.getName();
+
+        if(StringUtils.isNotEmpty(insertMap.get(className))){
+            return insertMap.get(className);
+        }
         String fieldStr = getFieldStr(cls);
 
         StringBuilder builder = new StringBuilder();
@@ -37,12 +62,34 @@ public class BaseProvider {
         }
         builder.append(valuesStr.substring(0,valuesStr.length() - 1))
                 .append(") ");
-        return builder.toString();
+        String sql = builder.toString();
+        insertMap.put(className,sql);
+        return sql;
     }
+
 
     public static  <T> String selectById(T entity){
         Class cls = entity.getClass();
-        return getSelectPrefix(cls) + " WHERE id = #{id}";
+        String className = cls.getName();
+
+        if(StringUtils.isNotEmpty(selectByIdMap.get(className))){
+            return selectByIdMap.get(className);
+        }
+        String sql = getSelectPrefix(cls) + " WHERE id = #{id}";
+        selectByIdMap.put(className,sql);
+        return sql;
+    }
+
+    public static <T> String selectAll(T entity){
+        Class cls = entity.getClass();
+        String className = cls.getName();
+
+        if(StringUtils.isNotEmpty(selectAllMap.get(className))){
+            return selectAllMap.get(className);
+        }
+        String sql = getSelectPrefix(cls);
+        selectAllMap.put(className,sql);
+        return sql;
     }
 
 
@@ -58,6 +105,11 @@ public class BaseProvider {
 //        return null;
 //    }
 
+    /**
+     * 读取表名，要求类上有@TableAttribute注解
+     * @param cls
+     * @return
+     */
     private static String getTableName(Class cls){
         TableAttribute table = (TableAttribute) cls.getAnnotation(TableAttribute.class);
         if(table == null){
