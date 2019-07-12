@@ -19,16 +19,12 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  */
 public class BaseProvider {
-    /**
-     * 缓存insert语句
-     */
+
     public static Map<String,String> insertMap = new ConcurrentHashMap<>(16);
 
-    /**
-     * 缓存selectById语句
-     * @param args
-     */
     public static Map<String,String> selectByIdMap = new ConcurrentHashMap<>(16);
+
+    public static Map<String,String> deleteByIdMap = new ConcurrentHashMap<>(16);
 
     public static Map<String,String> selectAllMap = new ConcurrentHashMap<>(16);
 
@@ -36,10 +32,12 @@ public class BaseProvider {
 //        provider();
         Router router = new Router();
         router.setName("routerName");
-        router.setControllerName("Cdd");
+        router.setServiceName("ddd");
         Console.print("selectById",selectById(router));
         Console.print("insert",insert(router));
-        Console.print("",selectByIndex(router));
+        Console.print("",selectByIndexWithAnd(router));
+        Console.print("",selectByIndexWithOr(router));
+
     }
 
 
@@ -83,6 +81,18 @@ public class BaseProvider {
         return sql;
     }
 
+    public static  <T> String deleteById(T entity){
+        Class cls = entity.getClass();
+        String className = cls.getName();
+
+        if(StringUtils.isNotEmpty(deleteByIdMap.get(className))){
+            return deleteByIdMap.get(className);
+        }
+        String sql = getDeletePrefix(cls) + " WHERE id = #{id}";
+        selectByIdMap.put(className,sql);
+        return sql;
+    }
+
     public static <T> String selectAll(T entity){
         Class cls = entity.getClass();
         String className = cls.getName();
@@ -102,7 +112,13 @@ public class BaseProvider {
      * @param <T>
      * @return
      */
-    public static <T> String selectByIndex(T entity){
+    private static <T> String selectByIndex(T entity,boolean isAnd){
+        String condition ;
+        if(isAnd){
+            condition = "AND";
+        }else {
+            condition = "OR";
+        }
         Class cls = entity.getClass();
         Field[] fields = cls.getDeclaredFields();
         StringBuilder builder = new StringBuilder();
@@ -114,17 +130,37 @@ public class BaseProvider {
                     if(method.invoke(entity) != null){
                         builder.append(field.getName())
                                 .append(" = #{").append(field.getName()).append("} ")
-                                .append("AND ");
+                                .append(condition).append(" ");
                     }
 
                 }
             }
-            return builder.substring(0,builder.lastIndexOf("AND"));
+            return builder.substring(0,builder.lastIndexOf(condition));
 
         }catch (Exception e){
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * 多个查询条用 OR 连接
+     * @param entity
+     * @param <T>
+     * @return
+     */
+    public static <T> String selectByIndexWithOr(T entity){
+       return selectByIndex(entity,false);
+    }
+
+    /**
+     * 多个查询条件用 AND 连接
+     * @param entity
+     * @param <T>
+     * @return
+     */
+    public static <T> String selectByIndexWithAnd(T entity){
+        return selectByIndex(entity,true);
     }
 
 
@@ -171,6 +207,10 @@ public class BaseProvider {
 
     private static String getSelectPrefix(Class cls){
         return "SELECT " + getFieldStr(cls) + " FROM " + getTableName(cls) + " ";
+    }
+
+    private static String getDeletePrefix(Class cls){
+        return "DELETE FROM " + getTableName(cls) + " ";
     }
 
     private static String getUpdatePrefix(Class cls){

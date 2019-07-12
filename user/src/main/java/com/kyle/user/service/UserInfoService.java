@@ -27,7 +27,7 @@ public class UserInfoService {
     public ResultData getByPhone(String phone){
         UserInfo userInfo = new UserInfo();
         userInfo.setPhone(phone);
-        List<UserInfo> list = userInfoMapper.baseSelectByIndex(userInfo);
+        List<UserInfo> list = userInfoMapper.baseSelectByIndexWithAnd(userInfo);
         return ResultData.success(list);
     }
     public ResultData insert(){
