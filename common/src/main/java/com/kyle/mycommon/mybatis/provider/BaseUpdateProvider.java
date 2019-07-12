@@ -11,6 +11,12 @@ import java.util.List;
  */
 public class BaseUpdateProvider {
 
+    /**
+     * 根据id 更新数据，空值不更新 ，要求数据有id字段
+     * @param entity
+     * @param <T>
+     * @return UPDATE router SET methodName = #{methodName} ,createTime = #{createTime}
+     */
     public static <T> String updateById(T entity){
         Class cls = entity.getClass();
         StringBuilder builder = new StringBuilder();
@@ -33,6 +39,11 @@ public class BaseUpdateProvider {
         return null;
     }
 
+    /**
+     * 获取更新操作的前缀部分
+     * @param cls
+     * @return UPDATE 表名 SET
+     */
     private static String getUpdatePrefix(Class cls){
         return "UPDATE " + BaseProvider.getTableName(cls) + " SET ";
     }
@@ -43,7 +54,7 @@ public class BaseUpdateProvider {
         router.setCreateTime(new Date());
         router.setMethodName("me");
 
-        Console.print("selectById",updateById(router));
+        Console.print("updateById",updateById(router));
     }
 
 }

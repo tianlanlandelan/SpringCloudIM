@@ -14,6 +14,12 @@ public class BaseDeleteProvider {
 
     public static Map<String,String> deleteByIdMap = new ConcurrentHashMap<>(16);
 
+    /**
+     * 根据Id 删除数据，要求必须有id字段
+     * @param entity
+     * @param <T>
+     * @return DELETE FROM router  WHERE id = #{id}
+     */
     public static <T> String deleteById(T entity){
         Class cls = entity.getClass();
         String className = cls.getName();
@@ -33,7 +39,7 @@ public class BaseDeleteProvider {
     public static void main(String[] args){
         Router router = new Router();
         router.setId("1");
-        Console.print("selectById",deleteById(router));
+        Console.print("deleteById",deleteById(router));
     }
 
 }
