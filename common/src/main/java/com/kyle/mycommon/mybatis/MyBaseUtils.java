@@ -50,13 +50,13 @@ public class MyBaseUtils {
         //所有属性名
         StringBuilder allFields = new StringBuilder();
         Map<String,String> map = new HashMap<>(16);
-        for(Field field:fields){
-            map.put(field.getName(),field.getType().getSimpleName());
-            allFields.append(field.getName()).append(",");
-            if(field.getAnnotation(FieldAttribute.class) != null){
-                builder.append(field.getName()).append(",");
-            }
-        }
+//        for(Field field:fields){
+//            map.put(field.getName(),field.getType().getSimpleName());
+//            allFields.append(field.getName()).append(",");
+//            if(field.getAnnotation(FieldAttribute.class) != null){
+//                builder.append(field.getName()).append(",");
+//            }
+//        }
 
         if(builder.length() > 0){
             fieldsStr = builder.substring(0,builder.length() - 1);

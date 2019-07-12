@@ -11,7 +11,7 @@ import java.util.List;
  * @date 2019-04-17 14:33:54
  */
 @Mapper
-public interface UserInfoMapper extends MyBaseMapper {
+public interface UserInfoMapper extends MyBaseMapper<UserInfo> {
     String tableName = "user_info";
 
      @Select("SELECT id, userName, phone, wxId, email, password, createTime, mask FROM " + tableName + " WHERE id = #{id}")

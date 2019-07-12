@@ -19,7 +19,7 @@ import java.util.Map;
  * @author yangkaile
  * @date 2018-11-28 15:49:09
  */
-public interface MyBaseMapper {
+public interface MyBaseMapper<K> {
 
     /**
      * 根据Id查询记录
@@ -28,7 +28,7 @@ public interface MyBaseMapper {
      * @return
      */
     @Select("SELECT ${allFields} FROM ${tableName} WHERE id = #{id}")
-    <T> Map<String,Object> baseGetById(T map);
+    <T> K baseGetById(T map);
 
     /**
      * 根据Id查询记录（不包含已删除的记录）
@@ -38,7 +38,7 @@ public interface MyBaseMapper {
      * @return
      */
     @Select("SELECT ${allFields} FROM ${tableName} WHERE id = #{id} AND isDelete = isDelete")
-    <T> Map<String,Object> baseGetByIdNotDelete(T map);
+    <T> K baseGetByIdNotDelete(T map);
 
     /**
      * 查询全量列表
@@ -48,7 +48,7 @@ public interface MyBaseMapper {
      * @return 返回一个Map对象的List
      */
     @Select("SELECT ${allFields} FROM ${tableName}")
-    <T> List<Map<String,Object>> baseGetAll(T map);
+    <T> List<K> baseGetAll(T map);
     /**
      * 查询全量列表（不包含已删除的记录）
      * 使用该方法时数据库字段的限制：数值型的isDelete字段 0 表示正常数据；1 表示数据已删除
@@ -57,7 +57,7 @@ public interface MyBaseMapper {
      * @return 返回一个Map对象的List
      */
     @Select("SELECT ${allFields} FROM ${tableName} WHERE isDelete = 0")
-    <T> List<Map<String,Object>> baseGetAllNotDelete(T map);
+    <T> List<K> baseGetAllNotDelete(T map);
 
     /**
      * 分页查询
@@ -65,8 +65,8 @@ public interface MyBaseMapper {
      * @param <T> 包含allFields(查询字段列表)、tableName(表名)、startRows(分页查询开始记录行号)、pageSize(页面大小)属性的对象
      * @return
      */
-    @Select("SELECT ${allFields} FROM ${tableName} router LIMIT #{startRows},#{pageSize}")
-    <T> List<Map<String,Object>> baseGetPageList(T map);
+    @Select("SELECT ${allFields} FROM ${tableName} LIMIT #{startRows},#{pageSize}")
+    <T> List<K> baseGetPageList(T map);
 
     /**
      * 分页查询（不包含已删除的记录）
@@ -75,8 +75,8 @@ public interface MyBaseMapper {
      * @param <T> 包含allFields(查询字段列表)、tableName(表名)、startRows(分页查询开始记录行号)、pageSize(页面大小)属性的对象
      * @return
      */
-    @Select("SELECT ${allFields} FROM ${tableName} router WHERE isDelete = 0  LIMIT #{startRows},#{pageSize}")
-    <T> List<Map<String,Object>> baseGetPageListNotDelete(T map);
+    @Select("SELECT ${allFields} FROM ${tableName} WHERE isDelete = 0  LIMIT #{startRows},#{pageSize}")
+    <T> List<K> baseGetPageListNotDelete(T map);
 
     /**
      * 查询总记录数（包含全部数据）

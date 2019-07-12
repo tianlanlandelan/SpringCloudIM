@@ -17,14 +17,27 @@ public class StringUtils {
      * @return
      */
     public static boolean isEmpty(String... parameters){
-        boolean result = false;
         for(String str:parameters){
             if(str == null || str.isEmpty() || str.trim().isEmpty()){
-                result = true;
-                break;
+                return true;
             }
         }
-        return result;
+        return false;
+    }
+    public static boolean isNotEmpty(String... parameters){
+        return !isEmpty(parameters);
+    }
+
+    /**
+     * 将字符串的首字母转大写
+     * @param str 需要转换的字符串
+     * @return
+     */
+    public static String captureName(String str) {
+        // 进行字母的ascii编码前移，效率要高于截取字符串进行转换的操作
+        char[] cs=str.toCharArray();
+        cs[0]-=32;
+        return String.valueOf(cs);
     }
 
     /**
@@ -53,5 +66,9 @@ public class StringUtils {
 
     public static String getUUID(){
         return UUID.randomUUID().toString().replace("-","").toUpperCase();
+    }
+
+    public static void main(String[] args){
+        Console.print(captureName("abcDe"));
     }
 }
