@@ -31,6 +31,15 @@ public class BaseSelectProvider {
 
     public static Map<String,String> selectAllMap = new ConcurrentHashMap<>(16);
 
+    public static Map<String,String> selectPrefixMap = new ConcurrentHashMap<>(16);
+
+
+    /**
+     * 根据ID 查询数据
+     * @param entity 实体对象
+     * @param <T> 实体类型
+     * @return SELECT id,name... FROM route WHERE id = #{id}
+     */
     public static  <T> String selectById(T entity){
         Class cls = entity.getClass();
         String className = cls.getName();
@@ -44,7 +53,12 @@ public class BaseSelectProvider {
     }
 
 
-
+    /**
+     * 查询所有数据，不带条件
+     * @param entity 实体对象
+     * @param <T> 实体类型
+     * @return SELECT id,name... FROM router
+     */
     public static <T> String selectAll(T entity){
         Class cls = entity.getClass();
         String className = cls.getName();
@@ -62,9 +76,9 @@ public class BaseSelectProvider {
      * 根据索引字段查询，该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 多个查询条件用And连接
-     * @param entity
-     * @param <T>
-     * @return
+     * @param entity 实体对象
+     * @param <T> 实体类型
+     * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
      */
     public static <T> String selectByIndexAnd(T entity){
         return selectByIndex(entity,true);
@@ -74,9 +88,9 @@ public class BaseSelectProvider {
      * 根据索引字段查询，该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 多个查询条件用Or连接
-     * @param entity
-     * @param <T>
-     * @return
+     * @param entity 实体对象
+     * @param <T> 实体类型
+     * @return SELECT id,name... FROM router  WHERE name = #{name} OR serviceName = #{serviceName}
      */
     public static <T> String selectByIndexOr(T entity){
         return selectByIndex(entity,false);
@@ -86,10 +100,10 @@ public class BaseSelectProvider {
     /**
      * 根据索引字段查询，该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
-     * @param entity
-     * @param isAnd
-     * @param <T>
-     * @return
+     * @param entity 实体对象
+     * @param isAnd 多个查询条件是否用AND连接  true:AND  falser:OR
+     * @param <T> 实体类型
+     * @return SELECT id,name... FROM router  WHERE name = #{name} AND/OR serviceName = #{serviceName}
      */
     private static <T> String selectByIndex(T entity,boolean isAnd){
         String condition;
@@ -137,9 +151,20 @@ public class BaseSelectProvider {
         return selectAll(entity) + " LIMIT #{startRows},#{pageSize}";
     }
 
-
+    /**
+     * 获取通用查询前缀
+     * @param cls 实体类类型
+     * @return SELECT 所有字段 FROM 表名
+     */
     private static String getSelectPrefix(Class cls){
-        return "SELECT " + BaseProvider.getFieldStr(cls) + " FROM " + BaseProvider.getTableName(cls) + " ";
+        String className = cls.getName();
+        String sql = selectPrefixMap.get(className);
+        if(StringUtils.isNotEmpty(sql)){
+            return sql;
+        }else {
+            sql = "SELECT " + BaseProvider.getFieldStr(cls) + " FROM " + BaseProvider.getTableName(cls) + " ";
+            return sql;
+        }
     }
 
     public static void main(String[] args){
