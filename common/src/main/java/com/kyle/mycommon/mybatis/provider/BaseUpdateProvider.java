@@ -21,13 +21,13 @@ public class BaseUpdateProvider {
         Class cls = entity.getClass();
         StringBuilder builder = new StringBuilder();
         builder.append(getUpdatePrefix(cls));
-        List<String> fields = BaseProvider.getFields(cls);
+        List<String> fields = ProviderUtil.getFields(cls);
         try{
             for(String field:fields){
                 if("id".equals(field)){
                     continue;
                 }
-                if(BaseProvider.hasValue(entity,field)){
+                if(ProviderUtil.hasValue(entity,field)){
                     builder.append(field).append(" = #{")
                             .append(field).append("} ").append(",");
                 }
@@ -45,7 +45,7 @@ public class BaseUpdateProvider {
      * @return UPDATE 表名 SET
      */
     private static String getUpdatePrefix(Class cls){
-        return "UPDATE " + BaseProvider.getTableName(cls) + " SET ";
+        return "UPDATE " + ProviderUtil.getTableName(cls) + " SET ";
     }
 
     public static void main(String[] args){

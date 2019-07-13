@@ -61,7 +61,7 @@ public interface BaseMapper<K> {
     List<K> baseSelectAll(K entity);
 
     /**
-     * 根据索引字段查询，多个查询条件之间用And连接
+     * 根据索引字段查询（忽略id字段），多个查询条件之间用And连接
      * 要求索引字段使用@IndexAttribute注解
      * @param entity
      * @return
@@ -71,7 +71,7 @@ public interface BaseMapper<K> {
 
 
     /**
-     * 根据索引字段查询，多个查询条件之间用Or连接
+     * 根据索引字段查询（忽略id字段），多个查询条件之间用Or连接
      * 要求索引字段使用@IndexAttribute注解
      * @param entity
      * @return

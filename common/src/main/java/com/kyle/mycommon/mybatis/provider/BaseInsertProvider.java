@@ -30,11 +30,11 @@ public class BaseInsertProvider {
         if(StringUtils.isNotEmpty(insertMap.get(className))){
             return insertMap.get(className);
         }
-        String fieldStr = BaseProvider.getFieldStr(cls);
+        String fieldStr = ProviderUtil.getFieldStr(cls);
 
         StringBuilder builder = new StringBuilder();
         builder.append("INSERT INTO ")
-                .append(BaseProvider.getTableName(cls)).append(" ")
+                .append(ProviderUtil.getTableName(cls)).append(" ")
                 .append("(").append(fieldStr).append(") ")
                 .append("VALUES(");
 

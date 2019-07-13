@@ -11,13 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Provider工具类
+ * 提供获取读取表名、字段名等公用方法
  * Created by yangkaile on 2019/7/12.
  */
-public class BaseProvider {
+public class ProviderUtil {
     /**
      * 读取表名，要求类上有@TableAttribute注解
-     * @param cls
-     * @return
+     * @param cls 实体类型
+     * @return tableName
      */
     public static String getTableName(Class cls){
         TableAttribute table = (TableAttribute) cls.getAnnotation(TableAttribute.class);
@@ -30,8 +32,8 @@ public class BaseProvider {
      * 将所有字段名以逗号拼接起来返回
      * 从属性前的@FieldAttribute注解解析要查询的字段名
      * 当所有属性都没有@FieldAttribute注解时，解析所有属性名作为字段名
-     * @param cls
-     * @return
+     * @param cls 实体类型
+     * @return id,name
      */
     public static String getFieldStr(Class cls){
         Field[] fields = cls.getDeclaredFields();
@@ -57,8 +59,8 @@ public class BaseProvider {
     /**
      * 获取所有字段列表
      * 读取类中带@FieldAttribute注解的字段，如果都没有带该注解，则返回类中所有字段
-     * @param cls
-     * @return
+     * @param cls 实体类型
+     * @return {id,name}
      */
     public static List<String> getFields(Class cls){
         Field[] fields = cls.getDeclaredFields();
@@ -79,10 +81,10 @@ public class BaseProvider {
 
     /**
      * 判断一个对象的指定字段有没有值
-     * @param entity 对象
+     * @param entity 实体对象
      * @param fieldName 对象的字段名
-     * @param <T>
-     * @return
+     * @param <T> 实体类型
+     * @return 值存在且不为null:返回true; 否则:返回false
      */
     public static <T> boolean hasValue(T entity,String fieldName){
         try {

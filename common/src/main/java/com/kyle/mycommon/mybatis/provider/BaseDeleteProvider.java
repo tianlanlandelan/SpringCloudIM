@@ -33,7 +33,7 @@ public class BaseDeleteProvider {
     }
 
     private static String getDeletePrefix(Class cls){
-        return "DELETE FROM " + BaseProvider.getTableName(cls) + " ";
+        return "DELETE FROM " + ProviderUtil.getTableName(cls) + " ";
     }
 
     public static void main(String[] args){

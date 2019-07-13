@@ -1,17 +1,11 @@
 package com.kyle.mycommon.mybatis.provider;
 
 import com.kyle.mycommon.entity.Router;
-import com.kyle.mycommon.mybatis.BaseMapper;
-import com.kyle.mycommon.mybatis.PageList;
-import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
 import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
-import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 import com.kyle.mycommon.util.Console;
-import com.kyle.mycommon.util.Constants;
 import com.kyle.mycommon.util.StringUtils;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -73,7 +67,7 @@ public class BaseSelectProvider {
 
     /**
      *
-     * 根据索引字段查询，该查询为动态查询，不可缓存
+     * 根据索引字段查询(忽略id字段)，该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 多个查询条件用And连接
      * @param entity 实体对象
@@ -85,7 +79,7 @@ public class BaseSelectProvider {
     }
     /**
      *
-     * 根据索引字段查询，该查询为动态查询，不可缓存
+     * 根据索引字段查询（忽略id字段），该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 多个查询条件用Or连接
      * @param entity 实体对象
@@ -119,7 +113,7 @@ public class BaseSelectProvider {
         try {
             for(Field field:fields){
                 if(field.getAnnotation(IndexAttribute.class) != null){
-                    if(BaseProvider.hasValue(entity,field.getName())){
+                    if(ProviderUtil.hasValue(entity,field.getName())){
                         builder.append(field.getName())
                                 .append(" = #{").append(field.getName()).append("} ")
                                 .append(condition).append(" ");
@@ -136,7 +130,7 @@ public class BaseSelectProvider {
     }
 
     public static <T> String selectCount(T entity){
-        return "SELECT COUNT(1) FROM " + BaseProvider.getTableName(entity.getClass());
+        return "SELECT COUNT(1) FROM " + ProviderUtil.getTableName(entity.getClass());
     }
 
     /**
@@ -162,7 +156,7 @@ public class BaseSelectProvider {
         if(StringUtils.isNotEmpty(sql)){
             return sql;
         }else {
-            sql = "SELECT " + BaseProvider.getFieldStr(cls) + " FROM " + BaseProvider.getTableName(cls) + " ";
+            sql = "SELECT " + ProviderUtil.getFieldStr(cls) + " FROM " + ProviderUtil.getTableName(cls) + " ";
             return sql;
         }
     }
