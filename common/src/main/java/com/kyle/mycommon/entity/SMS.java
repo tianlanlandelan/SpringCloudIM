@@ -1,15 +1,18 @@
 package com.kyle.mycommon.entity;
 
 
+import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 
 import java.util.Date;
 
 @TableAttribute("sms_log")
-public class SMSEntity {
+public class SMS {
+    private int id;
     /**
     * 用户ID
     */
+    @IndexAttribute
      private String phone;
     /**
     * 类型
@@ -53,7 +56,7 @@ public class SMSEntity {
      */
     private int isUsed = 0;
 
-    public SMSEntity(){
+    public SMS(){
         super();
     }
 
@@ -62,7 +65,7 @@ public class SMSEntity {
      * @param phone 接收手机号
      * @param type  发送类型
      */
-    public SMSEntity(String phone, Integer type) {
+    public SMS(String phone, Integer type) {
         this.phone = phone;
         this.type = type;
     }
@@ -77,6 +80,14 @@ public class SMSEntity {
                 && isUsed == 0
                 && statusCode.equals("000000")
         );
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getPhone(){
@@ -141,8 +152,9 @@ public class SMSEntity {
 
     @Override
     public String toString() {
-        return "SMSEntity{" +
-                "phone='" + phone + '\'' +
+        return "SMS{" +
+                "id=" + id +
+                ", phone='" + phone + '\'' +
                 ", type=" + type +
                 ", templateId='" + templateId + '\'' +
                 ", codeStr='" + codeStr + '\'' +

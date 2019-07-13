@@ -1,9 +1,5 @@
 package com.kyle.user.service;
 
-import com.kyle.mycommon.mybatis.MyBaseEntity;
-import com.kyle.mycommon.mybatis.MyBaseUtils;
-import com.kyle.mycommon.response.ResultData;
-import com.kyle.user.entity.UserProfile;
 import com.kyle.user.mapper.UserProfileMapper;
 import org.springframework.stereotype.Service;
 

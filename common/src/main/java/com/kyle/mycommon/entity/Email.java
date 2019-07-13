@@ -1,11 +1,14 @@
 package com.kyle.mycommon.entity;
 
+import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
+import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 
 import java.util.Date;
 
 @TableAttribute("email_log")
-public class EmailEntity {
+public class Email {
+    private int id;
     /**
     * 邮件发送类型
     */
@@ -13,6 +16,7 @@ public class EmailEntity {
     /**
     * 收件人
     */
+    @IndexAttribute
      private String email;
     /**
     * 标题
@@ -27,7 +31,6 @@ public class EmailEntity {
      * 包含验证码的邮件，需要将验证码单独填写，方便查询
     */
      private String code;
-
 
      private String result;
     /**
@@ -47,7 +50,7 @@ public class EmailEntity {
      */
     private int isUsed = 0;
 
-    public EmailEntity(){
+    public Email(){
         super();
     }
 
@@ -61,6 +64,14 @@ public class EmailEntity {
                 && isUsed == 0
                 && statusCode == 0
         );
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Integer getType() {
@@ -137,8 +148,9 @@ public class EmailEntity {
 
     @Override
     public String toString() {
-        return "EmailEntity{" +
-                "type=" + type +
+        return "Email{" +
+                "id=" + id +
+                ", type=" + type +
                 ", email='" + email + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +

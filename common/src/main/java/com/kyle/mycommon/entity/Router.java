@@ -28,10 +28,12 @@ public class Router {
     /**
      * Controller名称
      */
+    @IndexAttribute
     private String controllerName;
     /**
      * 方法名称
      */
+    @IndexAttribute
     private String methodName;
     /**
      * 路由
@@ -40,6 +42,7 @@ public class Router {
     /**
      * 请求类型
      */
+    @IndexAttribute
     private String requestType;
     /**
      * 请求参数
