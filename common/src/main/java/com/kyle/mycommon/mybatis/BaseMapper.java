@@ -79,5 +79,27 @@ public interface BaseMapper<K> {
     @SelectProvider(type= BaseSelectProvider.class,method = "selectByIndexOr")
     List<K> baseSelectByIndexOr(K entity);
 
+    /**
+     * 查询记录总数
+     * 返回的是 "SELECT COUNT(1) FROM 表名" 的结果
+     * 不带查询条件
+     * @param entity
+     * @return
+     */
+    @SelectProvider(type = BaseSelectProvider.class,method = "selectCount")
+    Integer baseSelectCount(K entity);
+
+    /**
+     * 分页查询
+     * 返回 “SELECT 所有字段 FROM 表名 LIMIT startRows,pageSize” 的结果
+     * 不带查询条件
+     * @param entity
+     * @param startRows
+     * @param pageSize
+     * @return
+     */
+    @SelectProvider(type = BaseSelectProvider.class,method = "selectPageList")
+    List<K> baseSelectPageList(K entity,int startRows,int pageSize);
+
 
 }

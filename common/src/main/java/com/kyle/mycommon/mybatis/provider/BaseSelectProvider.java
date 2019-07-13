@@ -1,10 +1,13 @@
 package com.kyle.mycommon.mybatis.provider;
 
 import com.kyle.mycommon.entity.Router;
+import com.kyle.mycommon.mybatis.BaseMapper;
+import com.kyle.mycommon.mybatis.PageList;
 import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
 import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 import com.kyle.mycommon.util.Console;
+import com.kyle.mycommon.util.Constants;
 import com.kyle.mycommon.util.StringUtils;
 
 import java.lang.reflect.Field;
@@ -40,9 +43,7 @@ public class BaseSelectProvider {
         return sql;
     }
 
-    public static <T> String selectCount(T entity){
-        return "SELECT COUNT(1) FROM " + BaseProvider.getTableName(entity.getClass());
-    }
+
 
     public static <T> String selectAll(T entity){
         Class cls = entity.getClass();
@@ -120,6 +121,23 @@ public class BaseSelectProvider {
         return null;
     }
 
+    public static <T> String selectCount(T entity){
+        return "SELECT COUNT(1) FROM " + BaseProvider.getTableName(entity.getClass());
+    }
+
+    /**
+     * 不加条件的分页查询
+     * @param entity 实体对象
+     * @param startRows 起始行
+     * @param pageSize 查询页大小
+     * @param <T> 实体类型
+     * @return  SELECT id,name... FROM router  LIMIT #{startRows},#{pageSize}
+     */
+    public static <T> String selectPageList(T entity,int startRows,int pageSize){
+        return selectAll(entity) + " LIMIT #{startRows},#{pageSize}";
+    }
+
+
     private static String getSelectPrefix(Class cls){
         return "SELECT " + BaseProvider.getFieldStr(cls) + " FROM " + BaseProvider.getTableName(cls) + " ";
     }
@@ -132,6 +150,7 @@ public class BaseSelectProvider {
         Console.print("selectByIndexAnd",selectByIndexAnd(router));
         Console.print("selectByIndexOr",selectByIndexOr(router));
         Console.print("selectCount",selectCount(router));
+        Console.print("selectPageList",selectPageList(router,1,10));
     }
 
 }
