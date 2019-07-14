@@ -42,7 +42,7 @@ public class BaseDeleteProvider {
      * @param <T> 对象类型
      * @return DELETE FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
      */
-    public static <T> String deleteByIndexAnd(T entity){
+    public static <T> String deleteByConditionAnd(T entity){
         return getDeletePrefix(entity.getClass()) + ProviderUtil.getQueryConditions(entity,true);
     }
 
@@ -54,7 +54,7 @@ public class BaseDeleteProvider {
      * @param <T> 对象类型
      * @return DELETE FROM router  WHERE name = #{name} OR serviceName = #{serviceName}
      */
-    public static <T> String deleteByIndexOr(T entity){
+    public static <T> String deleteByConditionOr(T entity){
         return getDeletePrefix(entity.getClass()) + ProviderUtil.getQueryConditions(entity,false);
     }
 
@@ -68,8 +68,8 @@ public class BaseDeleteProvider {
         router.setServiceName("dd");
         router.setName("dd");
         Console.print("deleteById",deleteById(router));
-        Console.print("deleteByIndexAnd",deleteByIndexAnd(router));
-        Console.print("deleteByIndexOr",deleteByIndexOr(router));
+        Console.print("deleteByIndexAnd",deleteByConditionAnd(router));
+        Console.print("deleteByIndexOr",deleteByConditionOr(router));
     }
 
 }
