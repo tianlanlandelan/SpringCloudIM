@@ -75,7 +75,7 @@ public class BaseSelectProvider {
      * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
      */
     public static <T> String selectByIndexAnd(T entity){
-        return selectByIndex(entity,true);
+        return  getSelectPrefix(entity.getClass()) + ProviderUtil.getQueryConditions(entity,true);
     }
     /**
      *
@@ -87,46 +87,7 @@ public class BaseSelectProvider {
      * @return SELECT id,name... FROM router  WHERE name = #{name} OR serviceName = #{serviceName}
      */
     public static <T> String selectByIndexOr(T entity){
-        return selectByIndex(entity,false);
-    }
-
-
-    /**
-     * 根据索引字段查询，该查询为动态查询，不可缓存
-     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
-     * @param entity 实体对象
-     * @param isAnd 多个查询条件是否用AND连接  true:AND  falser:OR
-     * @param <T> 实体类型
-     * @return SELECT id,name... FROM router  WHERE name = #{name} AND/OR serviceName = #{serviceName}
-     */
-    private static <T> String selectByIndex(T entity,boolean isAnd){
-        String condition;
-        if(isAnd){
-            condition = "AND";
-        }else {
-            condition = "OR";
-        }
-        Class cls = entity.getClass();
-        Field[] fields = cls.getDeclaredFields();
-        StringBuilder builder = new StringBuilder();
-        builder.append(getSelectPrefix(cls)).append(" WHERE ");
-        try {
-            for(Field field:fields){
-                if(field.getAnnotation(IndexAttribute.class) != null){
-                    if(ProviderUtil.hasValue(entity,field.getName())){
-                        builder.append(field.getName())
-                                .append(" = #{").append(field.getName()).append("} ")
-                                .append(condition).append(" ");
-                    }
-
-                }
-            }
-            return builder.substring(0,builder.lastIndexOf(condition));
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
+        return  getSelectPrefix(entity.getClass()) + ProviderUtil.getQueryConditions(entity,false);
     }
 
     public static <T> String selectCount(T entity){
@@ -150,7 +111,7 @@ public class BaseSelectProvider {
      * @param cls 实体类类型
      * @return SELECT 所有字段 FROM 表名
      */
-    private static String getSelectPrefix(Class cls){
+    private static <T> String getSelectPrefix(Class cls){
         String className = cls.getName();
         String sql = selectPrefixMap.get(className);
         if(StringUtils.isNotEmpty(sql)){

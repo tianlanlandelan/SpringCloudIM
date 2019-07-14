@@ -1,9 +1,11 @@
 package com.kyle.mycommon.mybatis.provider;
 
 import com.kyle.mycommon.entity.Router;
+import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
 import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.StringUtils;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -32,6 +34,30 @@ public class BaseDeleteProvider {
         return sql;
     }
 
+    /**
+     * 根据索引字段删除(忽略id字段)，该查询为动态查询，不可缓存
+     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
+     * 多个查询条件用And连接
+     * @param entity 实体对象
+     * @param <T> 对象类型
+     * @return DELETE FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
+     */
+    public static <T> String deleteByIndexAnd(T entity){
+        return getDeletePrefix(entity.getClass()) + ProviderUtil.getQueryConditions(entity,true);
+    }
+
+    /**
+     * 根据索引字段删除(忽略id字段)，该查询为动态查询，不可缓存
+     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
+     * 多个查询条件用And连接
+     * @param entity 实体对象
+     * @param <T> 对象类型
+     * @return DELETE FROM router  WHERE name = #{name} OR serviceName = #{serviceName}
+     */
+    public static <T> String deleteByIndexOr(T entity){
+        return getDeletePrefix(entity.getClass()) + ProviderUtil.getQueryConditions(entity,false);
+    }
+
     private static String getDeletePrefix(Class cls){
         return "DELETE FROM " + ProviderUtil.getTableName(cls) + " ";
     }
@@ -39,7 +65,11 @@ public class BaseDeleteProvider {
     public static void main(String[] args){
         Router router = new Router();
         router.setId("1");
+        router.setServiceName("dd");
+        router.setName("dd");
         Console.print("deleteById",deleteById(router));
+        Console.print("deleteByIndexAnd",deleteByIndexAnd(router));
+        Console.print("deleteByIndexOr",deleteByIndexOr(router));
     }
 
 }

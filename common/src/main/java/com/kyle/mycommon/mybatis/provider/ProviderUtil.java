@@ -1,7 +1,10 @@
 package com.kyle.mycommon.mybatis.provider;
 
+import com.kyle.mycommon.entity.Router;
 import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
+import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
+import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.StringUtils;
 
 import java.lang.reflect.Field;
@@ -57,6 +60,44 @@ public class ProviderUtil {
     }
 
     /**
+     * 根据索引字段生成查询条件
+     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
+     * @param entity 实体对象
+     * @param isAnd 是否用AND连接
+     * @param <T> 实体类型
+     * @return WHERE name = #{name} OR controllerName = #{controllerName}
+     */
+    public static <T> String getQueryConditions(T entity,boolean isAnd){
+        String condition;
+        if(isAnd){
+            condition = "AND";
+        }else {
+            condition = "OR";
+        }
+        Class cls = entity.getClass();
+        Field[] fields = cls.getDeclaredFields();
+        StringBuilder builder = new StringBuilder();
+        builder.append(" WHERE ");
+        try {
+            for(Field field:fields){
+                if(field.getAnnotation(IndexAttribute.class) != null){
+                    if(ProviderUtil.hasValue(entity,field.getName())){
+                        builder.append(field.getName())
+                                .append(" = #{").append(field.getName()).append("} ")
+                                .append(condition).append(" ");
+                    }
+
+                }
+            }
+            return builder.substring(0,builder.lastIndexOf(condition));
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * 获取所有字段列表
      * 读取类中带@FieldAttribute注解的字段，如果都没有带该注解，则返回类中所有字段
      * @param cls 实体类型
@@ -103,5 +144,12 @@ public class ProviderUtil {
             e.printStackTrace();
         }
        return false;
+    }
+
+    public static void main(String[] args){
+        Router router = new Router();
+        router.setName("routerName");
+        router.setControllerName("Cdd");
+        Console.print("selectById",getQueryConditions(router,false));
     }
 }
