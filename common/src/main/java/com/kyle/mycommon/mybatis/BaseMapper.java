@@ -83,23 +83,15 @@ public interface BaseMapper<K> {
     /**
      * 带条件的查询，该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
-     * 多个查询条件用And连接
+     * 传入对象中带@SortAttribute注解的字段作为排序字段
      * @param entity 实体对象
-     * @return
+     * @param and 多个查询条件组合方式  true:AND  false:OR
+     * @param asc 排序方式  null:不指定排序方式  true:按指定排序字段升序   false:按指定排序字段降序
+     * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}  ORDER BY createTime ASC
      */
-    @SelectProvider(type= BaseSelectProvider.class,method = "selectByConditionAnd")
-    List<K> baseSelectByConditionAnd(K entity);
+    @SelectProvider(type= BaseSelectProvider.class,method = "selectByCondition")
+    List<K> baseSelectByCondition(K entity,boolean and,Boolean asc);
 
-
-    /**
-     * 带条件的查询，该查询为动态查询，不可缓存
-     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
-     * 多个查询条件用And连接
-     * @param entity 实体对象
-     * @return
-     */
-    @SelectProvider(type= BaseSelectProvider.class,method = "selectByConditionOr")
-    List<K> baseSelectByConditionOr(K entity);
 
     /**
      * 查询记录总数

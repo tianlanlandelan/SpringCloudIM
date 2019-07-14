@@ -77,7 +77,7 @@ public class BaseSelectProvider {
      *
      * 带条件的查询，该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
-     * 多个查询条件用And连接
+     * 传入对象中带@SortAttribute注解的字段作为排序字段
      * @param entity 实体对象
      * @param and 多个查询条件组合方式  true:AND  false:OR
      * @param asc 排序方式  null:不指定排序方式  true:按指定排序字段升序   false:按指定排序字段降序

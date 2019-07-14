@@ -31,7 +31,7 @@ public class UserInfoService {
     public ResultData getByPhone(String phone){
         UserInfo userInfo = new UserInfo();
         userInfo.setPhone(phone);
-        List<UserInfo> list = userInfoMapper.baseSelectByConditionAnd(userInfo);
+        List<UserInfo> list = userInfoMapper.baseSelectByCondition(userInfo,false,null);
         return ResultData.success(list);
     }
     public ResultData insert(){
