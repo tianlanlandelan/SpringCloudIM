@@ -34,6 +34,26 @@ public interface BaseMapper<K> {
     @DeleteProvider(type = BaseDeleteProvider.class,method = "deleteById")
     Integer baseDeleteById(K entity);
 
+    /**
+     * 根据条件删除，该查询为动态查询，不可缓存
+     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
+     * 多个查询条件用And连接
+     * @param entity 实体对象
+     * @return
+     */
+    @SelectProvider(type= BaseDeleteProvider.class,method = "deleteByConditionAnd")
+    List<K> baseDeleteByConditionAnd(K entity);
+
+    /**
+     * 根据条件删除，该查询为动态查询，不可缓存
+     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
+     * 多个查询条件用And连接
+     * @param entity 实体对象
+     * @return
+     */
+    @SelectProvider(type= BaseSelectProvider.class,method = "deleteByConditionOr")
+    List<K> baseDeleteByConditionOr(K entity);
+
 
     /**
      * 根据id 更新数据，空值不更新 ，要求必须有id字段
@@ -61,23 +81,25 @@ public interface BaseMapper<K> {
     List<K> baseSelectAll(K entity);
 
     /**
-     * 根据索引字段查询（忽略id字段），多个查询条件之间用And连接
-     * 要求索引字段使用@IndexAttribute注解
-     * @param entity
+     * 带条件的查询，该查询为动态查询，不可缓存
+     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
+     * 多个查询条件用And连接
+     * @param entity 实体对象
      * @return
      */
-    @SelectProvider(type= BaseSelectProvider.class,method = "selectByIndexAnd")
-    List<K> baseSelectByIndexAnd(K entity);
+    @SelectProvider(type= BaseSelectProvider.class,method = "selectByConditionAnd")
+    List<K> baseSelectByConditionAnd(K entity);
 
 
     /**
-     * 根据索引字段查询（忽略id字段），多个查询条件之间用Or连接
-     * 要求索引字段使用@IndexAttribute注解
-     * @param entity
+     * 带条件的查询，该查询为动态查询，不可缓存
+     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
+     * 多个查询条件用And连接
+     * @param entity 实体对象
      * @return
      */
-    @SelectProvider(type= BaseSelectProvider.class,method = "selectByIndexOr")
-    List<K> baseSelectByIndexOr(K entity);
+    @SelectProvider(type= BaseSelectProvider.class,method = "selectByConditionOr")
+    List<K> baseSelectByConditionOr(K entity);
 
     /**
      * 查询记录总数

@@ -67,26 +67,26 @@ public class BaseSelectProvider {
 
     /**
      *
-     * 根据索引字段查询(忽略id字段)，该查询为动态查询，不可缓存
+     * 带条件的查询，该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 多个查询条件用And连接
      * @param entity 实体对象
      * @param <T> 实体类型
      * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
      */
-    public static <T> String selectByIndexAnd(T entity){
+    public static <T> String selectByConditionAnd(T entity){
         return  getSelectPrefix(entity.getClass()) + ProviderUtil.getQueryConditions(entity,true);
     }
     /**
      *
-     * 根据索引字段查询（忽略id字段），该查询为动态查询，不可缓存
+     * 带条件的查询，该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 多个查询条件用Or连接
      * @param entity 实体对象
      * @param <T> 实体类型
      * @return SELECT id,name... FROM router  WHERE name = #{name} OR serviceName = #{serviceName}
      */
-    public static <T> String selectByIndexOr(T entity){
+    public static <T> String selectByConditionOr(T entity){
         return  getSelectPrefix(entity.getClass()) + ProviderUtil.getQueryConditions(entity,false);
     }
 
@@ -127,8 +127,8 @@ public class BaseSelectProvider {
         router.setName("routerName");
         router.setServiceName("Cdd");
         Console.print("selectById",selectById(router));
-        Console.print("selectByIndexAnd",selectByIndexAnd(router));
-        Console.print("selectByIndexOr",selectByIndexOr(router));
+        Console.print("selectByIndexAnd",selectByConditionAnd(router));
+        Console.print("selectByIndexOr",selectByConditionOr(router));
         Console.print("selectCount",selectCount(router));
         Console.print("selectPageList",selectPageList(router,1,10));
     }

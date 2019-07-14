@@ -35,7 +35,7 @@ public class BaseDeleteProvider {
     }
 
     /**
-     * 根据索引字段删除(忽略id字段)，该查询为动态查询，不可缓存
+     * 根据条件删除，该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 多个查询条件用And连接
      * @param entity 实体对象
@@ -47,7 +47,7 @@ public class BaseDeleteProvider {
     }
 
     /**
-     * 根据索引字段删除(忽略id字段)，该查询为动态查询，不可缓存
+     * 根据条件删除，该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 多个查询条件用And连接
      * @param entity 实体对象
