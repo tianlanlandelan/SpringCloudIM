@@ -92,6 +92,17 @@ public class BaseSelectProvider {
     }
 
     /**
+     *
+     * @param entity
+     * @param and
+     * @param <T>
+     * @return SELECT COUNT(1) FROM router WHERE name = #{name} AND serviceName = #{serviceName}
+     */
+    public static <T> String selectCountByCondition(T entity,Boolean and){
+        return selectCount(entity) + ProviderUtil.getConditionSuffix(entity,and);
+    }
+
+    /**
      * 不加条件的分页查询
      * @param entity 实体对象
      * @param startRows 起始行
@@ -101,6 +112,20 @@ public class BaseSelectProvider {
      */
     public static <T> String selectPageList(T entity,int startRows,int pageSize){
         return selectAll(entity) + " LIMIT #{startRows},#{pageSize}";
+    }
+
+    /**
+     *
+     * @param entity
+     * @param and
+     * @param asc
+     * @param startRows
+     * @param pageSize
+     * @param <T>
+     * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}  ORDER BY createTime ASC LIMIT #{startRows},#{pageSize}
+     */
+    public static <T> String selectPageListByCondition(T entity,Boolean and,Boolean asc,int startRows,int pageSize){
+        return selectByCondition(entity,and,asc) + " LIMIT #{startRows},#{pageSize}";
     }
 
     /**
@@ -126,7 +151,11 @@ public class BaseSelectProvider {
         Console.print("selectById",selectById(router));
         Console.print("selectByCondition",selectByCondition(router,true,null));
         Console.print("selectCount",selectCount(router));
+        Console.print("selectCountByCondition",selectCountByCondition(router,true));
         Console.print("selectPageList",selectPageList(router,1,10));
+        Console.print("selectPageListByCondition",selectPageListByCondition(router,true, true,1,10));
+
+
     }
 
 }

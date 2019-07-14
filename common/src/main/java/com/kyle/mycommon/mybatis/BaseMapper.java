@@ -93,6 +93,11 @@ public interface BaseMapper<K> {
     @SelectProvider(type = BaseSelectProvider.class,method = "selectCount")
     Integer baseSelectCount(K entity);
 
+
+    @SelectProvider(type = BaseSelectProvider.class,method = "selectCountByCondition")
+    Integer baseSelectCountByCondition(K entity,Boolean and);
+
+
     /**
      * 分页查询
      * 返回 “SELECT 所有字段 FROM 表名 LIMIT startRows,pageSize” 的结果
@@ -105,5 +110,7 @@ public interface BaseMapper<K> {
     @SelectProvider(type = BaseSelectProvider.class,method = "selectPageList")
     List<K> baseSelectPageList(K entity,int startRows,int pageSize);
 
+    @SelectProvider(type = BaseSelectProvider.class,method = "selectPageListByCondition")
+    List<K> baseSelectPageListByCondition(K entity,Boolean and,Boolean asc,int startRows,int pageSize);
 
 }
