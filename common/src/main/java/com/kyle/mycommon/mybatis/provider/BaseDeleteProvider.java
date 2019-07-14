@@ -37,24 +37,14 @@ public class BaseDeleteProvider {
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 多个查询条件用And连接
      * @param entity 实体对象
+     * @param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
      * @param <T> 对象类型
      * @return DELETE FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
      */
-    public static <T> String deleteByConditionAnd(T entity){
-        return getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionSuffix(entity,true);
+    public static <T> String deleteByCondition(T entity,Boolean and){
+        return getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionSuffix(entity,and);
     }
 
-    /**
-     * 根据条件删除，该查询为动态查询，不可缓存
-     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
-     * 多个查询条件用And连接
-     * @param entity 实体对象
-     * @param <T> 对象类型
-     * @return DELETE FROM router  WHERE name = #{name} OR serviceName = #{serviceName}
-     */
-    public static <T> String deleteByConditionOr(T entity){
-        return getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionSuffix(entity,false);
-    }
 
     private static String getDeletePrefix(Class cls){
         return "DELETE FROM " + ProviderUtil.getTableName(cls) + " ";
@@ -66,8 +56,7 @@ public class BaseDeleteProvider {
         router.setServiceName("dd");
         router.setName("dd");
         Console.print("deleteById",deleteById(router));
-        Console.print("deleteByIndexAnd",deleteByConditionAnd(router));
-        Console.print("deleteByIndexOr",deleteByConditionOr(router));
+        Console.print("deleteByCondition",deleteByCondition(router,true));
     }
 
 }

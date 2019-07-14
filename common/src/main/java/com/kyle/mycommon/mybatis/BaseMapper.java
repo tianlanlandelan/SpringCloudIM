@@ -35,25 +35,15 @@ public interface BaseMapper<K> {
     Integer baseDeleteById(K entity);
 
     /**
-     * 根据条件删除，该查询为动态查询，不可缓存
+     * 根据条件删除
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 多个查询条件用And连接
      * @param entity 实体对象
-     * @return
+     * @param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
+     * @return DELETE FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
      */
-    @SelectProvider(type= BaseDeleteProvider.class,method = "deleteByConditionAnd")
-    List<K> baseDeleteByConditionAnd(K entity);
-
-    /**
-     * 根据条件删除，该查询为动态查询，不可缓存
-     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
-     * 多个查询条件用And连接
-     * @param entity 实体对象
-     * @return
-     */
-    @SelectProvider(type= BaseSelectProvider.class,method = "deleteByConditionOr")
-    List<K> baseDeleteByConditionOr(K entity);
-
+    @SelectProvider(type= BaseDeleteProvider.class,method = "deleteByCondition")
+    List<K> baseDeleteByCondition(K entity,Boolean and);
 
     /**
      * 根据id 更新数据，空值不更新 ，要求必须有id字段
@@ -90,7 +80,7 @@ public interface BaseMapper<K> {
      * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}  ORDER BY createTime ASC
      */
     @SelectProvider(type= BaseSelectProvider.class,method = "selectByCondition")
-    List<K> baseSelectByCondition(K entity,boolean and,Boolean asc);
+    List<K> baseSelectByCondition(K entity,Boolean and,Boolean asc);
 
 
     /**

@@ -68,8 +68,11 @@ public class ProviderUtil {
      * @param <T> 实体类型
      * @return WHERE name = #{name} OR controllerName = #{controllerName}
      */
-    public static <T> String getConditionSuffix(T entity, boolean isAnd){
+    public static <T> String getConditionSuffix(T entity, Boolean isAnd){
         String condition;
+        if(isAnd == null){
+            return "";
+        }
         if(isAnd){
             condition = "AND";
         }else {
@@ -112,7 +115,7 @@ public class ProviderUtil {
     public static <T> String getSortSuffix(T entity,Boolean isAsc){
         String condition;
         if(isAsc == null){
-            return null;
+            return "";
         }
         if(isAsc){
             condition = "ASC";

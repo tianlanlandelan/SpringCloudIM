@@ -63,15 +63,6 @@ public class BaseSelectProvider {
         return sql;
     }
 
-    /**
-     *
-     * @param entity
-     * @param <T>
-     * @return SELECT id,name,serviceName,controllerName,methodName,routerUrl,requestType,parameters,description,createTime FROM router  ORDER BY createTime ASC
-     */
-    public static <T> String selectAllOrderByASC(T entity){
-        return selectAll(entity) + ProviderUtil.getSortSuffix(entity,true);
-    }
 
     /**
      *
@@ -79,15 +70,15 @@ public class BaseSelectProvider {
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 传入对象中带@SortAttribute注解的字段作为排序字段
      * @param entity 实体对象
-     * @param and 多个查询条件组合方式  true:AND  false:OR
+     * @param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
      * @param asc 排序方式  null:不指定排序方式  true:按指定排序字段升序   false:按指定排序字段降序
      * @param <T> 实体类型
      * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}  ORDER BY createTime ASC
      */
-    public static <T> String selectByCondition(T entity,boolean and,Boolean asc){
+    public static <T> String selectByCondition(T entity,Boolean and,Boolean asc){
         return   getSelectPrefix(entity.getClass())
-                + ProviderUtil.getConditionSuffix(entity,true)
-                + ProviderUtil.getSortSuffix(entity,true);
+                + ProviderUtil.getConditionSuffix(entity,and)
+                + ProviderUtil.getSortSuffix(entity,asc);
     }
 
     /**
@@ -133,10 +124,9 @@ public class BaseSelectProvider {
         router.setName("routerName");
         router.setServiceName("Cdd");
         Console.print("selectById",selectById(router));
-        Console.print("selectByCondition",selectByCondition(router,false,true));
+        Console.print("selectByCondition",selectByCondition(router,true,null));
         Console.print("selectCount",selectCount(router));
         Console.print("selectPageList",selectPageList(router,1,10));
-        Console.print("selectAllOrderByASC",selectAllOrderByASC(router));
     }
 
 }
