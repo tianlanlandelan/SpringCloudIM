@@ -1,6 +1,7 @@
 package com.kyle.mycommon.entity;
 
 import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
+import com.kyle.mycommon.mybatis.annotation.SortAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 
 import java.util.Date;
@@ -55,6 +56,7 @@ public class Router {
     /**
      * 创建时间
      */
+    @SortAttribute
     private Date createTime = new Date();
 
     public String getId() {

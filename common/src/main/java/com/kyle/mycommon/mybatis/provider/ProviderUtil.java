@@ -3,6 +3,7 @@ package com.kyle.mycommon.mybatis.provider;
 import com.kyle.mycommon.entity.Router;
 import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
 import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
+import com.kyle.mycommon.mybatis.annotation.SortAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.StringUtils;
@@ -67,7 +68,7 @@ public class ProviderUtil {
      * @param <T> 实体类型
      * @return WHERE name = #{name} OR controllerName = #{controllerName}
      */
-    public static <T> String getQueryConditions(T entity,boolean isAnd){
+    public static <T> String getConditionSuffix(T entity, boolean isAnd){
         String condition;
         if(isAnd){
             condition = "AND";
@@ -89,7 +90,52 @@ public class ProviderUtil {
 
                 }
             }
-            return builder.substring(0,builder.lastIndexOf(condition));
+            int index = builder.lastIndexOf(condition);
+            if(index < 0){
+                return null;
+            }
+            return builder.substring(0,index);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param entity
+     * @param isAsc
+     * @param <T>
+     * @return
+     */
+    public static <T> String getSortSuffix(T entity,Boolean isAsc){
+        String condition;
+        if(isAsc == null){
+            return null;
+        }
+        if(isAsc){
+            condition = "ASC";
+        }else {
+            condition = "DESC";
+        }
+        Class cls = entity.getClass();
+        Field[] fields = cls.getDeclaredFields();
+        StringBuilder builder = new StringBuilder();
+        builder.append(" ORDER BY ");
+        try {
+            for(Field field:fields){
+                if(field.getAnnotation(SortAttribute.class) != null){
+                    builder.append(field.getName()).append(" ")
+                            .append(condition).append(",");
+
+                }
+            }
+            int index = builder.lastIndexOf(",");
+            if(index < 0){
+                return null;
+            }
+            return builder.substring(0,index);
 
         }catch (Exception e){
             e.printStackTrace();
@@ -150,6 +196,6 @@ public class ProviderUtil {
         Router router = new Router();
         router.setName("routerName");
         router.setControllerName("Cdd");
-        Console.print("selectById",getQueryConditions(router,false));
+        Console.print("selectById", getConditionSuffix(router,false));
     }
 }

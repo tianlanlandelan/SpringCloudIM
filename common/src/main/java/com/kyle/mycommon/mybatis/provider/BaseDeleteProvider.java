@@ -1,11 +1,9 @@
 package com.kyle.mycommon.mybatis.provider;
 
 import com.kyle.mycommon.entity.Router;
-import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
 import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.StringUtils;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -43,7 +41,7 @@ public class BaseDeleteProvider {
      * @return DELETE FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
      */
     public static <T> String deleteByConditionAnd(T entity){
-        return getDeletePrefix(entity.getClass()) + ProviderUtil.getQueryConditions(entity,true);
+        return getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionSuffix(entity,true);
     }
 
     /**
@@ -55,7 +53,7 @@ public class BaseDeleteProvider {
      * @return DELETE FROM router  WHERE name = #{name} OR serviceName = #{serviceName}
      */
     public static <T> String deleteByConditionOr(T entity){
-        return getDeletePrefix(entity.getClass()) + ProviderUtil.getQueryConditions(entity,false);
+        return getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionSuffix(entity,false);
     }
 
     private static String getDeletePrefix(Class cls){
