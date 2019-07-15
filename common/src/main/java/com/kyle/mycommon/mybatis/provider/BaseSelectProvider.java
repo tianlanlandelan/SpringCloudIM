@@ -82,7 +82,7 @@ public class BaseSelectProvider {
     }
 
     /**
-     *
+     * 查询记录总数
      * @param entity
      * @param <T>
      * @return SELECT COUNT(1) FROM router
@@ -92,9 +92,10 @@ public class BaseSelectProvider {
     }
 
     /**
-     *
+     * 根据条件查询记录总数
+     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * @param entity
-     * @param and
+     * @param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
      * @param <T>
      * @return SELECT COUNT(1) FROM router WHERE name = #{name} AND serviceName = #{serviceName}
      */
@@ -115,12 +116,13 @@ public class BaseSelectProvider {
     }
 
     /**
-     *
+     * 加条件的分页查询
+     * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * @param entity
-     * @param and
-     * @param asc
-     * @param startRows
-     * @param pageSize
+     * @param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
+     * @param asc 排序方式  null:不指定排序方式  true:按指定排序字段升序   false:按指定排序字段降序
+     * @param startRows 起始行数
+     * @param pageSize 查询条数
      * @param <T>
      * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}  ORDER BY createTime ASC LIMIT #{startRows},#{pageSize}
      */

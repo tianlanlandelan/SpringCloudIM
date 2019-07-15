@@ -17,6 +17,27 @@ public class UserInfoService {
     @Resource
     private UserInfoMapper userInfoMapper;
 
+    public ResultData insert(){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(100);
+        userInfo.setPhone("12345678901");
+        userInfo.setPassword("123456");
+        userInfoMapper.baseInsert(userInfo);
+        return ResultData.success(userInfo);
+    }
+
+    public ResultData deleteById(int id){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(id);
+        return ResultData.success(userInfoMapper.baseDeleteById(userInfo));
+    }
+
+    public ResultData deleteByPhone(String phone){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setPhone(phone);
+        return ResultData.success(userInfoMapper.baseDeleteByCondition(userInfo,true));
+    }
+
     public ResultData getById(int id){
         UserInfo userInfo = new UserInfo();
         userInfo.setId(id);
@@ -34,13 +55,6 @@ public class UserInfoService {
         List<UserInfo> list = userInfoMapper.baseSelectByCondition(userInfo,false,null);
         return ResultData.success(list);
     }
-    public ResultData insert(){
-        UserInfo userInfo = new UserInfo();
-        userInfo.setId(100);
-        userInfo.setPhone("12345678901");
-        userInfo.setPassword("123456");
-        userInfoMapper.baseInsert(userInfo);
-        return ResultData.success(userInfo);
-    }
+
 
 }
