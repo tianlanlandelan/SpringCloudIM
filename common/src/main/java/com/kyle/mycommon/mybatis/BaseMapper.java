@@ -11,18 +11,30 @@ import java.util.List;
 /**
  * @author yangkaile
  * @date 2019-07-12 15:27:00
+ * BaseMapper提供了通用的Mapper
+ * 实现了insert、insertAndReturnKey、deleteById、SelectById、updateById等基本的增删改查方法
+ * 数据实体的Mapper继承该接口即可
+ *
+ * BaseMapper还提供了带条件的删除和查询操作，以及带条件的分页查询，需要实体类继承BaseEntity方可使用
  *
  * @param <K>
  */
 public interface BaseMapper<K> {
     /**
      * 插入操作
+     * 将实体类的所有字段和字段的值分别列出来，适用于主键不是自增的表
      * @param entity
-     * @return
+     * @return INSERT INTO tableName (id,name...) VALUES (#{id},#{name}...)
      */
     @InsertProvider(type = BaseInsertProvider.class,method = "insert")
     Integer baseInsert(K entity);
 
+    /**
+     * 插入数据并返回自增的主键(建议使用id)
+     * 将实体类中除主键以外的字段和值分别列出来，适用于主键是自增的表
+     * @param entity
+     * @return INSERT INTO tableName (name...) VALUES(#{name}...)
+     */
     @InsertProvider(type = BaseInsertProvider.class,method = "insertAndReturnKey")
     @Options(useGeneratedKeys=true)
     Integer baseInsertAndReturnKey(K entity);

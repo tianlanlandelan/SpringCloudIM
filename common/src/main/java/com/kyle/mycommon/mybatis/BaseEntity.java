@@ -3,6 +3,9 @@ package com.kyle.mycommon.mybatis;
 /**
  * @author yangkaile
  * @date 2019-07-17 16:59:52
+ * BaseEntity，使用复杂查询（带条件的增删改查和分页查询）时需要继承的父类
+ * 该类提供了可供选择的多条件查询方式、排序方式、分页查询相关参数等
+ * 数据实体类继承该类即可使用
  *
  */
 public class BaseEntity {
