@@ -2,6 +2,7 @@ package com.kyle.mycommon.entity;
 
 import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
 import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
+import com.kyle.mycommon.mybatis.annotation.SortAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 
 import java.util.Date;
@@ -30,6 +31,7 @@ public class Email {
      * 验证码
      * 包含验证码的邮件，需要将验证码单独填写，方便查询
     */
+    @IndexAttribute
      private String code;
 
      private String result;
@@ -43,6 +45,7 @@ public class Email {
     /**
      * 发送时间，验证码邮件的有效时间为5分钟
      */
+    @SortAttribute
     private Date createTime = new Date();
 
     /**

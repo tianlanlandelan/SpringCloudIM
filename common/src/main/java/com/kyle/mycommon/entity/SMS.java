@@ -2,6 +2,7 @@ package com.kyle.mycommon.entity;
 
 
 import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
+import com.kyle.mycommon.mybatis.annotation.SortAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 
 import java.util.Date;
@@ -27,6 +28,7 @@ public class SMS {
      * 模板里第一个参数
      * 123456
      */
+    @IndexAttribute
      private String codeStr;
      /**
      * 有效时间
@@ -49,6 +51,7 @@ public class SMS {
     /**
      * 发送时间，短信验证码5分钟内有效
      */
+    @SortAttribute
     private Date createTime = new Date();
 
     /**
