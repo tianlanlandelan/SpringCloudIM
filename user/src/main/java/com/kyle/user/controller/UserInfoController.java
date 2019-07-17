@@ -1,14 +1,12 @@
 package com.kyle.user.controller;
 
 import com.kyle.mycommon.response.MyResponse;
-import com.kyle.mycommon.router.MyRouter;
+import com.kyle.mycommon.config.RouterName;
 import com.kyle.mycommon.router.RouterAttribute;
 import com.kyle.mycommon.util.ValidUserName;
-import com.kyle.user.entity.UserInfo;
 import com.kyle.user.service.UserInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,22 +49,22 @@ public class UserInfoController {
     }
 
 
-    @RouterAttribute(id=MyRouter.A_ADD_EMAIL,name = "",description = "")
+    @RouterAttribute(id=RouterName.A_ADD_EMAIL,name = "",description = "")
     @PostMapping("/addEmail")
     public ResponseEntity addEmail(int id,String email){
         return MyResponse.ok();
     }
-    @RouterAttribute(id=MyRouter.A_ADD_PHONE,name = "",description = "")
+    @RouterAttribute(id=RouterName.A_ADD_PHONE,name = "",description = "")
     @PostMapping("/addPhoneNo")
     public ResponseEntity addPhoneNo(int id,String phoneNo){
         return MyResponse.ok();
     }
-    @RouterAttribute(id=MyRouter.A_UPDATE_EMAIL,name = "",description = "")
+    @RouterAttribute(id=RouterName.A_UPDATE_EMAIL,name = "",description = "")
     @PutMapping("/updateEmail")
     public ResponseEntity updateEmail(int id,String email){
         return MyResponse.ok();
     }
-    @RouterAttribute(id=MyRouter.A_UPDATE_PHONE,name = "",description = "")
+    @RouterAttribute(id=RouterName.A_UPDATE_PHONE,name = "",description = "")
     @PutMapping("/updatePhoneNo")
     public ResponseEntity updatePhoneNo(int id,String phoneNo){
         return MyResponse.ok();

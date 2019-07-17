@@ -3,6 +3,7 @@ package com.kyle.user.service;
 import javax.annotation.Resource;
 
 import com.kyle.mycommon.response.ResultData;
+import com.kyle.mycommon.util.MD5Utils;
 import org.springframework.stereotype.Service;
 import com.kyle.user.entity.UserInfo;
 import com.kyle.user.mapper.UserInfoMapper;
@@ -16,6 +17,31 @@ import java.util.List;
 public class UserInfoService {
     @Resource
     private UserInfoMapper userInfoMapper;
+
+
+    public ResultData logonWithPhone(String userName,String password){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setPhone(userName);
+        List<UserInfo> userInfos = userInfoMapper.baseSelectByCondition(userInfo,null,null);
+        if(userInfos != null && userInfos.size() > 0){
+            if(MD5Utils.checkQual(password,userInfos.get(0).getPassword())){
+                ResultData.success(userInfos.get(0).getId());
+            }
+        }
+        return ResultData.error("账号密码错误");
+    }
+
+    public ResultData logonWithEmail(String email,String password){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setEmail(email);
+        List<UserInfo> userInfos = userInfoMapper.baseSelectByCondition(userInfo,null,null);
+        if(userInfos != null && userInfos.size() > 0){
+            if(MD5Utils.checkQual(password,userInfos.get(0).getPassword())){
+                ResultData.success(userInfos.get(0).getId());
+            }
+        }
+        return ResultData.error("账号密码错误");
+    }
 
     public ResultData insert(){
         UserInfo userInfo = new UserInfo();

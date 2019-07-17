@@ -1,6 +1,9 @@
 package com.kyle.ingateway.controller;
 
+import com.kyle.mycommon.config.RouterName;
+import com.kyle.mycommon.config.ServiceName;
 import com.kyle.mycommon.response.MyResponse;
+import com.kyle.mycommon.response.MyResponseReader;
 import com.kyle.mycommon.response.ResultData;
 import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.QueuesNames;
@@ -10,6 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +23,8 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author yangkaile
@@ -36,40 +43,58 @@ public class BaseController {
     private AmqpTemplate rabbitTemplate;
 
     @Autowired
+    private LoadBalancerClient loadBalancer;
+
+    @Autowired
     private HttpServletRequest request;
 
     /**
-     * 统一的登录接口
-     * @param userName  用户名、手机号或邮箱
+     * 账号密码登录
+     * 去User组件验证账号密码，验证通过后保存用户登录状态
+     * @param userName  手机号或邮箱
      * @param password  密码
      * @return
      */
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public ResponseEntity login(String userName, String password){
-        Console.print("login",userName,password);
-        return MyResponse.ok();
+    @RequestMapping(value = "/logon",method = RequestMethod.POST)
+    public ResponseEntity logon(String userName, String password){
+        Console.print("logon",userName,password);
+        if(StringUtils.isEmpty(userName,password) || ValidUserName.notPhoneOrEmail(userName)){
+            return MyResponse.badRequest();
+        }
+
+        ServiceInstance serviceInstance = loadBalancer.choose(ServiceName.USER);
+
+        Map<String, String> map = new HashMap<>(16);
+        map.put("userName", userName);
+        map.put("password",password);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(
+                serviceInstance.getUri().toString() + RouterName.A_LOGON,null,String.class,map);
+        if(!MyResponseReader.isSuccess(responseEntity)){
+            return MyResponse.badRequest();
+        }
+
+        return responseEntity;
     }
 
     /**
      * 注册接口
-     * @param userName  用户名
-     * @param password  密码
-     * @param verificationCode  验证码
+     * @param userName  手机号或邮箱
+     * @param code  验证码
      * @return
      */
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public ResponseEntity register(String userName,String password,String verificationCode){
-        Console.print("login",userName,password,verificationCode);
+    @RequestMapping(value = "/logonWithVCode",method = RequestMethod.POST)
+    public ResponseEntity logonWithVCode(String userName,String code){
+        Console.print("login",userName,code);
         return  MyResponse.ok();
     }
 
     /**
-     *
-     * @param userName
+     * 发送验证码
+     * @param userName 手机号或邮箱
      * @return
      */
-    @RequestMapping(value = "/sendVerificationCode",method = RequestMethod.GET)
-    public ResponseEntity sendVerificationCode(String userName){
+    @RequestMapping(value = "/sendVCode",method = RequestMethod.GET)
+    public ResponseEntity sendVCode(String userName){
         Console.print("sendVCode",userName);
         if(StringUtils.isEmpty(userName)){
             return MyResponse.badRequest();
@@ -89,22 +114,5 @@ public class BaseController {
 
 
 
-    /**
-     * 根据组件返回的错误码重组应答报文
-     * @param exception
-     * @return
-     */
-    public static ResponseEntity getResponseFromException(HttpClientErrorException exception){
-        ResponseEntity response;
-        switch (exception.getStatusCode()){
-            case FORBIDDEN:  response = MyResponse.forbidden(); break;
-            case BAD_REQUEST: response = MyResponse.badRequest();break;
-            case UNAUTHORIZED: response = MyResponse.unauthorized();break;
-            default:{
-                ResultData resultData = ResultData.error("未知错误");
-                response = ResponseEntity.status(exception.getStatusCode()).contentType(MediaType.APPLICATION_JSON).body(resultData);
-            }
-        }
-        return  response;
-    }
+
 }

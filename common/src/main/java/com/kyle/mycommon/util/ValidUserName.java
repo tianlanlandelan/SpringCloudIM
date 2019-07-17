@@ -37,6 +37,14 @@ public class ValidUserName {
 
     }
 
+    public static boolean notPhoneOrEmail(String userName){
+        return !isEmail(userName) && !isPhoneNo(userName);
+    }
+
+    public static boolean isPhoneOrEmail(String userName){
+        return isEmail(userName) || isPhoneNo(userName);
+    }
+
     /**
      * 允许A-Z a-z 0-9 + - . @
      * @param userName
@@ -47,6 +55,10 @@ public class ValidUserName {
         Matcher matcher = pattern.matcher(userName);
         return matcher.matches();
 
+    }
+
+    public static void main(String[] args){
+        Console.print("",notPhoneOrEmail("guyexing@cc.com"));
     }
 
 
