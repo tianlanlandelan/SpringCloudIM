@@ -1,7 +1,6 @@
 package com.kyle.mycommon.mybatis.provider;
 
-import com.kyle.mycommon.entity.Router;
-import com.kyle.mycommon.util.Console;
+import com.kyle.mycommon.mybatis.BaseEntity;
 import com.kyle.mycommon.util.StringUtils;
 
 import java.util.Map;
@@ -70,15 +69,15 @@ public class BaseSelectProvider {
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 传入对象中带@SortAttribute注解的字段作为排序字段
      * @param entity 实体对象
-     * @param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
-     * @param asc 排序方式  null:不指定排序方式  true:按指定排序字段升序   false:按指定排序字段降序
+     * param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
+     * param asc 排序方式  null:不指定排序方式  true:按指定排序字段升序   false:按指定排序字段降序
      * @param <T> 实体类型
      * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}  ORDER BY createTime ASC
      */
-    public static <T> String selectByCondition(T entity,Boolean and,Boolean asc){
+    public static <T extends BaseEntity> String selectByCondition(T entity){
         return   getSelectPrefix(entity.getClass())
-                + ProviderUtil.getConditionSuffix(entity,and)
-                + ProviderUtil.getSortSuffix(entity,asc);
+                + ProviderUtil.getConditionSuffix(entity)
+                + ProviderUtil.getSortSuffix(entity);
     }
 
     /**
@@ -95,39 +94,39 @@ public class BaseSelectProvider {
      * 根据条件查询记录总数
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * @param entity
-     * @param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
+     * param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
      * @param <T>
      * @return SELECT COUNT(1) FROM router WHERE name = #{name} AND serviceName = #{serviceName}
      */
-    public static <T> String selectCountByCondition(T entity,Boolean and){
-        return selectCount(entity) + ProviderUtil.getConditionSuffix(entity,and);
+    public static <T extends BaseEntity> String selectCountByCondition(T entity){
+        return selectCount(entity) + ProviderUtil.getConditionSuffix(entity);
     }
 
     /**
      * 不加条件的分页查询
      * @param entity 实体对象
-     * @param startRows 起始行
-     * @param pageSize 查询页大小
+     * param startRows 起始行
+     * param pageSize 查询页大小
      * @param <T> 实体类型
      * @return  SELECT id,name... FROM router  LIMIT #{startRows},#{pageSize}
      */
-    public static <T> String selectPageList(T entity,int startRows,int pageSize){
-        return selectAll(entity) + " LIMIT #{startRows},#{pageSize}";
+    public static <T extends BaseEntity> String selectPageList(T entity){
+        return selectAll(entity) + " LIMIT #{baseKyleStartRows},#{baseKylePageSize}";
     }
 
     /**
      * 加条件的分页查询
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * @param entity
-     * @param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
-     * @param asc 排序方式  null:不指定排序方式  true:按指定排序字段升序   false:按指定排序字段降序
-     * @param startRows 起始行数
-     * @param pageSize 查询条数
+     * param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
+     * param asc 排序方式  null:不指定排序方式  true:按指定排序字段升序   false:按指定排序字段降序
+     * param startRows 起始行数
+     * param pageSize 查询条数
      * @param <T>
      * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}  ORDER BY createTime ASC LIMIT #{startRows},#{pageSize}
      */
-    public static <T> String selectPageListByCondition(T entity,Boolean and,Boolean asc,int startRows,int pageSize){
-        return selectByCondition(entity,and,asc) + " LIMIT #{startRows},#{pageSize}";
+    public static <T extends BaseEntity> String selectPageListByCondition(T entity){
+        return selectByCondition(entity) + " LIMIT #{startRows},#{pageSize}";
     }
 
     /**
@@ -147,15 +146,6 @@ public class BaseSelectProvider {
     }
 
     public static void main(String[] args){
-        Router router = new Router();
-        router.setName("routerName");
-        router.setServiceName("Cdd");
-        Console.print("selectById",selectById(router));
-        Console.print("selectByCondition",selectByCondition(router,true,null));
-        Console.print("selectCount",selectCount(router));
-        Console.print("selectCountByCondition",selectCountByCondition(router,true));
-        Console.print("selectPageList",selectPageList(router,1,10));
-        Console.print("selectPageListByCondition",selectPageListByCondition(router,true, true,1,10));
 
 
     }

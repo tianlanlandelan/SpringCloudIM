@@ -1,11 +1,12 @@
 package com.kyle.mycommon.mybatis.provider;
 
-import com.kyle.mycommon.entity.Router;
+
+
+import com.kyle.mycommon.mybatis.BaseEntity;
 import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
 import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
 import com.kyle.mycommon.mybatis.annotation.SortAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
-import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.StringUtils;
 
 import java.lang.reflect.Field;
@@ -64,16 +65,15 @@ public class ProviderUtil {
      * 根据索引字段生成查询条件
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * @param entity 实体对象
-     * @param isAnd 是否用AND连接
      * @param <T> 实体类型
      * @return WHERE name = #{name} OR controllerName = #{controllerName}
      */
-    public static <T> String getConditionSuffix(T entity, Boolean isAnd){
+    public static <T extends BaseEntity> String getConditionSuffix(T entity){
         String condition;
-        if(isAnd == null){
+        if(entity.getBaseKyleUseAnd() == null){
             return "";
         }
-        if(isAnd){
+        if(entity.getBaseKyleUseAnd()){
             condition = "AND";
         }else {
             condition = "OR";
@@ -108,16 +108,15 @@ public class ProviderUtil {
     /**
      *
      * @param entity
-     * @param isAsc
      * @param <T>
      * @return
      */
-    public static <T> String getSortSuffix(T entity,Boolean isAsc){
+    public static <T extends BaseEntity> String getSortSuffix(T entity){
         String condition;
-        if(isAsc == null){
+        if(entity.getBaseKyleUseASC() == null){
             return "";
         }
-        if(isAsc){
+        if(entity.getBaseKyleUseASC()){
             condition = "ASC";
         }else {
             condition = "DESC";
@@ -196,9 +195,6 @@ public class ProviderUtil {
     }
 
     public static void main(String[] args){
-        Router router = new Router();
-        router.setName("routerName");
-        router.setControllerName("Cdd");
-        Console.print("selectById", getConditionSuffix(router,false));
+
     }
 }

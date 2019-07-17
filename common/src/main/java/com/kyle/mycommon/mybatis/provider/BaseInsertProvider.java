@@ -1,7 +1,6 @@
 package com.kyle.mycommon.mybatis.provider;
 
-import com.kyle.mycommon.entity.Router;
-import com.kyle.mycommon.util.Console;
+
 import com.kyle.mycommon.util.StringUtils;
 
 import java.util.Map;
@@ -15,6 +14,8 @@ public class BaseInsertProvider {
      * 缓存insert语句
      */
     public static Map<String,String> insertMap = new ConcurrentHashMap<>(16);
+
+    public static Map<String,String> insertAndReturnKeyMap = new ConcurrentHashMap<>(16);
 
     /**
      * 基础的添加语句
@@ -50,11 +51,49 @@ public class BaseInsertProvider {
         return sql;
     }
 
+    public static <T> String insertAndReturnKey(T entity) {
+        Class cls = entity.getClass();
+        String className = cls.getName();
+
+        if(StringUtils.isNotEmpty(insertAndReturnKeyMap.get(className))){
+            return insertAndReturnKeyMap.get(className);
+        }
+        String fieldStr = ProviderUtil.getFieldStr(cls);
+        String[] arrays = fieldStr.split(",");
+
+        StringBuilder builder = new StringBuilder();
+
+        StringBuilder valuesStr = new StringBuilder();
+
+        builder.append("INSERT INTO ")
+                .append(ProviderUtil.getTableName(cls)).append(" ")
+                .append("(");
+        for(String str:arrays){
+            if("id".equals(str)){
+                continue;
+            }
+            valuesStr.append(str).append(",");
+        }
+        builder.append(valuesStr.substring(0,valuesStr.length() - 1));
+
+        builder.append(") ").append("VALUES(");
+
+        valuesStr = new StringBuilder();
+        for(String str:arrays){
+            if("id".equals(str)){
+                continue;
+            }
+            valuesStr.append("#{").append(str).append("}").append(",");
+        }
+        builder.append(valuesStr.substring(0,valuesStr.length() - 1))
+                .append(") ");
+        String sql = builder.toString();
+        insertMap.put(className,sql);
+        return sql;
+    }
+
 
     public static void main(String[] args){
-        Router router = new Router();
-        router.setName("routerName");
-        router.setControllerName("Cdd");
-        Console.print("selectById",insert(router));
+
     }
 }

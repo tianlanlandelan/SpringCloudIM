@@ -1,9 +1,5 @@
 package com.kyle.mycommon.mybatis.provider;
 
-import com.kyle.mycommon.entity.Router;
-import com.kyle.mycommon.util.Console;
-
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,12 +45,7 @@ public class BaseUpdateProvider {
     }
 
     public static void main(String[] args){
-        Router router = new Router();
-        router.setId("1");
-        router.setCreateTime(new Date());
-        router.setMethodName("me");
 
-        Console.print("updateById",updateById(router));
     }
 
 }

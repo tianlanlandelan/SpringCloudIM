@@ -1,7 +1,7 @@
 package com.kyle.mycommon.mybatis.provider;
 
-import com.kyle.mycommon.entity.Router;
-import com.kyle.mycommon.util.Console;
+
+import com.kyle.mycommon.mybatis.BaseEntity;
 import com.kyle.mycommon.util.StringUtils;
 
 import java.util.Map;
@@ -37,12 +37,12 @@ public class BaseDeleteProvider {
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 多个查询条件用And连接
      * @param entity 实体对象
-     * @param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
+     * param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
      * @param <T> 对象类型
      * @return DELETE FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
      */
-    public static <T> String deleteByCondition(T entity,Boolean and){
-        return getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionSuffix(entity,and);
+    public static <T extends BaseEntity> String deleteByCondition(T entity){
+        return getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionSuffix(entity);
     }
 
 
@@ -51,12 +51,7 @@ public class BaseDeleteProvider {
     }
 
     public static void main(String[] args){
-        Router router = new Router();
-        router.setId("1");
-        router.setServiceName("dd");
-        router.setName("dd");
-        Console.print("deleteById",deleteById(router));
-        Console.print("deleteByCondition",deleteByCondition(router,true));
+
     }
 
 }
