@@ -53,11 +53,10 @@ public interface BaseMapper<K> {
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
      * 多个查询条件用And连接
      * @param entity 实体对象
-     * @param and 多个查询条件组合方式 null:不指定查询条件  true:多个查询条件用AND连接  false:多个查询条件用OR连接
      * @return DELETE FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
      */
     @SelectProvider(type= BaseDeleteProvider.class,method = "deleteByCondition")
-    List<K> baseDeleteByCondition(K entity, Boolean and);
+    List<K> baseDeleteByCondition(K entity );
 
     /**
      * 根据id 更新数据，空值不更新 ，要求必须有id字段

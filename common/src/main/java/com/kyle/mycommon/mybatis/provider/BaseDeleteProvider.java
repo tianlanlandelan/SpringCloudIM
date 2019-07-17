@@ -32,6 +32,14 @@ public class BaseDeleteProvider {
         return sql;
     }
 
+    public static  <T> String deleteByKey(T entity){
+        try {
+            return getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionByKeySuffix(entity);
+        }catch (Exception e){
+            return null;
+        }
+    }
+
     /**
      * 根据条件删除，该查询为动态查询，不可缓存
      * 传入的对象中带@IndexAttribute注解的字段有值的都作为查询条件
@@ -44,7 +52,6 @@ public class BaseDeleteProvider {
     public static <T extends BaseEntity> String deleteByCondition(T entity){
         return getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionSuffix(entity);
     }
-
 
     private static String getDeletePrefix(Class cls){
         return "DELETE FROM " + ProviderUtil.getTableName(cls) + " ";

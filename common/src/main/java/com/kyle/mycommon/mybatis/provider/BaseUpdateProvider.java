@@ -1,5 +1,8 @@
 package com.kyle.mycommon.mybatis.provider;
 
+import com.kyle.mycommon.entity.Router;
+import com.kyle.mycommon.util.Console;
+
 import java.util.List;
 
 /**
@@ -14,38 +17,47 @@ public class BaseUpdateProvider {
      * @return UPDATE router SET methodName = #{methodName} ,createTime = #{createTime}
      */
     public static <T> String updateById(T entity){
+        return getUpdatePrefix(entity) + " WHERE id = #{id}";
+    }
+
+
+    public static  <T> String updateByKey(T entity){
+        try {
+            return getUpdatePrefix(entity) + ProviderUtil.getConditionByKeySuffix(entity);
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+    /**
+     * 获取更新操作的前缀部分
+     * @param entity
+     * @return UPDATE 表名 SET
+     */
+    private static <T> String getUpdatePrefix(T entity){
         Class cls = entity.getClass();
         StringBuilder builder = new StringBuilder();
-        builder.append(getUpdatePrefix(cls));
+        builder.append("UPDATE ").append(ProviderUtil.getTableName(cls)).append(" SET ");
         List<String> fields = ProviderUtil.getFields(cls);
         try{
             for(String field:fields){
-                if("id".equals(field)){
-                    continue;
-                }
                 if(ProviderUtil.hasValue(entity,field)){
                     builder.append(field).append(" = #{")
                             .append(field).append("} ").append(",");
                 }
             }
-            return builder.substring(0,builder.lastIndexOf(","));
+            return builder.substring(0,builder.lastIndexOf(",")) ;
         }catch (Exception e){
             e.printStackTrace();
         }
         return null;
     }
 
-    /**
-     * 获取更新操作的前缀部分
-     * @param cls
-     * @return UPDATE 表名 SET
-     */
-    private static String getUpdatePrefix(Class cls){
-        return "UPDATE " + ProviderUtil.getTableName(cls) + " SET ";
-    }
-
     public static void main(String[] args){
-
+        Router router = new Router();
+        router.setId("d");
+        router.setServiceName("d");
+        Console.print("",updateByKey(router));
     }
 
 }

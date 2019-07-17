@@ -1,6 +1,7 @@
 package com.kyle.mycommon.entity;
 
 import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
+import com.kyle.mycommon.mybatis.annotation.KeyAttribute;
 import com.kyle.mycommon.mybatis.annotation.SortAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 
@@ -15,6 +16,7 @@ public class Router {
     /**
      * 接口ID
      */
+    @KeyAttribute
     private String id;
     /**
      * 接口名称

@@ -1,6 +1,8 @@
 package com.kyle.mycommon.mybatis.provider;
 
+import com.kyle.mycommon.entity.Router;
 import com.kyle.mycommon.mybatis.BaseEntity;
+import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.StringUtils;
 
 import java.util.Map;
@@ -41,6 +43,14 @@ public class BaseSelectProvider {
         sql = getSelectPrefix(cls) + " WHERE id = #{id}";
         selectByIdMap.put(className,sql);
         return sql;
+    }
+
+    public static  <T> String selectByKey(T entity){
+        try {
+            return getSelectPrefix(entity.getClass()) + ProviderUtil.getConditionByKeySuffix(entity);
+        }catch (Exception e){
+            return null;
+        }
     }
 
 
@@ -146,7 +156,9 @@ public class BaseSelectProvider {
     }
 
     public static void main(String[] args){
-
+        Router router = new Router();
+        router.setId("id");
+        Console.print("",selectByKey(router));
 
     }
 

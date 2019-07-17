@@ -3,10 +3,8 @@ package com.kyle.mycommon.mybatis.provider;
 
 
 import com.kyle.mycommon.mybatis.BaseEntity;
-import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
-import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
-import com.kyle.mycommon.mybatis.annotation.SortAttribute;
-import com.kyle.mycommon.mybatis.annotation.TableAttribute;
+import com.kyle.mycommon.mybatis.BaseException;
+import com.kyle.mycommon.mybatis.annotation.*;
 import com.kyle.mycommon.util.StringUtils;
 
 import java.lang.reflect.Field;
@@ -106,6 +104,47 @@ public class ProviderUtil {
     }
 
     /**
+     * 获取主键的查询条件
+     * 传入的对象必须满足以下条件：
+     * 1. 至少有一个带有@keyAttribute注解的字段
+     * 2. 带有@KeyAttribute注解的字段必须有值
+     * 这是为了避免产生因为没有设置@KeyAttribute注解而造成全部数据修改或删除的问题
+     * @param entity
+     * @param <T>
+     * @return WHERE userId = #{userId} AND roleId = #{roleId}
+     */
+    public static <T> String getConditionByKeySuffix(T entity) throws BaseException{
+        String condition = "AND";
+        Class cls = entity.getClass();
+        Field[] fields = cls.getDeclaredFields();
+        StringBuilder builder = new StringBuilder();
+        builder.append(" WHERE ");
+        try {
+            for(Field field:fields){
+                if(field.getAnnotation(KeyAttribute.class) != null){
+                    if(ProviderUtil.hasValue(entity,field.getName())){
+                        builder.append(field.getName())
+                                .append(" = #{").append(field.getName()).append("} ")
+                                .append(condition).append(" ");
+                    }else {
+                        throw new BaseException("@KeyAttribute修饰的字段不能为空");
+                    }
+
+                }
+            }
+            int index = builder.lastIndexOf(condition);
+            if(index < 0){
+                throw new BaseException("没有找到@KeyAttribute修饰的字段");
+            }
+            return builder.substring(0,index);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new BaseException(e.getMessage());
+        }
+    }
+
+    /**
      *
      * @param entity
      * @param <T>
@@ -135,14 +174,14 @@ public class ProviderUtil {
             }
             int index = builder.lastIndexOf(",");
             if(index < 0){
-                return null;
+                return "";
             }
             return builder.substring(0,index);
 
         }catch (Exception e){
             e.printStackTrace();
         }
-        return null;
+        return "";
     }
 
     /**
