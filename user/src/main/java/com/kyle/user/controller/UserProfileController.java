@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 public class UserProfileController {
     private Logger logger = LoggerFactory.getLogger(UserInfoController.class);
 
-    @RouterAttribute(id=RouterName.A_SET_USER_PROFILE,name = "设置用户名片",description = "")
+    @RouterAttribute(id=RouterName.USER_SET_USER_PROFILE,name = "设置用户名片",description = "")
     @PutMapping("/setUserProfile")
     public ResponseEntity setUserProfile(){
         return MyResponse.ok();
     }
 
-    @RouterAttribute(id=RouterName.A_GET_USER_PROFILE,name = "获取用户名片",description = "")
+    @RouterAttribute(id=RouterName.USER_GET_USER_PROFILE,name = "获取用户名片",description = "")
     @GetMapping("/getUserProfile")
     public ResponseEntity getUserProfile(){
         return MyResponse.ok();

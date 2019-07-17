@@ -49,22 +49,22 @@ public class UserInfoController {
     }
 
 
-    @RouterAttribute(id=RouterName.A_ADD_EMAIL,name = "",description = "")
+    @RouterAttribute(id=RouterName.USER_ADD_EMAIL,name = "",description = "")
     @PostMapping("/addEmail")
     public ResponseEntity addEmail(int id,String email){
         return MyResponse.ok();
     }
-    @RouterAttribute(id=RouterName.A_ADD_PHONE,name = "",description = "")
+    @RouterAttribute(id=RouterName.USER_ADD_PHONE,name = "",description = "")
     @PostMapping("/addPhoneNo")
     public ResponseEntity addPhoneNo(int id,String phoneNo){
         return MyResponse.ok();
     }
-    @RouterAttribute(id=RouterName.A_UPDATE_EMAIL,name = "",description = "")
+    @RouterAttribute(id=RouterName.USER_UPDATE_EMAIL,name = "",description = "")
     @PutMapping("/updateEmail")
     public ResponseEntity updateEmail(int id,String email){
         return MyResponse.ok();
     }
-    @RouterAttribute(id=RouterName.A_UPDATE_PHONE,name = "",description = "")
+    @RouterAttribute(id=RouterName.USER_UPDATE_PHONE,name = "",description = "")
     @PutMapping("/updatePhoneNo")
     public ResponseEntity updatePhoneNo(int id,String phoneNo){
         return MyResponse.ok();

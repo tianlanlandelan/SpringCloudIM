@@ -4,7 +4,6 @@ import com.kyle.mycommon.config.RouterName;
 import com.kyle.mycommon.config.ServiceName;
 import com.kyle.mycommon.response.MyResponse;
 import com.kyle.mycommon.response.MyResponseReader;
-import com.kyle.mycommon.response.ResultData;
 import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.QueuesNames;
 import com.kyle.mycommon.util.StringUtils;
@@ -15,14 +14,11 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,7 +64,7 @@ public class BaseController {
         map.put("userName", userName);
         map.put("password",password);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(
-                serviceInstance.getUri().toString() + RouterName.A_LOGON,null,String.class,map);
+                serviceInstance.getUri().toString() + RouterName.USER_LOGON,null,String.class,map);
         if(!MyResponseReader.isSuccess(responseEntity)){
             return MyResponse.badRequest();
         }
@@ -85,7 +81,22 @@ public class BaseController {
     @RequestMapping(value = "/logonWithVCode",method = RequestMethod.POST)
     public ResponseEntity logonWithVCode(String userName,String code){
         Console.print("login",userName,code);
-        return  MyResponse.ok();
+        if(StringUtils.isEmpty(userName,code) || ValidUserName.notPhoneOrEmail(userName)){
+            return MyResponse.badRequest();
+        }
+
+        ServiceInstance serviceInstance = loadBalancer.choose(ServiceName.USER);
+
+        Map<String, String> map = new HashMap<>(16);
+        map.put("userName", userName);
+        map.put("code",code);
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(
+                serviceInstance.getUri().toString() + RouterName.USER_LOGON_WITH_VALIDATE_CODE,null,String.class,map);
+        if(!MyResponseReader.isSuccess(responseEntity)){
+            return MyResponse.badRequest();
+        }
+
+        return responseEntity;
     }
 
     /**
