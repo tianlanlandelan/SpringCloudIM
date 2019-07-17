@@ -1,5 +1,6 @@
 package com.kyle.user.entity;
 
+import com.kyle.mycommon.mybatis.BaseEntity;
 import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
 import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
@@ -11,7 +12,7 @@ import java.util.Date;
  * @date 2019-04-17 14:33:54
  */
 @TableAttribute("user_info")
-public class UserInfo {
+public class UserInfo extends BaseEntity{
     /**
     * id
     */

@@ -22,7 +22,7 @@ public class UserInfoService {
     public ResultData logonWithPhone(String userName,String password){
         UserInfo userInfo = new UserInfo();
         userInfo.setPhone(userName);
-        List<UserInfo> userInfos = userInfoMapper.baseSelectByCondition(userInfo,null,null);
+        List<UserInfo> userInfos = userInfoMapper.baseSelectByCondition(userInfo);
         if(userInfos != null && userInfos.size() > 0){
             if(MD5Utils.checkQual(password,userInfos.get(0).getPassword())){
                 ResultData.success(userInfos.get(0).getId());
@@ -34,7 +34,7 @@ public class UserInfoService {
     public ResultData logonWithEmail(String email,String password){
         UserInfo userInfo = new UserInfo();
         userInfo.setEmail(email);
-        List<UserInfo> userInfos = userInfoMapper.baseSelectByCondition(userInfo,null,null);
+        List<UserInfo> userInfos = userInfoMapper.baseSelectByCondition(userInfo);
         if(userInfos != null && userInfos.size() > 0){
             if(MD5Utils.checkQual(password,userInfos.get(0).getPassword())){
                 ResultData.success(userInfos.get(0).getId());
@@ -61,7 +61,7 @@ public class UserInfoService {
     public ResultData deleteByPhone(String phone){
         UserInfo userInfo = new UserInfo();
         userInfo.setPhone(phone);
-        return ResultData.success(userInfoMapper.baseDeleteByCondition(userInfo,true));
+        return ResultData.success(userInfoMapper.baseDeleteByCondition(userInfo));
     }
 
     public ResultData getById(int id){
@@ -78,7 +78,7 @@ public class UserInfoService {
     public ResultData getByPhone(String phone){
         UserInfo userInfo = new UserInfo();
         userInfo.setPhone(phone);
-        List<UserInfo> list = userInfoMapper.baseSelectByCondition(userInfo,false,null);
+        List<UserInfo> list = userInfoMapper.baseSelectByCondition(userInfo);
         return ResultData.success(list);
     }
 
