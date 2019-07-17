@@ -45,6 +45,12 @@ public class BaseSelectProvider {
         return sql;
     }
 
+    /**
+     * 根据主键查询数据，要求至少有一个主键，且主键必须有值
+     * @param entity
+     * @param <T>
+     * @return
+     */
     public static  <T> String selectByKey(T entity){
         try {
             return getSelectPrefix(entity.getClass()) + ProviderUtil.getConditionByKeySuffix(entity);

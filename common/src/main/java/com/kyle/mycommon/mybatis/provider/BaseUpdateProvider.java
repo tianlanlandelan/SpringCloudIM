@@ -14,13 +14,18 @@ public class BaseUpdateProvider {
      * 根据id 更新数据，空值不更新 ，要求数据有id字段
      * @param entity
      * @param <T>
-     * @return UPDATE router SET methodName = #{methodName} ,createTime = #{createTime}
+     * @return UPDATE router SET methodName = #{methodName} ,createTime = #{createTime} WHERE id = #{id}
      */
     public static <T> String updateById(T entity){
         return getUpdatePrefix(entity) + " WHERE id = #{id}";
     }
 
-
+    /**
+     * 根据主键更新数据，空值不更新，要求数据至少有一个主键，且主键有值
+     * @param entity
+     * @param <T>
+     * @return
+     */
     public static  <T> String updateByKey(T entity){
         try {
             return getUpdatePrefix(entity) + ProviderUtil.getConditionByKeySuffix(entity);

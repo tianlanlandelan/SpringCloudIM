@@ -66,6 +66,15 @@ public interface BaseMapper<K> {
     @UpdateProvider(type = BaseUpdateProvider.class,method = "updateById")
     Integer baseUpdateById(K entity);
 
+    /**
+     * 根据主键更新数据，空值不更新，要求数据至少有一个主键，且主键有值
+     * @param entity
+     * @return
+     */
+    @UpdateProvider(type = BaseUpdateProvider.class,method = "updateByKey")
+    Integer baseUpdateByKey(K entity);
+
+
 
     /**
      * 根据Id 查找数据，要求必须有id 字段
@@ -74,6 +83,16 @@ public interface BaseMapper<K> {
      */
     @SelectProvider(type= BaseSelectProvider.class,method = "selectById")
     K baseSelectById(K entity);
+
+    /**
+     * 根据主键查询数据，要求至少有一个主键，且主键必须有值
+     * @param entity
+     * @return
+     */
+    @SelectProvider(type= BaseSelectProvider.class,method = "selectByKey")
+    K baseSelectByKey(K entity);
+
+
 
     /**
      * 查询全部数据
