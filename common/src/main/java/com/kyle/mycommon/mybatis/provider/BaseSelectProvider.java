@@ -106,7 +106,9 @@ public class BaseSelectProvider {
      * @return SELECT COUNT(1) FROM router
      */
     public static <T> String selectCount(T entity){
-        return "SELECT COUNT(1) FROM " + ProviderUtil.getTableName(entity.getClass());
+        String sql = "SELECT COUNT(1) FROM " + ProviderUtil.getTableName(entity.getClass());
+        Console.info("selectCount",sql,entity);
+        return sql;
     }
 
     /**
@@ -118,7 +120,9 @@ public class BaseSelectProvider {
      * @return SELECT COUNT(1) FROM router WHERE name = #{name} AND serviceName = #{serviceName}
      */
     public static <T extends BaseEntity> String selectCountByCondition(T entity){
-        return selectCount(entity) + ProviderUtil.getConditionSuffix(entity);
+        String sql = selectCount(entity) + ProviderUtil.getConditionSuffix(entity);
+        Console.info("selectCountByCondition",sql,entity);
+        return sql;
     }
 
     /**
@@ -130,7 +134,9 @@ public class BaseSelectProvider {
      * @return  SELECT id,name... FROM router  LIMIT #{startRows},#{pageSize}
      */
     public static <T extends BaseEntity> String selectPageList(T entity){
-        return selectAll(entity) + " LIMIT #{baseKyleStartRows},#{baseKylePageSize}";
+        String sql = selectAll(entity) + " LIMIT #{baseKyleStartRows},#{baseKylePageSize}";
+        Console.info("selectPageList",sql,entity);
+        return sql;
     }
 
     /**
@@ -145,7 +151,9 @@ public class BaseSelectProvider {
      * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}  ORDER BY createTime ASC LIMIT #{startRows},#{pageSize}
      */
     public static <T extends BaseEntity> String selectPageListByCondition(T entity){
-        return selectByCondition(entity) + " LIMIT #{startRows},#{pageSize}";
+        String sql = selectByCondition(entity) + " LIMIT #{startRows},#{pageSize}";
+        Console.info("selectPageListByCondition",sql,entity);
+        return sql;
     }
 
     /**

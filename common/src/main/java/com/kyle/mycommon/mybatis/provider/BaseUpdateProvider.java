@@ -1,9 +1,12 @@
 package com.kyle.mycommon.mybatis.provider;
 
+import com.kyle.mycommon.util.Console;
+
 import java.util.List;
 
 /**
- * Created by yangkaile on 2019/7/12.
+ * @author yangkaile
+ * @date 2019-07-18 14:27:30
  */
 public class BaseUpdateProvider {
 
@@ -14,7 +17,9 @@ public class BaseUpdateProvider {
      * @return UPDATE router SET methodName = #{methodName} ,createTime = #{createTime} WHERE id = #{id}
      */
     public static <T> String updateById(T entity){
-        return getUpdatePrefix(entity) + " WHERE id = #{id}";
+        String sql = getUpdatePrefix(entity) + " WHERE id = #{id}";
+        Console.info("updateById",sql,entity);
+        return sql;
     }
 
     /**
@@ -25,7 +30,9 @@ public class BaseUpdateProvider {
      */
     public static  <T> String updateByKey(T entity){
         try {
-            return getUpdatePrefix(entity) + ProviderUtil.getConditionByKeySuffix(entity);
+            String sql = getUpdatePrefix(entity) + ProviderUtil.getConditionByKeySuffix(entity);
+            Console.info("updateByKey",sql,entity);
+            return sql;
         }catch (Exception e){
             return null;
         }
