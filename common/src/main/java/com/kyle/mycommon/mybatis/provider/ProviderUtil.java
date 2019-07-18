@@ -113,7 +113,7 @@ public class ProviderUtil {
      * @param <T>
      * @return WHERE userId = #{userId} AND roleId = #{roleId}
      */
-    public static <T> String getConditionByKeySuffix(T entity) throws BaseException{
+    public static <T> String getConditionByKeySuffix(T entity) throws BaseException {
         String condition = "AND";
         Class cls = entity.getClass();
         Field[] fields = cls.getDeclaredFields();

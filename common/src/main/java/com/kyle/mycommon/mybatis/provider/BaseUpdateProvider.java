@@ -1,8 +1,5 @@
 package com.kyle.mycommon.mybatis.provider;
 
-import com.kyle.mycommon.entity.Router;
-import com.kyle.mycommon.util.Console;
-
 import java.util.List;
 
 /**
@@ -59,10 +56,7 @@ public class BaseUpdateProvider {
     }
 
     public static void main(String[] args){
-        Router router = new Router();
-        router.setId("d");
-        router.setServiceName("d");
-        Console.print("",updateByKey(router));
+
     }
 
 }

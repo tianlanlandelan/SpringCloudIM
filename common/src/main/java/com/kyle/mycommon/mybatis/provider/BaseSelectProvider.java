@@ -1,6 +1,5 @@
 package com.kyle.mycommon.mybatis.provider;
 
-import com.kyle.mycommon.entity.Router;
 import com.kyle.mycommon.mybatis.BaseEntity;
 import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.StringUtils;
@@ -37,11 +36,11 @@ public class BaseSelectProvider {
         Class cls = entity.getClass();
         String className = cls.getName();
         String sql = selectByIdMap.get(className);
-        if(StringUtils.isNotEmpty(sql)){
-            return sql;
+        if(StringUtils.isEmpty(sql)){
+            sql = getSelectPrefix(cls) + " WHERE id = #{id}";
+            selectByIdMap.put(className,sql);
         }
-        sql = getSelectPrefix(cls) + " WHERE id = #{id}";
-        selectByIdMap.put(className,sql);
+        Console.info("selectById",sql,entity);
         return sql;
     }
 
@@ -53,7 +52,9 @@ public class BaseSelectProvider {
      */
     public static  <T> String selectByKey(T entity){
         try {
-            return getSelectPrefix(entity.getClass()) + ProviderUtil.getConditionByKeySuffix(entity);
+            String sql = getSelectPrefix(entity.getClass()) + ProviderUtil.getConditionByKeySuffix(entity);
+            Console.info("selectByKey",sql,entity);
+            return sql;
         }catch (Exception e){
             return null;
         }
@@ -70,11 +71,11 @@ public class BaseSelectProvider {
         Class cls = entity.getClass();
         String className = cls.getName();
         String sql = selectAllMap.get(className);
-        if(StringUtils.isNotEmpty(sql)){
-            return sql;
+        if(StringUtils.isEmpty(sql)){
+            sql = getSelectPrefix(cls);
+            selectAllMap.put(className,sql);
         }
-        sql = getSelectPrefix(cls);
-        selectAllMap.put(className,sql);
+        Console.info("selectAll",sql,entity);
         return sql;
     }
 
@@ -91,9 +92,11 @@ public class BaseSelectProvider {
      * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}  ORDER BY createTime ASC
      */
     public static <T extends BaseEntity> String selectByCondition(T entity){
-        return   getSelectPrefix(entity.getClass())
+        String sql = getSelectPrefix(entity.getClass())
                 + ProviderUtil.getConditionSuffix(entity)
                 + ProviderUtil.getSortSuffix(entity);
+        Console.info("selectByCondition",sql,entity);
+        return  sql;
     }
 
     /**
@@ -162,9 +165,6 @@ public class BaseSelectProvider {
     }
 
     public static void main(String[] args){
-        Router router = new Router();
-        router.setId("id");
-        Console.print("",selectByKey(router));
 
     }
 

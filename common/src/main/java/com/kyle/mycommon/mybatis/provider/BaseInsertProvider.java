@@ -1,6 +1,7 @@
 package com.kyle.mycommon.mybatis.provider;
 
 
+import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.StringUtils;
 
 import java.util.Map;
@@ -27,68 +28,68 @@ public class BaseInsertProvider {
     public static <T> String insert(T entity) {
         Class cls = entity.getClass();
         String className = cls.getName();
+        String sql = insertMap.get(className);
+        if(StringUtils.isEmpty(sql)){
+            String fieldStr = ProviderUtil.getFieldStr(cls);
 
-        if(StringUtils.isNotEmpty(insertMap.get(className))){
-            return insertMap.get(className);
+            StringBuilder builder = new StringBuilder();
+            builder.append("INSERT INTO ")
+                    .append(ProviderUtil.getTableName(cls)).append(" ")
+                    .append("(").append(fieldStr).append(") ")
+                    .append("VALUES(");
+
+            StringBuilder valuesStr = new StringBuilder();
+            String[] arrays = fieldStr.split(",");
+            for(String str:arrays){
+                valuesStr.append("#{").append(str).append("}").append(",");
+            }
+            builder.append(valuesStr.substring(0,valuesStr.length() - 1))
+                    .append(") ");
+            sql = builder.toString();
+            insertMap.put(className,sql);
         }
-        String fieldStr = ProviderUtil.getFieldStr(cls);
-
-        StringBuilder builder = new StringBuilder();
-        builder.append("INSERT INTO ")
-                .append(ProviderUtil.getTableName(cls)).append(" ")
-                .append("(").append(fieldStr).append(") ")
-                .append("VALUES(");
-
-        StringBuilder valuesStr = new StringBuilder();
-        String[] arrays = fieldStr.split(",");
-        for(String str:arrays){
-            valuesStr.append("#{").append(str).append("}").append(",");
-        }
-        builder.append(valuesStr.substring(0,valuesStr.length() - 1))
-                .append(") ");
-        String sql = builder.toString();
-        insertMap.put(className,sql);
+        Console.info("insert",sql,entity);
         return sql;
     }
 
     public static <T> String insertAndReturnKey(T entity) {
         Class cls = entity.getClass();
         String className = cls.getName();
+        String sql = insertAndReturnKeyMap.get(className);
+        if(StringUtils.isEmpty(sql)){
+            String fieldStr = ProviderUtil.getFieldStr(cls);
+            String[] arrays = fieldStr.split(",");
 
-        if(StringUtils.isNotEmpty(insertAndReturnKeyMap.get(className))){
-            return insertAndReturnKeyMap.get(className);
-        }
-        String fieldStr = ProviderUtil.getFieldStr(cls);
-        String[] arrays = fieldStr.split(",");
+            StringBuilder builder = new StringBuilder();
 
-        StringBuilder builder = new StringBuilder();
+            StringBuilder valuesStr = new StringBuilder();
 
-        StringBuilder valuesStr = new StringBuilder();
-
-        builder.append("INSERT INTO ")
-                .append(ProviderUtil.getTableName(cls)).append(" ")
-                .append("(");
-        for(String str:arrays){
-            if("id".equals(str)){
-                continue;
+            builder.append("INSERT INTO ")
+                    .append(ProviderUtil.getTableName(cls)).append(" ")
+                    .append("(");
+            for(String str:arrays){
+                if("id".equals(str)){
+                    continue;
+                }
+                valuesStr.append(str).append(",");
             }
-            valuesStr.append(str).append(",");
-        }
-        builder.append(valuesStr.substring(0,valuesStr.length() - 1));
+            builder.append(valuesStr.substring(0,valuesStr.length() - 1));
 
-        builder.append(") ").append("VALUES(");
+            builder.append(") ").append("VALUES(");
 
-        valuesStr = new StringBuilder();
-        for(String str:arrays){
-            if("id".equals(str)){
-                continue;
+            valuesStr = new StringBuilder();
+            for(String str:arrays){
+                if("id".equals(str)){
+                    continue;
+                }
+                valuesStr.append("#{").append(str).append("}").append(",");
             }
-            valuesStr.append("#{").append(str).append("}").append(",");
+            builder.append(valuesStr.substring(0,valuesStr.length() - 1))
+                    .append(") ");
+            sql = builder.toString();
+            insertAndReturnKeyMap.put(className,sql);
         }
-        builder.append(valuesStr.substring(0,valuesStr.length() - 1))
-                .append(") ");
-        String sql = builder.toString();
-        insertMap.put(className,sql);
+        Console.info("insertAndReturnKey",sql,entity);
         return sql;
     }
 

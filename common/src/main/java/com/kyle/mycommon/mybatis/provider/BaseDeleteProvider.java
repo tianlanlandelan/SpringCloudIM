@@ -2,13 +2,15 @@ package com.kyle.mycommon.mybatis.provider;
 
 
 import com.kyle.mycommon.mybatis.BaseEntity;
+import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.StringUtils;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by yangkaile on 2019/7/12.
+ * @author yangkaile
+ * @date 2019-07-18 09:56:43
  */
 public class BaseDeleteProvider {
 
@@ -24,17 +26,19 @@ public class BaseDeleteProvider {
         Class cls = entity.getClass();
         String className = cls.getName();
         String sql = deleteByIdMap.get(className);
-        if(StringUtils.isNotEmpty(sql)){
-            return sql;
+        if(StringUtils.isEmpty(sql)){
+            sql = getDeletePrefix(cls) + " WHERE id = #{id} ";
+            deleteByIdMap.put(className,sql);
         }
-        sql = getDeletePrefix(cls) + " WHERE id = #{id} ";
-        deleteByIdMap.put(className,sql);
+        Console.info("deleteById",sql,entity);
         return sql;
     }
 
     public static  <T> String deleteByKey(T entity){
         try {
-            return getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionByKeySuffix(entity);
+            String sql =  getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionByKeySuffix(entity);
+            Console.info("deleteByKey",sql,entity);
+            return sql;
         }catch (Exception e){
             return null;
         }
@@ -50,7 +54,9 @@ public class BaseDeleteProvider {
      * @return DELETE FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
      */
     public static <T extends BaseEntity> String deleteByCondition(T entity){
-        return getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionSuffix(entity);
+        String sql = getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionSuffix(entity);
+        Console.info("deleteByCondition",sql,entity);
+        return sql;
     }
 
     private static String getDeletePrefix(Class cls){
