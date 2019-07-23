@@ -2,8 +2,12 @@ package com.kyle.user.service;
 
 import javax.annotation.Resource;
 
+import com.kyle.mycommon.entity.LogonLog;
 import com.kyle.mycommon.response.ResultData;
 import com.kyle.mycommon.util.MD5Utils;
+import com.kyle.mycommon.util.QueuesNames;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.kyle.user.entity.UserInfo;
 import com.kyle.user.mapper.UserInfoMapper;
@@ -18,13 +22,26 @@ public class UserInfoService {
     @Resource
     private UserInfoMapper userInfoMapper;
 
+    @Autowired
+    private AmqpTemplate rabbitTemplate;
 
+    /**
+     * 手机号登录
+     * 验证手机号密码是否正确，验证通过后返回OK，并记录登录日志
+     * @param userName
+     * @param password
+     * @return
+     */
     public ResultData logonWithPhone(String userName,String password){
         UserInfo userInfo = new UserInfo();
         userInfo.setPhone(userName);
         List<UserInfo> userInfos = userInfoMapper.baseSelectByCondition(userInfo);
         if(userInfos != null && userInfos.size() > 0){
             if(MD5Utils.checkQual(password,userInfos.get(0).getPassword())){
+                //记录登录日志
+                LogonLog logonLog = new LogonLog();
+                logonLog.setPhone(userName);
+                rabbitTemplate.convertAndSend(QueuesNames.SAVE_LOGON_LOG,logonLog);
                 ResultData.success(userInfos.get(0).getId());
             }
         }

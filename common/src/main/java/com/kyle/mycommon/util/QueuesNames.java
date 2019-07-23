@@ -21,7 +21,10 @@ public class QueuesNames {
      */
     public final static String SAVE_SMS_VERIFICATION_CODE = "SAVE_SMS_VERIFICATION_CODE";
 
-
+    /**
+     * 保存登录日志
+     */
+    public final static String SAVE_LOGON_LOG = "SAVE_LOGON_LOG";
 
 
     /**

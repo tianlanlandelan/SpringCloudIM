@@ -25,13 +25,25 @@ public class LogonController {
     @Resource
     private UserInfoService userInfoService;
 
+    /**
+     *  验证码登录
+     * @param userName
+     * @param code
+     * @return
+     */
     @RouterAttribute(id=RouterName.USER_LOGON_WITH_VALIDATE_CODE,name = "验证码登录接口",description = "发现手机号或邮箱没有注册时自动注册")
     @PostMapping(value = RouterName.USER_LOGON_WITH_VALIDATE_CODE)
-    public ResponseEntity register(String userName,String code){
+    public ResponseEntity logonWithCode(String userName,String code){
 
         return MyResponse.ok();
     }
 
+    /**
+     * 账号密码登录
+     * @param userName
+     * @param password
+     * @return
+     */
     @RouterAttribute(id=RouterName.USER_LOGON,name = "登录",description = "")
     @PostMapping(value = RouterName.USER_LOGON)
     public ResponseEntity logon(String userName,String password){

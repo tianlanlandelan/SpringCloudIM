@@ -1,7 +1,9 @@
 package com.kyle.log.controller;
 
-import com.kyle.mycommon.entity.EmailEntity;
-import com.kyle.mycommon.entity.SMSEntity;
+
+import com.kyle.mycommon.entity.Email;
+import com.kyle.mycommon.entity.LogonLog;
+import com.kyle.mycommon.entity.SMS;
 import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.JsonUtils;
 import com.kyle.mycommon.util.QueuesNames;
@@ -20,7 +22,7 @@ public class RabbitMQHandler {
     @RabbitListener(queues = QueuesNames.SAVE_SMS_VERIFICATION_CODE)
     public void saveSMSVerificationCode(String content){
         logger.info("saveSMSVerificationCode",content);
-        SMSEntity entity = JsonUtils.parseObject(content,SMSEntity.class);
+        SMS entity = JsonUtils.parseObject(content,SMS.class);
 
     }
 
@@ -31,6 +33,10 @@ public class RabbitMQHandler {
     @RabbitListener(queues = QueuesNames.SAVE_EMAIL_VERIFICATION_CODE)
     public void saveEmailVerificationCode(String content){
         logger.info("saveEmailVerificationCode",content);
-        EmailEntity entity = JsonUtils.parseObject(content,EmailEntity.class);
+        Email entity = JsonUtils.parseObject(content,Email.class);
+    }
+    @RabbitListener(queues = QueuesNames.SAVE_LOGON_LOG)
+    public void saveLogonLog(LogonLog logonLog){
+        Console.info("saveLogonLog",logonLog);
     }
 }
