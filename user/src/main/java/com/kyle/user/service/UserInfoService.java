@@ -28,19 +28,19 @@ public class UserInfoService {
     /**
      * 手机号登录
      * 验证手机号密码是否正确，验证通过后返回OK，并记录登录日志
-     * @param userName
+     * @param phone
      * @param password
      * @return
      */
-    public ResultData logonWithPhone(String userName,String password){
+    public ResultData logonWithPhone(String phone,String password){
         UserInfo userInfo = new UserInfo();
-        userInfo.setPhone(userName);
+        userInfo.setPhone(phone);
         List<UserInfo> userInfos = userInfoMapper.baseSelectByCondition(userInfo);
         if(userInfos != null && userInfos.size() > 0){
             if(MD5Utils.checkQual(password,userInfos.get(0).getPassword())){
                 //记录登录日志
                 LogonLog logonLog = new LogonLog();
-                logonLog.setPhone(userName);
+                logonLog.setPhone(phone);
                 rabbitTemplate.convertAndSend(QueuesNames.SAVE_LOGON_LOG,logonLog);
                 ResultData.success(userInfos.get(0).getId());
             }
@@ -48,12 +48,22 @@ public class UserInfoService {
         return ResultData.error("账号密码错误");
     }
 
+    /**
+     *
+     * @param email
+     * @param password
+     * @return
+     */
     public ResultData logonWithEmail(String email,String password){
         UserInfo userInfo = new UserInfo();
         userInfo.setEmail(email);
         List<UserInfo> userInfos = userInfoMapper.baseSelectByCondition(userInfo);
         if(userInfos != null && userInfos.size() > 0){
             if(MD5Utils.checkQual(password,userInfos.get(0).getPassword())){
+                //记录登录日志
+                LogonLog logonLog = new LogonLog();
+                logonLog.setEmail(email);
+                rabbitTemplate.convertAndSend(QueuesNames.SAVE_LOGON_LOG,logonLog);
                 ResultData.success(userInfos.get(0).getId());
             }
         }
