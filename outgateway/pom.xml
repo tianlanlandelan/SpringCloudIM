@@ -29,12 +29,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--通用组件-->
-        <!--<dependency>-->
-            <!--<groupId>com.kyle</groupId>-->
-            <!--<artifactId>common-im</artifactId>-->
-            <!--<version>0.0.1</version>-->
-        <!--</dependency>-->
 
         <!-- 用于支持RabbitMQ -->
         <dependency>
@@ -68,6 +62,14 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
+
+        <!--腾讯云短信服务，每月有100条免费短信可用-->
+        <dependency>
+            <groupId>com.github.qcloudsms</groupId>
+            <artifactId>qcloudsms</artifactId>
+            <version>1.0.6</version>
+        </dependency>
+
     </dependencies>
 
     <build>
