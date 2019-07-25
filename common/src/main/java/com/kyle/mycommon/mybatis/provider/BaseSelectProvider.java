@@ -1,5 +1,6 @@
 package com.kyle.mycommon.mybatis.provider;
 
+import com.kyle.mycommon.entity.Router;
 import com.kyle.mycommon.mybatis.BaseEntity;
 import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.StringUtils;
@@ -173,7 +174,10 @@ public class BaseSelectProvider {
     }
 
     public static void main(String[] args){
+        Router router = new Router();
+        router.setServiceName("aa");
 
+        Console.print("",selectByCondition(router));
     }
 
 }

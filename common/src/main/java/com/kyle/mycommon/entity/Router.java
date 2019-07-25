@@ -1,5 +1,6 @@
 package com.kyle.mycommon.entity;
 
+import com.kyle.mycommon.mybatis.BaseEntity;
 import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
 import com.kyle.mycommon.mybatis.annotation.KeyAttribute;
 import com.kyle.mycommon.mybatis.annotation.SortAttribute;
@@ -12,7 +13,7 @@ import java.util.Date;
  * @date 2018-08-02 09:33:01
  */
 @TableAttribute("router")
-public class Router {
+public class Router extends BaseEntity {
     /**
      * 接口ID
      */
