@@ -15,7 +15,7 @@ public class MyServiceName {
     /**
      * 用户管理中心
      */
-    public final static String USER = "USER";
+    public final static String USER = "User";
 
     /**
      * 日志中心

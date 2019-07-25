@@ -1,6 +1,7 @@
 package com.kyle.mycommon.entity;
 
 
+import com.kyle.mycommon.mybatis.BaseEntity;
 import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
 import com.kyle.mycommon.mybatis.annotation.SortAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
@@ -8,7 +9,7 @@ import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 import java.util.Date;
 
 @TableAttribute("sms_log")
-public class SMS {
+public class SMSLog extends BaseEntity{
     private int id;
     /**
     * 用户ID
@@ -59,7 +60,7 @@ public class SMS {
      */
     private int isUsed = 0;
 
-    public SMS(){
+    public SMSLog(){
         super();
     }
 
@@ -68,7 +69,7 @@ public class SMS {
      * @param phone 接收手机号
      * @param type  发送类型
      */
-    public SMS(String phone, Integer type) {
+    public SMSLog(String phone, Integer type) {
         this.phone = phone;
         this.type = type;
     }

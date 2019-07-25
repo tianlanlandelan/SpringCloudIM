@@ -1,6 +1,6 @@
 package com.kyle.mycommon.entity;
 
-import com.kyle.mycommon.mybatis.annotation.FieldAttribute;
+import com.kyle.mycommon.mybatis.BaseEntity;
 import com.kyle.mycommon.mybatis.annotation.IndexAttribute;
 import com.kyle.mycommon.mybatis.annotation.SortAttribute;
 import com.kyle.mycommon.mybatis.annotation.TableAttribute;
@@ -8,7 +8,7 @@ import com.kyle.mycommon.mybatis.annotation.TableAttribute;
 import java.util.Date;
 
 @TableAttribute("email_log")
-public class Email {
+public class EmailLog extends BaseEntity{
     private int id;
     /**
     * 邮件发送类型
@@ -53,7 +53,7 @@ public class Email {
      */
     private int isUsed = 0;
 
-    public Email(){
+    public EmailLog(){
         super();
     }
 

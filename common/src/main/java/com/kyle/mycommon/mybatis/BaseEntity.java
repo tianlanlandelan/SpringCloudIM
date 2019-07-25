@@ -16,7 +16,7 @@ public class BaseEntity {
     /**
      * 是否按排序关键字升序排列
      */
-    private Boolean baseKyleUseASC;
+    private Boolean baseKyleUseASC = true;
     /**
      * 页面大小
      */
