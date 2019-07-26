@@ -17,7 +17,7 @@ public class EmailController {
     @Resource
     private EmailService emailService;
 
-    @RouterAttribute(id=RouterName.LOG_CHECK_VALIDATE_CODE,name = "校验验证码",description = "")
+    @RouterAttribute(name = "校验验证码",description = "")
     @PostMapping(value = RouterName.LOG_CHECK_VALIDATE_CODE)
     public ResponseEntity register(String userName, String code){
         if(StringUtils.isEmpty(userName,code)){

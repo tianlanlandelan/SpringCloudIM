@@ -8,5 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
  * Created by yangkaile on 2019/7/25.
  */
 @Mapper
-public interface LogonMapper extends BaseMapper<LogonLog>{
+public interface LogonLogMapper extends BaseMapper<LogonLog>{
 }

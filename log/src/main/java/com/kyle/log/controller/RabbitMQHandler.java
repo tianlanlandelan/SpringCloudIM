@@ -1,6 +1,7 @@
 package com.kyle.log.controller;
 
 
+import com.kyle.log.service.LogonLogService;
 import com.kyle.mycommon.entity.EmailLog;
 import com.kyle.mycommon.entity.LogonLog;
 import com.kyle.mycommon.entity.SMSLog;
@@ -12,9 +13,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
+
 @Component
 public class RabbitMQHandler {
 
+    @Resource
+    LogonLogService logonLogService;
     /**
      * 保存短信验证码
      * @param content
@@ -35,8 +40,10 @@ public class RabbitMQHandler {
         EmailLog entity = JsonUtils.parseObject(content,EmailLog.class);
     }
     @RabbitListener(queues = QueuesNames.SAVE_LOGON_LOG)
-    public void saveLogonLog(LogonLog logonLog){
-        Console.info("saveLogonLog",logonLog);
+    public void saveLogonLog(String content){
+        Console.info("saveLogonLog",content);
+        LogonLog logonLog = JsonUtils.parseObject(content,LogonLog.class);
+        logonLogService.insert(logonLog);
 
     }
 }

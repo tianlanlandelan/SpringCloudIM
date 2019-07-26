@@ -4,10 +4,7 @@ import javax.annotation.Resource;
 
 import com.kyle.mycommon.entity.LogonLog;
 import com.kyle.mycommon.response.ResultData;
-import com.kyle.mycommon.util.MD5Utils;
-import com.kyle.mycommon.util.QueuesNames;
-import com.kyle.mycommon.util.StringUtils;
-import com.kyle.mycommon.util.ValidUserName;
+import com.kyle.mycommon.util.*;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,9 +40,11 @@ public class UserInfoService {
             if(MD5Utils.checkQual(password,userInfo.getPassword())){
                 //记录登录日志
                 LogonLog logonLog = new LogonLog();
+                logonLog.setUserId(userInfo.getId());
                 logonLog.setPhone(phone);
-                rabbitTemplate.convertAndSend(QueuesNames.SAVE_LOGON_LOG,logonLog);
-                ResultData.success(userInfo.getId());
+
+                rabbitTemplate.convertAndSend(QueuesNames.SAVE_LOGON_LOG,JsonUtils.toJSONString(logonLog));
+                return ResultData.success(userInfo.getId());
             }
         }
         return ResultData.error("账号密码错误");
@@ -80,9 +79,10 @@ public class UserInfoService {
             if(MD5Utils.checkQual(password,userInfo.getPassword())){
                 //记录登录日志
                 LogonLog logonLog = new LogonLog();
+                logonLog.setUserId(userInfo.getId());
                 logonLog.setEmail(email);
-                rabbitTemplate.convertAndSend(QueuesNames.SAVE_LOGON_LOG,logonLog);
-                ResultData.success(userInfo.getId());
+                rabbitTemplate.convertAndSend(QueuesNames.SAVE_LOGON_LOG,JsonUtils.toJSONString(logonLog));
+                return ResultData.success(userInfo.getId());
             }
         }
         return ResultData.error("账号密码错误");

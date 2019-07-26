@@ -12,16 +12,23 @@ import java.util.Date;
  * Created by yangkaile on 2019/7/23.
  */
 @TableAttribute("logon_log")
-public class LogonLog extends BaseEntity{
+public class LogonLog extends BaseEntity {
     @KeyAttribute
     private int id;
+
     @IndexAttribute
+    private int userId;
+
     private String userName;
+
     @IndexAttribute
     private String phone;
+
     @IndexAttribute
     private String email;
+
     private int type;
+
     @SortAttribute
     private Date createTime = new Date();
 
@@ -74,10 +81,19 @@ public class LogonLog extends BaseEntity{
         this.createTime = createTime;
     }
 
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "LogonLog{" +
                 "id=" + id +
+                ", userId=" + userId +
                 ", userName='" + userName + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
