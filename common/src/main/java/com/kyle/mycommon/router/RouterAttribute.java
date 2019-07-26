@@ -14,12 +14,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RouterAttribute {
     /**
-     * 接口ID
-     * @return
-     */
-    String id();
-
-    /**
      * 接口名
      * @return
      */

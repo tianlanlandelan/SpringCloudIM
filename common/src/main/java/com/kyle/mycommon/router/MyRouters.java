@@ -85,7 +85,7 @@ public class MyRouters {
                 RouterAttribute routerAttribute = method.getAnnotation(RouterAttribute.class);
                 if(routerAttribute != null){
                     Router routerObject = new Router();
-                    routerObject.setId(routerAttribute.id());
+
                     routerObject.setName(routerAttribute.name());
                     routerObject.setDescription(routerAttribute.description());
                     routerObject.setServiceName(serviceName);
@@ -93,6 +93,7 @@ public class MyRouters {
                     routerObject.setMethodName(method.getName());
                     String[] request = readRequestMapping(method);
                     String requestUrl = request[0];
+                    routerObject.setId(requestUrl);
                     String requestMethod = request[1];
                     if(StringUtils.isEmpty(urlPrefix)){
                         routerObject.setRouterUrl(Constants.HTTP_UTL_PREFIX + serviceName + requestUrl);

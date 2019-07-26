@@ -13,6 +13,7 @@ public class RouterName {
     public static final String USER_UPDATE_PHONE = "/A1006";
     public static final String USER_SET_USER_PROFILE = "/A1007";
     public static final String USER_GET_USER_PROFILE = "/A1008";
+    public static final String USER_INSERT_USERINFO = "/A1009";
 
     public static final String LOG_CHECK_VALIDATE_CODE = "/B1001";
 

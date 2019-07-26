@@ -59,12 +59,12 @@ public class MyResponse {
      * 系统内部错误
      * @return
      */
-    public static  ResponseEntity serverError(){
+    public static  ResponseEntity error(){
         ResultData response = ResultData.error("系统内部错误");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).contentType(MediaType.APPLICATION_JSON).body(response);
     }
 
-    public static ResponseEntity u(String message){
+    public static ResponseEntity error(String message){
         ResultData response = ResultData.error(message);
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).contentType(MediaType.APPLICATION_JSON).body(response);
     }

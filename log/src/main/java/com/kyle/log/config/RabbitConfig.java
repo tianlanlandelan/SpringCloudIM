@@ -21,6 +21,10 @@ public class RabbitConfig {
     public Queue saveSMSVerificationCodeQueue(){
         return new Queue(QueuesNames.SAVE_SMS_VERIFICATION_CODE);
     }
+    @Bean
+    public Queue saveLogonLogQueue(){
+        return new Queue(QueuesNames.SAVE_LOGON_LOG);
+    }
 
 
 }

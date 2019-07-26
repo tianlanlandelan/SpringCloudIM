@@ -6,11 +6,16 @@ import com.kyle.mycommon.entity.LogonLog;
 import com.kyle.mycommon.response.ResultData;
 import com.kyle.mycommon.util.MD5Utils;
 import com.kyle.mycommon.util.QueuesNames;
+import com.kyle.mycommon.util.StringUtils;
+import com.kyle.mycommon.util.ValidUserName;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.kyle.user.entity.UserInfo;
 import com.kyle.user.mapper.UserInfoMapper;
+
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
@@ -33,19 +38,34 @@ public class UserInfoService {
      * @return
      */
     public ResultData logonWithPhone(String phone,String password){
-        UserInfo userInfo = new UserInfo();
-        userInfo.setPhone(phone);
-        List<UserInfo> userInfos = userInfoMapper.baseSelectByCondition(userInfo);
-        if(userInfos != null && userInfos.size() > 0){
-            if(MD5Utils.checkQual(password,userInfos.get(0).getPassword())){
+        UserInfo userInfo = getByPhoneOrEmail(phone);
+        if(userInfo != null ){
+            if(MD5Utils.checkQual(password,userInfo.getPassword())){
                 //记录登录日志
                 LogonLog logonLog = new LogonLog();
                 logonLog.setPhone(phone);
                 rabbitTemplate.convertAndSend(QueuesNames.SAVE_LOGON_LOG,logonLog);
-                ResultData.success(userInfos.get(0).getId());
+                ResultData.success(userInfo.getId());
             }
         }
         return ResultData.error("账号密码错误");
+    }
+    private UserInfo getByPhoneOrEmail(String userName){
+        if(ValidUserName.notPhoneOrEmail(userName)) {
+            return null;
+        }
+        UserInfo userInfo = new UserInfo();
+        if(ValidUserName.isPhoneNo(userName)) {
+            userInfo.setPhone(userName);
+        }else {
+            userInfo.setEmail(userName);
+        }
+        List<UserInfo> userInfos = userInfoMapper.baseSelectByCondition(userInfo);
+        if(userInfos != null && userInfos.size() > 0){
+            return userInfos.get(0);
+        }else {
+            return null;
+        }
     }
 
     /**
@@ -55,28 +75,48 @@ public class UserInfoService {
      * @return
      */
     public ResultData logonWithEmail(String email,String password){
-        UserInfo userInfo = new UserInfo();
-        userInfo.setEmail(email);
-        List<UserInfo> userInfos = userInfoMapper.baseSelectByCondition(userInfo);
-        if(userInfos != null && userInfos.size() > 0){
-            if(MD5Utils.checkQual(password,userInfos.get(0).getPassword())){
+        UserInfo userInfo = getByPhoneOrEmail(email);
+        if(userInfo != null ){
+            if(MD5Utils.checkQual(password,userInfo.getPassword())){
                 //记录登录日志
                 LogonLog logonLog = new LogonLog();
                 logonLog.setEmail(email);
                 rabbitTemplate.convertAndSend(QueuesNames.SAVE_LOGON_LOG,logonLog);
-                ResultData.success(userInfos.get(0).getId());
+                ResultData.success(userInfo.getId());
             }
         }
         return ResultData.error("账号密码错误");
     }
 
-    public ResultData insert(){
-        UserInfo userInfo = new UserInfo();
-        userInfo.setId(100);
-        userInfo.setPhone("12345678901");
-        userInfo.setPassword("123456");
-        userInfoMapper.baseInsert(userInfo);
-        return ResultData.success(userInfo);
+    /**
+     *
+     * @param userName
+     * @param password
+     * @return
+     */
+    public ResultData insert(String userName,String password){
+        UserInfo userInfo = getByPhoneOrEmail(userName);
+        if(userInfo != null){
+            return ResultData.success(userInfo.getId());
+        }
+        userInfo = new UserInfo();
+        if(ValidUserName.isPhoneNo(userName)){
+            userInfo.setPhone(userName);
+        }
+        if(ValidUserName.isEmail(userName)){
+            userInfo.setEmail(userName);
+        }
+        try {
+            userInfo.setPassword(MD5Utils.EncoderByMd5(password));
+        }catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+            return ResultData.error("数据异常");
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+            return ResultData.error("数据异常");
+        }
+        userInfoMapper.baseInsertAndReturnKey(userInfo);
+        return ResultData.success(userInfo.getId());
     }
 
     public ResultData deleteById(int id){
