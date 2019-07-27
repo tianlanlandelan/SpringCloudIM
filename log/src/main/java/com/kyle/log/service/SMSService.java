@@ -12,6 +12,7 @@ import java.util.List;
 public class SMSService {
     @Resource
     private SMSMapper smsMapper;
+
     public ResultData checkValidateCode(String phone,String code){
         SMSLog sms = new SMSLog();
         sms.setPhone(phone);

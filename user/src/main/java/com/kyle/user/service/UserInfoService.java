@@ -2,14 +2,23 @@ package com.kyle.user.service;
 
 import javax.annotation.Resource;
 
+import com.kyle.mycommon.config.RouterName;
+import com.kyle.mycommon.config.ServiceName;
 import com.kyle.mycommon.entity.LogonLog;
+import com.kyle.mycommon.response.MyResponse;
+import com.kyle.mycommon.response.MyResponseReader;
 import com.kyle.mycommon.response.ResultData;
 import com.kyle.mycommon.util.*;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.kyle.user.entity.UserInfo;
 import com.kyle.user.mapper.UserInfoMapper;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
@@ -26,6 +35,58 @@ public class UserInfoService {
 
     @Autowired
     private AmqpTemplate rabbitTemplate;
+
+    @Autowired
+    private LoadBalancerClient loadBalancer;
+
+    @Resource
+    private RestTemplate restTemplate;
+
+    public ResultData checkCodeAndLogon(String userName,String code){
+        ServiceInstance serviceInstance = loadBalancer.choose(ServiceName.LOG);
+        try{
+            ResponseEntity responseEntity;
+            if(ValidUserName.isEmail(userName)) {
+                responseEntity = restTemplate.getForEntity(serviceInstance.getUri().toString()
+                                + RouterName.LOG_CHECK_EMAIL_VALIDATE_CODE
+                                + "?email=" + userName + "&code=" + code
+                        , String.class);
+            }else {
+                responseEntity = restTemplate.getForEntity(serviceInstance.getUri().toString()
+                                + RouterName.LOG_CHECK_SMS_VALIDATE_CODE
+                                + "?phone=" + userName + "&code=" + code
+                        , String.class);
+            }
+            Console.info("responseEntity",responseEntity.toString());
+
+            /*
+               验证码有效
+             */
+            if(MyResponseReader.isSuccess(responseEntity)){
+                UserInfo userInfo = getByPhoneOrEmail(userName);
+                if(userInfo != null){
+                    //记录登录日志
+                    LogonLog logonLog = new LogonLog();
+                    logonLog.setUserId(userInfo.getId());
+                    if(ValidUserName.isPhoneNo(userName)){
+                        logonLog.setPhone(userName);
+                    }else {
+                        logonLog.setEmail(userName);
+                    }
+
+                    rabbitTemplate.convertAndSend(QueuesNames.SAVE_LOGON_LOG,JsonUtils.toJSONString(logonLog));
+                    return ResultData.success(userInfo.getId());
+                }
+            }
+            /*
+              验证码无效
+             */
+            return ResultData.error("验证码无效");
+        }catch (HttpClientErrorException e){
+            e.printStackTrace();
+            return ResponseUtils.getResultDataFromException(e);
+        }
+    }
 
     /**
      * 手机号登录

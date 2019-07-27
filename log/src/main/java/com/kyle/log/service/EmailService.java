@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * @author yangkaile
+ * @date 2019-07-27 22:30:19
+ */
 @Service
 public class EmailService {
     @Resource
