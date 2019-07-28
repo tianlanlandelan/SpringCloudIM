@@ -9,6 +9,8 @@ import com.kyle.mycommon.response.MyResponse;
 import com.kyle.mycommon.response.MyResponseReader;
 import com.kyle.mycommon.response.ResultData;
 import com.kyle.mycommon.util.*;
+import com.kyle.user.entity.UserProfile;
+import com.kyle.user.mapper.UserProfileMapper;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
