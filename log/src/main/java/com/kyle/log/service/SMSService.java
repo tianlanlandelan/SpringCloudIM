@@ -13,6 +13,12 @@ public class SMSService {
     @Resource
     private SMSMapper smsMapper;
 
+    /**
+     *
+     * @param phone
+     * @param code
+     * @return
+     */
     public ResultData checkValidateCode(String phone,String code){
         SMSLog sms = new SMSLog();
         sms.setPhone(phone);

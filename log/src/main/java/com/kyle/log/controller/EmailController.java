@@ -19,16 +19,13 @@ public class EmailController {
     private EmailService emailService;
 
     @RouterAttribute(name = "校验验证码",description = "")
-    @GetMapping(value = RouterName.LOG_CHECK_EMAIL_VALIDATE_CODE)
+    @GetMapping(RouterName.LOG_CHECK_EMAIL_VALIDATE_CODE)
     public ResponseEntity checkEmailValidateCode(String email, String code){
         Console.info("checkEmailValidateCode",email,code);
-        if(StringUtils.isEmpty(email,code)){
+        if(StringUtils.isEmpty(email,code) || !ValidUserName.isEmail(email)){
             return MyResponse.badRequest();
         }
-        if(ValidUserName.isEmail(email)){
-            return MyResponse.ok(emailService.checkValidateCode(email,code));
-        }
-        return MyResponse.ok();
+        return MyResponse.ok(emailService.checkValidateCode(email,code));
     }
 
 }

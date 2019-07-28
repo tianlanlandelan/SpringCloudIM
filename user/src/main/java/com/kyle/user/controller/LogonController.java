@@ -51,9 +51,7 @@ public class LogonController {
         if(StringUtils.isEmpty(userName,code) || ValidUserName.notPhoneOrEmail(userName)){
             return MyResponse.badRequest();
         }
-
-
-        return MyResponse.ok();
+        return MyResponse.ok(userInfoService.checkCodeAndLogon(userName,code));
     }
 
     /**

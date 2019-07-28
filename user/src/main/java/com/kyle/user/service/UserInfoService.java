@@ -42,6 +42,12 @@ public class UserInfoService {
     @Resource
     private RestTemplate restTemplate;
 
+    /**
+     *
+     * @param userName
+     * @param code
+     * @return
+     */
     public ResultData checkCodeAndLogon(String userName,String code){
         ServiceInstance serviceInstance = loadBalancer.choose(ServiceName.LOG);
         try{
