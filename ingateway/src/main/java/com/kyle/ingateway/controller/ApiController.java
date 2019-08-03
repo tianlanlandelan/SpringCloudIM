@@ -1,13 +1,16 @@
 package com.kyle.ingateway.controller;
 
+import com.kyle.ingateway.cache.CacheUtils;
+import com.kyle.mycommon.entity.Router;
 import com.kyle.mycommon.response.MyResponse;
 import com.kyle.mycommon.response.ResultData;
+import com.kyle.mycommon.util.Base64Utils;
 import com.kyle.mycommon.util.JsonUtils;
+import com.kyle.mycommon.util.ResponseUtils;
 import com.kyle.mycommon.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -61,7 +64,7 @@ public class ApiController {
         if(methodName == null){
             return MyResponse.badRequest();
         }
-        String routerUrl = authenticateAndReturnRouterUrl(ConfigUtils.REQUEST_METHOD_GET,methodName);
+        String routerUrl = authenticateAndReturnRouterUrl(RequestMethod.GET.name(),methodName);
         if(routerUrl == null){
             return MyResponse.forbidden();
         }
@@ -98,7 +101,7 @@ public class ApiController {
 
         }catch (HttpClientErrorException e){
             logger.warn("HttpClientErrorException:" + e.getStatusCode());
-            return getResponseFromException(e);
+            return ResponseUtils.getResponseFromException(e);
         }catch (Exception e){
             return MyResponse.badRequest();
         }
@@ -115,13 +118,13 @@ public class ApiController {
     public ResponseEntity post(@RequestBody String json, String methodName, String parameters){
         logger.info("received post: json=" + json + ",methodName=" + methodName + ",parameters=" + parameters);
         if(StringUtils.isEmpty(methodName,parameters)){
-            methodName = JsonUtils.getString(json,"methodName");
-            parameters = JsonUtils.getString(json,"parameters");
+            methodName = JsonUtils.getStringByKey(json,"methodName");
+            parameters = JsonUtils.getStringByKey(json,"parameters");
         }
         if(StringUtils.isEmpty(methodName,parameters)){
             return MyResponse.badRequest();
         }
-        String routerUrl = authenticateAndReturnRouterUrl(ConfigUtils.REQUEST_METHOD_POST,methodName);
+        String routerUrl = authenticateAndReturnRouterUrl(RequestMethod.POST.name(),methodName);
         if(routerUrl == null){
             logger.error("find no router:" + methodName);
             return MyResponse.forbidden();
@@ -141,7 +144,7 @@ public class ApiController {
             responseEntity = restTemplate.postForEntity(routerUrl,null,String.class,map);
         }catch (HttpClientErrorException e){
             logger.warn("HttpClientErrorException:" + e.getStatusCode());
-            return getResponseFromException(e);
+            return ResponseUtils.getResponseFromException(e);
         }catch (Exception e){
             return MyResponse.badRequest();
         }
@@ -158,13 +161,13 @@ public class ApiController {
     public ResponseEntity delete(@RequestBody String json, String methodName, String parameters){
         logger.info("received delete: json=" + json + ",methodName=" + methodName + ",parameters=" + parameters);
         if(StringUtils.isEmpty(methodName,parameters)){
-            methodName = JsonUtils.getString(json,"methodName");
-            parameters = JsonUtils.getString(json,"parameters");
+            methodName = JsonUtils.getStringByKey(json,"methodName");
+            parameters = JsonUtils.getStringByKey(json,"parameters");
         }
         if(StringUtils.isEmpty(methodName,parameters)){
             return MyResponse.badRequest();
         }
-        String routerUrl = authenticateAndReturnRouterUrl(ConfigUtils.REQUEST_METHOD_DELETE,methodName);
+        String routerUrl = authenticateAndReturnRouterUrl(RequestMethod.DELETE.name(),methodName);
         if(StringUtils.isEmpty(routerUrl)){
             return MyResponse.forbidden();
         }
@@ -182,7 +185,7 @@ public class ApiController {
             restTemplate.delete(routerUrl,map);
         }catch (HttpClientErrorException e){
             logger.warn("HttpClientErrorException:" + e.getStatusCode());
-            return getResponseFromException(e);
+            return ResponseUtils.getResponseFromException(e);
         }catch (Exception e){
             return MyResponse.badRequest();
         }
@@ -199,13 +202,13 @@ public class ApiController {
     public ResponseEntity put(@RequestBody String json, String methodName, String parameters){
         logger.info("received put: json=" + json + ",methodName=" + methodName + ",parameters=" + parameters);
         if(StringUtils.isEmpty(methodName,parameters)){
-            methodName = JsonUtils.getString(json,"methodName");
-            parameters = JsonUtils.getString(json,"parameters");
+            methodName = JsonUtils.getStringByKey(json,"methodName");
+            parameters = JsonUtils.getStringByKey(json,"parameters");
         }
         if(StringUtils.isEmpty(methodName,parameters)){
             return MyResponse.badRequest();
         }
-        String routerUrl = authenticateAndReturnRouterUrl(ConfigUtils.REQUEST_METHOD_PUT,methodName);
+        String routerUrl = authenticateAndReturnRouterUrl(RequestMethod.PUT.name(),methodName);
         if(routerUrl == null){
             return MyResponse.forbidden();
         }
@@ -223,7 +226,7 @@ public class ApiController {
             restTemplate.put(routerUrl,null,map);
         }catch (HttpClientErrorException e){
             logger.warn("HttpClientErrorException:" + e.getStatusCode());
-            return getResponseFromException(e);
+            return ResponseUtils.getResponseFromException(e);
         }catch (Exception e){
             return MyResponse.badRequest();
         }
@@ -236,31 +239,31 @@ public class ApiController {
      * @return
      */
     private String authenticateAndReturnRouterUrl(String requestType,String methodName){
-        Integer userId = getUserId();
-        if(userId == null){
-            return null;
-        }
-        List<Integer> routerIdList = CacheUtils.userRouterMap.get(getUserId());
-
-        Router routerObject = CacheUtils.getRouterMap().get(methodName);
-        /*
-         * 拿不到路由
-         */
-        if(routerObject == null || routerIdList == null || routerIdList.size() < 1){
-            return null;
-        }
-        /*
-         * 用户的请求类型和路由的请求类型不一致
-         */
-        if(!requestType.equals(routerObject.getRequestType())){
-            return null;
-        }
-
-        Integer routerId = routerObject.getId();
-        //判断用户是否有该路由权限
-        String routerUrl = routerIdList.contains(routerId)?routerObject.getRouterUrl():null;
-        return routerUrl;
-
+//        Integer userId = getUserId();
+//        if(userId == null){
+//            return null;
+//        }
+//        List<Integer> routerIdList = CacheUtils.userRoleMap.get(getUserId());
+//
+//        Router routerObject = CacheUtils.getRouterMap().get(methodName);
+//        /*
+//         * 拿不到路由
+//         */
+//        if(routerObject == null || routerIdList == null || routerIdList.size() < 1){
+//            return null;
+//        }
+//        /*
+//         * 用户的请求类型和路由的请求类型不一致
+//         */
+//        if(!requestType.equals(routerObject.getRequestType())){
+//            return null;
+//        }
+//
+//        Integer routerId = routerObject.getId();
+//        //判断用户是否有该路由权限
+//        String routerUrl = routerIdList.contains(routerId)?routerObject.getRouterUrl():null;
+//        return routerUrl;
+          return null;
     }
 
 
@@ -279,7 +282,7 @@ public class ApiController {
         for(String kValue : parameters.split(SPLIT_PARAMETERS)){
             String[] array = kValue.split(SPLIT_KEY_VALUE);
             String key = array[0];
-            String value = MyBase64Utils.decode(array[1]);
+            String value = Base64Utils.decode(array[1]);
             map.put(key,value);
         }
         return  map;
