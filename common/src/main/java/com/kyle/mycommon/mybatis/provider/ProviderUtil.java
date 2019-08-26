@@ -2,16 +2,17 @@ package com.kyle.mycommon.mybatis.provider;
 
 
 
+import com.kyle.mycommon.entity.EmailLog;
 import com.kyle.mycommon.mybatis.BaseEntity;
 import com.kyle.mycommon.mybatis.BaseException;
 import com.kyle.mycommon.mybatis.annotation.*;
+import com.kyle.mycommon.util.Console;
 import com.kyle.mycommon.util.StringUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Provider工具类
@@ -106,15 +107,14 @@ public class ProviderUtil {
     /**
      * 获取主键的查询条件
      * 传入的对象必须满足以下条件：
-     * 1. 至少有一个带有@keyAttribute注解的字段
+     * 1. 必须有且只有一个带有@keyAttribute注解的字段，如果有多个，只取第一个
      * 2. 带有@KeyAttribute注解的字段必须有值
      * 这是为了避免产生因为没有设置@KeyAttribute注解而造成全部数据修改或删除的问题
      * @param entity
      * @param <T>
-     * @return WHERE userId = #{userId} AND roleId = #{roleId}
+     * @return WHERE userId = #{userId}
      */
     public static <T> String getConditionByKeySuffix(T entity) throws BaseException {
-        String condition = "AND";
         Class cls = entity.getClass();
         Field[] fields = cls.getDeclaredFields();
         StringBuilder builder = new StringBuilder();
@@ -124,20 +124,18 @@ public class ProviderUtil {
                 if(field.getAnnotation(KeyAttribute.class) != null){
                     if(ProviderUtil.hasValue(entity,field.getName())){
                         builder.append(field.getName())
-                                .append(" = #{").append(field.getName()).append("} ")
-                                .append(condition).append(" ");
+                                .append(" = #{").append(field.getName()).append("} ");
                     }else {
                         throw new BaseException("@KeyAttribute修饰的字段不能为空");
                     }
-
+                    break;
                 }
             }
-            int index = builder.lastIndexOf(condition);
+            int index = builder.lastIndexOf("=");
             if(index < 0){
                 throw new BaseException("没有找到@KeyAttribute修饰的字段");
             }
-            return builder.substring(0,index);
-
+            return builder.toString();
         }catch (Exception e){
             e.printStackTrace();
             throw new BaseException(e.getMessage());
@@ -207,6 +205,51 @@ public class ProviderUtil {
         return fieldList;
     }
 
+    public static Map<String,String> getFieldMap(Class cls){
+        Map<String,String> map = getAnnotationMap(cls,FieldAttribute.class);
+        if(map.size() == 0){
+            return getAnnotationMap(cls,null);
+        }
+        return map;
+    }
+
+    /**
+     *
+     * @param cls           实体类 Class
+     * @param annotation    注解 Class ；如果annotation为Null时，表示获取cls中所有属性的map
+     * @return
+     */
+    public static Map<String,String> getAnnotationMap(Class cls,Class annotation){
+        Field[] fields = cls.getDeclaredFields();
+        Map<String,String> map = new HashMap<>(16);
+        for(Field field:fields){
+            if(annotation == null){
+                map.put(field.getName(), field.getType().getSimpleName());
+            }else{
+                if(field.getAnnotation(annotation) != null){
+                    map.put(field.getName(), field.getType().getSimpleName());
+                }
+            }
+        }
+        return map;
+    }
+    public static Map<String,String> getIndexMap(Class cls){
+        return getAnnotationMap(cls,IndexAttribute.class);
+    }
+    public static Map<String,String> getKeyMap(Class cls){
+        Map<String,String> map = getAnnotationMap(cls,KeyAttribute.class);
+        if(map.size() == 0){
+            Field[] fields = cls.getDeclaredFields();
+            for(Field field:fields){
+                if("id".equals(field.getName())){
+                    map.put(field.getName(), field.getType().getSimpleName());
+                    break;
+                }
+            }
+        }
+        return map;
+    }
+
     /**
      * 判断一个对象的指定字段有没有值
      * @param entity 实体对象
@@ -234,6 +277,18 @@ public class ProviderUtil {
     }
 
     public static void main(String[] args){
+        EmailLog log = new EmailLog();
+        Map fieldMap = getFieldMap(log.getClass());
+        Map indexMap = getIndexMap(log.getClass());
+        Map keyMap = getKeyMap(log.getClass());
+        Console.print("fieldMap",fieldMap);
+        Console.print("indexMap",indexMap);
+        Console.print("keyMap",keyMap);
 
+        Iterator<Map.Entry<String, String>> it = fieldMap.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<String, String> entry = it.next();
+            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
+        }
     }
 }
