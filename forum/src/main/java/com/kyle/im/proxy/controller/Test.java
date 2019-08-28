@@ -1,9 +1,12 @@
 package com.kyle.im.proxy.controller;
+import com.kyle.im.common.config.RequestConfig;
 import com.kyle.im.common.util.Console;
+import com.kyle.im.common.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 /**
  * @author yangkaile
@@ -13,87 +16,81 @@ import java.util.Map;
 @RequestMapping("test")
 public class Test {
 
+    @Resource
+    HttpServletRequest request;
+
+
+
     @GetMapping
-    public String get(HttpServletRequest request, HttpServletResponse response){
-        printHeader(request);
-        printQueryString(request);
-        printPostParam(request);
-        printCustomHeader(request);
+    public String get(){
+        readRequest();
         return "ok";
     }
     @PostMapping
-    public String post(HttpServletRequest request){
-        printHeader(request);
-        printPostParam(request);
-        printCustomHeader(request);
+    public String post(){
+        readRequest();
         return "OK";
     }
     @PutMapping
-    public String put(HttpServletRequest request){
-        printHeader(request);
-        printPostParam(request);
-        printCustomHeader(request);
+    public String put(){
+        readRequest();
         return "OK";
     }
     @DeleteMapping
-    public String delete(HttpServletRequest request){
-        printHeader(request);
-        printPostParam(request);
-        printCustomHeader(request);
+    public String delete(){
+        readRequest();
         return "OK";
     }
 
-
-    public void printHeader(HttpServletRequest request){
-        //得到请求的URL地址
-        String requestUrl = request.getRequestURL().toString();
-        //得到请求的资源
-        String requestUri = request.getRequestURI();
-        //得到来访者的IP地址
-        String remoteAddr = request.getRemoteAddr();
-
-        String remoteHost = request.getRemoteHost();
-
-        int remotePort = request.getRemotePort();
-
-        String remoteUser = request.getRemoteUser();
-        //得到请求URL地址时使用的方法
-        String requestMethod = request.getMethod();
-
-        Console.print("printHeader",requestUrl,requestUri,remoteAddr,remoteHost,remotePort,remoteUser,requestMethod);
+    public void readRequest(){
+        Console.print("header",getHeader());
+        Console.print("param",getParam());
     }
 
-    public void printCustomHeader(HttpServletRequest request){
-        String method =  request.getHeader("method");
-        Console.print("method",method);
+    public HashMap<String,String> getHeader(){
+        HashMap<String,String> headerMap = new HashMap<>(16);
+        //请求的URL地址
+        headerMap.put(RequestConfig.URL,request.getRequestURL().toString());
+        //请求的资源
+        headerMap.put(RequestConfig.URI,request.getRequestURI());
+        //请求方式 GET/POST
+        headerMap.put(RequestConfig.REQUEST_METHOD,request.getMethod());
 
-        String token =  request.getHeader("token");
-        Console.print("token",token);
+        //来访者的IP地址
+        headerMap.put(RequestConfig.REMOTE_ADDR,request.getRemoteAddr());
+        //来访者的HOST
+        headerMap.put(RequestConfig.REMOTE_HOST,request.getRemoteHost());
+        //来访者的端口
+        headerMap.put(RequestConfig.REMOTE_PORT,request.getRemotePort() + "");
+        //来访者的用户名
+        headerMap.put(RequestConfig.REMOTE_USER,request.getRemoteUser());
+
+
+        //自定义的Header （接口名）
+        headerMap.put(RequestConfig.METHOD,request.getHeader(RequestConfig.METHOD));
+        //自定义的Header （TOKEN）
+        headerMap.put(RequestConfig.TOKEN,request.getHeader(RequestConfig.TOKEN));
+        return headerMap;
     }
 
-    public void printPostParam(HttpServletRequest request){
+
+    public HashMap<String,String> getParam(){
+        HashMap<String,String> paramMap = new HashMap<>(16);
         //request对象封装的参数是以Map的形式存储的
-        Map<String, String[]> paramMap = request.getParameterMap();
-        for(Map.Entry<String, String[]> entry :paramMap.entrySet()){
+        Map<String, String[]> map = request.getParameterMap();
+        for(Map.Entry<String, String[]> entry :map.entrySet()){
             String paramName = entry.getKey();
             String paramValue = "";
             String[] paramValueArr = entry.getValue();
             for (int i = 0; paramValueArr!=null && i < paramValueArr.length; i++) {
                 if (i == paramValueArr.length-1) {
-                    paramValue+=paramValueArr[i];
+                    paramValue += paramValueArr[i];
                 }else {
-                    paramValue+=paramValueArr[i]+",";
+                    paramValue += paramValueArr[i]+",";
                 }
             }
-            Console.print(paramName,paramValue);
+            paramMap.put(paramName,paramValue);
         }
+        return paramMap;
     }
-
-    public void printQueryString(HttpServletRequest request){
-        //得到请求的URL地址中附带的参数
-        String queryString = request.getQueryString();
-        Console.print("queryString",queryString);
-    }
-
-
 }
