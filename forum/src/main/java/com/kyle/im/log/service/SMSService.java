@@ -1,8 +1,9 @@
 package com.kyle.im.log.service;
 
-import com.kyle.log.mapper.SMSMapper;
-import com.kyle.mycommon.entity.SMSLog;
-import com.kyle.mycommon.response.ResultData;
+
+import com.kyle.im.common.entity.SMSLog;
+import com.kyle.im.common.response.ResultData;
+import com.kyle.im.log.mapper.SMSMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,7 +20,7 @@ public class SMSService {
      * @param code
      * @return
      */
-    public ResultData checkValidateCode(String phone,String code){
+    public ResultData checkValidateCode(String phone, String code){
         SMSLog sms = new SMSLog();
         sms.setPhone(phone);
         sms.setCodeStr(code);

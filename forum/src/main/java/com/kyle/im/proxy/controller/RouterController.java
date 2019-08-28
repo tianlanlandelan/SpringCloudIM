@@ -1,8 +1,9 @@
 package com.kyle.im.proxy.controller;
 
-import com.kyle.ingateway.service.RouterService;
-import com.kyle.mycommon.entity.Router;
-import com.kyle.mycommon.response.MyResponse;
+
+import com.kyle.im.common.entity.Router;
+import com.kyle.im.common.response.MyResponse;
+import com.kyle.im.proxy.service.RouterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

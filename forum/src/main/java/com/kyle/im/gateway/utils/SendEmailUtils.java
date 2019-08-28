@@ -1,9 +1,9 @@
 package com.kyle.im.gateway.utils;
 
-import com.kyle.mycommon.config.PublicConfig;
-import com.kyle.mycommon.entity.EmailEntity;
-import com.kyle.mycommon.util.StringUtils;
-import com.kyle.outgateway.config.ServiceConfig;
+
+import com.kyle.im.common.config.PublicConfig;
+import com.kyle.im.common.util.StringUtils;
+import com.kyle.im.gateway.config.ServiceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,23 +91,23 @@ public class SendEmailUtils {
      * @param email 收件人邮箱
      * @return 邮件实体类EmailEntity
      */
-    public static EmailEntity sendVerificationCode(String email){
-        String code = StringUtils.getAllCharString(ServiceConfig.EMAIL_VERIFICATIONCODE_LENGTH);
-        EmailEntity entity = new EmailEntity();
-        entity.setEmail(email);
-        entity.setType(ServiceConfig.EMAIL_SEND_TYPE_REGISTER);
-        entity.setTitle(ServiceConfig.EMAIL_VERIFICATIONCODE_TITLE);
-        entity.setContent(String.format(ServiceConfig.EMAIL_VERIFICATIONCODE_BODY,code));
-        entity.setCode(code);
-        try {
-            sendSimpleMail(entity.getEmail(),entity.getTitle(),entity.getContent());
-        }catch (Exception e){
-            e.printStackTrace();
-            logger.error("send sendVerificationCode error :" + e.getMessage());
-            entity.setResult(e.getMessage());
-            entity.setStatusCode(PublicConfig.EMAIL_SEND_STATUSCODE_FAILED);
-        }finally {
-            return entity;
-        }
-    }
+//    public static EmailEntity sendVerificationCode(String email){
+//        String code = StringUtils.getAllCharString(ServiceConfig.EMAIL_VERIFICATIONCODE_LENGTH);
+//        EmailEntity entity = new EmailEntity();
+//        entity.setEmail(email);
+//        entity.setType(ServiceConfig.EMAIL_SEND_TYPE_REGISTER);
+//        entity.setTitle(ServiceConfig.EMAIL_VERIFICATIONCODE_TITLE);
+//        entity.setContent(String.format(ServiceConfig.EMAIL_VERIFICATIONCODE_BODY,code));
+//        entity.setCode(code);
+//        try {
+//            sendSimpleMail(entity.getEmail(),entity.getTitle(),entity.getContent());
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            logger.error("send sendVerificationCode error :" + e.getMessage());
+//            entity.setResult(e.getMessage());
+//            entity.setStatusCode(PublicConfig.EMAIL_SEND_STATUSCODE_FAILED);
+//        }finally {
+//            return entity;
+//        }
+//    }
 }

@@ -1,7 +1,8 @@
 package com.kyle.im.log.mapper;
 
-import com.kyle.mycommon.entity.SMSLog;
-import com.kyle.mycommon.mybatis.BaseMapper;
+
+import com.kyle.im.common.entity.SMSLog;
+import com.kyle.im.common.mybatis.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

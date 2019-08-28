@@ -1,8 +1,9 @@
 package com.kyle.im.log.service;
 
-import com.kyle.log.mapper.LogonLogMapper;
-import com.kyle.mycommon.entity.LogonLog;
-import com.kyle.mycommon.response.ResultData;
+
+import com.kyle.im.common.entity.LogonLog;
+import com.kyle.im.common.response.ResultData;
+import com.kyle.im.log.mapper.LogonLogMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

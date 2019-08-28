@@ -1,10 +1,11 @@
 package com.kyle.im.log.controller;
 
-import com.kyle.log.service.SMSService;
-import com.kyle.mycommon.config.RouterName;
-import com.kyle.mycommon.response.MyResponse;
-import com.kyle.mycommon.util.StringUtils;
-import com.kyle.mycommon.util.ValidUserName;
+
+import com.kyle.im.common.config.RouterName;
+import com.kyle.im.common.response.MyResponse;
+import com.kyle.im.common.util.StringUtils;
+import com.kyle.im.common.util.ValidUserName;
+import com.kyle.im.log.service.SMSService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class SMSController {
      * @param code
      * @return
      */
-    @GetMapping(RouterName.LOG_CHECK_EMAIL_VALIDATE_CODE)
+    @GetMapping(RouterName.LOG_CHECK_SMS_VALIDATE_CODE)
     public ResponseEntity checkVCode(String phone,String code){
         if(StringUtils.isEmpty(phone,code) || !ValidUserName.isPhoneNo(phone)){
             return MyResponse.badRequest();
