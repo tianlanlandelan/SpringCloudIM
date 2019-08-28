@@ -1,7 +1,8 @@
 package com.kyle.im.proxy.cache;
 
 
-import com.kyle.mycommon.entity.Router;
+
+import com.kyle.im.common.entity.Router;
 
 import java.util.HashMap;
 import java.util.List;

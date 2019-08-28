@@ -1,8 +1,9 @@
 package com.kyle.im.user.controller;
 
-import com.kyle.mycommon.config.RouterName;
-import com.kyle.mycommon.response.MyResponse;
-import com.kyle.mycommon.router.RouterAttribute;
+
+import com.kyle.im.common.config.RouterName;
+import com.kyle.im.common.response.MyResponse;
+import com.kyle.im.common.router.RouterAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

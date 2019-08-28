@@ -1,12 +1,12 @@
 package com.kyle.im.proxy.controller;
 
-import com.kyle.ingateway.cache.CacheUtils;
-import com.kyle.mycommon.response.MyResponse;
-import com.kyle.mycommon.response.ResultData;
-import com.kyle.mycommon.util.Base64Utils;
-import com.kyle.mycommon.util.JsonUtils;
-import com.kyle.mycommon.util.ResponseUtils;
-import com.kyle.mycommon.util.StringUtils;
+import com.kyle.im.common.response.MyResponse;
+import com.kyle.im.common.response.ResultData;
+import com.kyle.im.common.util.Base64Utils;
+import com.kyle.im.common.util.JsonUtils;
+import com.kyle.im.common.util.ResponseUtils;
+import com.kyle.im.common.util.StringUtils;
+import com.kyle.im.proxy.cache.CacheUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

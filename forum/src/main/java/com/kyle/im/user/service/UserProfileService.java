@@ -1,7 +1,7 @@
 package com.kyle.im.user.service;
 
-import com.kyle.user.entity.UserProfile;
-import com.kyle.user.mapper.UserProfileMapper;
+import com.kyle.im.user.entity.UserProfile;
+import com.kyle.im.user.mapper.UserProfileMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

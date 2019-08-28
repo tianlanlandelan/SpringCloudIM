@@ -56,7 +56,7 @@ public interface BaseMapper<K> {
      * @return DELETE FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
      */
     @SelectProvider(type= BaseDeleteProvider.class,method = "deleteByCondition")
-    List<K> baseDeleteByCondition(K entity);
+    Integer baseDeleteByCondition(K entity);
 
     /**
      * 根据id 更新数据，空值不更新 ，要求必须有id字段
