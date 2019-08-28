@@ -14,6 +14,8 @@ public class RouterName {
     public static final String USER_SET_USER_PROFILE = "/A1007";
     public static final String USER_GET_USER_PROFILE = "/A1008";
     public static final String USER_INSERT_USERINFO = "/A1009";
+    public static final String USER_GETBYID = "/A1010";
+
 
     public static final String LOG_CHECK_EMAIL_VALIDATE_CODE = "/B1001";
     public static final String LOG_CHECK_SMS_VALIDATE_CODE = "/B1002";

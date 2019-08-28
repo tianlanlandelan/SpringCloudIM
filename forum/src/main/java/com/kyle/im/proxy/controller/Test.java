@@ -1,8 +1,14 @@
 package com.kyle.im.proxy.controller;
+import com.kyle.im.common.config.PublicConfig;
 import com.kyle.im.common.config.RequestConfig;
+import com.kyle.im.common.response.MyResponse;
 import com.kyle.im.common.util.Console;
-import com.kyle.im.common.util.StringUtils;
+import com.kyle.im.common.util.ResponseUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -14,32 +20,61 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("test")
+@CrossOrigin(origins = "*",allowedHeaders="*", maxAge = 3600)
 public class Test {
 
     @Resource
     HttpServletRequest request;
 
-
+    @Autowired
+    RestTemplate restTemplate;
 
     @GetMapping
-    public String get(){
+    public ResponseEntity get(){
         readRequest();
-        return "ok";
+        try {
+            return restTemplate.getForEntity(getUrl(), String.class, getParam());
+        }catch (HttpClientErrorException e){
+            return ResponseUtils.getResponseFromException(e);
+        }catch (Exception e){
+            return MyResponse.badRequest();
+        }
     }
+
     @PostMapping
-    public String post(){
+    public ResponseEntity post(){
         readRequest();
-        return "OK";
+        try {
+            return restTemplate.postForEntity(getUrl(),null,String.class,getParam());
+        }catch (HttpClientErrorException e){
+            return ResponseUtils.getResponseFromException(e);
+        }catch (Exception e){
+            return MyResponse.badRequest();
+        }
     }
     @PutMapping
-    public String put(){
+    public ResponseEntity put(){
         readRequest();
-        return "OK";
+        try {
+            restTemplate.put(getUrl(),null,getParam());
+            return MyResponse.ok();
+        }catch (HttpClientErrorException e){
+            return ResponseUtils.getResponseFromException(e);
+        }catch (Exception e){
+            return MyResponse.badRequest();
+        }
     }
     @DeleteMapping
-    public String delete(){
+    public ResponseEntity delete(){
         readRequest();
-        return "OK";
+        try {
+            restTemplate.delete(getUrl(),getParam());
+            return  MyResponse.ok();
+        }catch (HttpClientErrorException e){
+            return ResponseUtils.getResponseFromException(e);
+        }catch (Exception e){
+            return MyResponse.badRequest();
+        }
     }
 
     public void readRequest(){
@@ -92,5 +127,22 @@ public class Test {
             paramMap.put(paramName,paramValue);
         }
         return paramMap;
+    }
+    private String getUrl(){
+        HashMap<String,String> headers = getHeader();
+        HashMap<String,String> params = getParam();
+        StringBuilder builder = new StringBuilder();
+        builder.append(PublicConfig.SERVICE_URL)
+                .append("/")
+                .append(headers.get(RequestConfig.METHOD))
+                .append("?");
+        for(String key :params.keySet()){
+            builder.append(key)
+                    .append("={")
+                    .append(key)
+                    .append("}&");
+        }
+        Console.info(builder.toString());
+        return builder.toString();
     }
 }

@@ -3,18 +3,14 @@ package com.kyle.im.user.controller;
 import com.kyle.im.common.config.RouterName;
 import com.kyle.im.common.response.MyResponse;
 import com.kyle.im.common.router.RouterAttribute;
-import com.kyle.im.common.util.Console;
 import com.kyle.im.common.util.StringUtils;
 import com.kyle.im.common.util.ValidUserName;
 import com.kyle.im.user.service.UserInfoService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author yangkaile

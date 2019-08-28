@@ -64,7 +64,7 @@ import javax.annotation.Resource;
         return MyResponse.ok();
     }
 
-    @GetMapping("/getById")
+    @GetMapping(RouterName.USER_GETBYID)
     public ResponseEntity getById(Integer id){
         return MyResponse.ok(userInfoService.getById(id));
     }
