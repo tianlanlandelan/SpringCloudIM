@@ -24,9 +24,9 @@ import java.util.Map;
 /**
  * @author yangkaile
  * @date 2018-11-23 14:34:52
+ * 登录、注册等非登录状态下可调用的接口
  */
 @RestController
-@RequestMapping("/base")
 @CrossOrigin(origins = "*",allowedHeaders="*", maxAge = 3600)
 public class BaseController {
 
