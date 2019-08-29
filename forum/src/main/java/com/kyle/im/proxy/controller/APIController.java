@@ -17,11 +17,12 @@ import java.util.Map;
 /**
  * @author yangkaile
  * @date 2019-08-28 09:05:54
+ * 接口转发
  */
 @RestController
-@RequestMapping("test")
+@RequestMapping("api")
 @CrossOrigin(origins = "*",allowedHeaders="*", maxAge = 3600)
-public class Test {
+public class APIController {
 
     @Resource
     HttpServletRequest request;
