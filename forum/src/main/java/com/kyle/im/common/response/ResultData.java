@@ -44,6 +44,10 @@ public class ResultData {
         resultData.setMessage(message);
         return resultData;
     }
+    public boolean isSuccess(){
+        return success == SUCCESS_CODE_SUCCESS;
+    }
+
 
     public int getSuccess() {
         return success;

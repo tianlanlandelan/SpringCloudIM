@@ -30,6 +30,8 @@ public class APIController {
     @Autowired
     RestTemplate restTemplate;
 
+    // TODO 转发前校验JWT和用户权限
+
     @GetMapping
     public ResponseEntity get(){
         readRequest();

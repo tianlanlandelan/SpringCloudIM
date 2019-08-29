@@ -2,6 +2,7 @@ package com.kyle.im.user.controller;
 
 import com.kyle.im.common.config.RouterName;
 import com.kyle.im.common.response.MyResponse;
+import com.kyle.im.common.response.ResultData;
 import com.kyle.im.common.router.RouterAttribute;
 import com.kyle.im.common.util.StringUtils;
 import com.kyle.im.common.util.ValidUserName;
@@ -35,7 +36,12 @@ public class LogonController {
         if(StringUtils.isEmpty(userName,code) || ValidUserName.notPhoneOrEmail(userName)){
             return MyResponse.badRequest();
         }
-        return MyResponse.ok(userInfoService.checkCodeAndLogon(userName,code));
+        // TODO 记录登录日志，返回JWT
+        ResultData result = userInfoService.checkCodeAndLogon(userName,code);
+        if(result.isSuccess()){
+
+        }
+        return MyResponse.ok(result);
     }
 
     /**
