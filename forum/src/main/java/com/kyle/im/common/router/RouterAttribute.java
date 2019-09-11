@@ -1,5 +1,7 @@
 package com.kyle.im.common.router;
 
+import com.kyle.im.common.config.PublicConfig;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -20,8 +22,15 @@ public @interface RouterAttribute {
     String name();
 
     /**
+     * 权限
+     * 默认不设置访问权限
+     * @return
+     */
+    int authority() default PublicConfig.AUTHORITY_COMMON;
+
+    /**
      * 接口描述
      * @return
      */
-    String description();
+    String description() default "";
 }
