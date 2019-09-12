@@ -12,7 +12,7 @@ import java.util.Date;
  * @author 杨凯乐
  * @date 2018-08-02 09:33:01
  */
-@TableAttribute("router")
+@TableAttribute(name = "router")
 public class Router extends BaseEntity {
     /**
      * 接口ID

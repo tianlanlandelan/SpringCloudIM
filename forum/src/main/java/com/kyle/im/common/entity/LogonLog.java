@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by yangkaile on 2019/7/23.
  */
-@TableAttribute("logon_log")
+@TableAttribute(name = "logon_log")
 public class LogonLog extends BaseEntity {
     @KeyAttribute
     private int id;

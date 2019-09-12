@@ -12,7 +12,7 @@ import java.util.Date;
  * @date 2019年07月09日14:03:33
  *
  */
-@TableAttribute("user_profile")
+@TableAttribute(name = "user_profile")
 public class UserProfile extends BaseEntity {
     private int id;
     /**

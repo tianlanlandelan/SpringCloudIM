@@ -12,5 +12,15 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TableAttribute {
-    String value() ;
+    /**
+     * 表名
+     * @return
+     */
+    String name() ;
+
+    /**
+     * 描述
+     * @return
+     */
+    String comment() default "";
 }

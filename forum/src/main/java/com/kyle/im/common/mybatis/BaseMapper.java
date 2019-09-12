@@ -1,9 +1,6 @@
 package com.kyle.im.common.mybatis;
 
-import com.kyle.im.common.mybatis.provider.BaseDeleteProvider;
-import com.kyle.im.common.mybatis.provider.BaseInsertProvider;
-import com.kyle.im.common.mybatis.provider.BaseSelectProvider;
-import com.kyle.im.common.mybatis.provider.BaseUpdateProvider;
+import com.kyle.im.common.mybatis.provider.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -20,6 +17,14 @@ import java.util.List;
  * @param <K>
  */
 public interface BaseMapper<K> {
+
+    /**
+     * 创建表
+     * @param entity
+     */
+    @UpdateProvider(type = BaseCreateProvider.class , method = "create")
+    void baseCreate(K entity);
+
     /**
      * 插入操作
      * 将实体类的所有字段和字段的值分别列出来，适用于主键不是自增的表

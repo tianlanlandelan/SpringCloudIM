@@ -9,7 +9,7 @@ import com.kyle.im.common.mybatis.annotation.TableAttribute;
 import java.util.Date;
 
 
-@TableAttribute("sms_log")
+@TableAttribute(name = "sms_log")
 public class SMSLog extends BaseEntity{
     private int id;
     /**

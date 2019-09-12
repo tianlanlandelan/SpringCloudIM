@@ -16,7 +16,8 @@ import java.util.*;
 /**
  * Provider工具类
  * 提供获取读取表名、字段名等公用方法
- * Created by yangkaile on 2019/7/12.
+ * @author yangkaile
+ * @date 2019-09-12 15:29:19
  */
 public class SqlFieldReader {
     /**
@@ -29,8 +30,9 @@ public class SqlFieldReader {
         if(table == null){
             return null;
         }
-        return table.value();
+        return table.name();
     }
+
     /**
      * 将所有字段名以逗号拼接起来返回
      * 从属性前的@FieldAttribute注解解析要查询的字段名
@@ -204,34 +206,142 @@ public class SqlFieldReader {
         return fieldList;
     }
 
-    public static List<SqlField> getFieldList(Class cls){
-        List<SqlField> list = getAnnotationList(cls,FieldAttribute.class);
-        if(list.size() == 0){
-            return getAnnotationList(cls,null);
+    /**
+     * 读取@TableAttribute注解，解析表名和描述
+     * 读取@FieldAttribute注解，解析字段名和描述
+     * 读取@KeyAttribute注解和@AutoIncrKeyAttribute注解，解析主键
+     * 读取@IndexAttribute注解，解析索引
+     *
+     * 创建的数据表，含表名、数据表描述、字段名、字段描述、主键、自增主键、索引
+     * @param cls
+     * @return
+     */
+    public static String getCreateTableSql(Class cls){
+
+        TableAttribute table = (TableAttribute) cls.getAnnotation(TableAttribute.class);
+        if(table == null){
+            return null;
         }
-        return list;
+        String tableName = table.name();
+        String tableComment = table.comment();
+
+        StringBuilder builder = new StringBuilder();
+
+        /*
+         * 拼写基础建表语句
+         */
+        builder.append("create table ")
+                .append(tableName)
+                .append("( \n");
+
+        List<SqlField> fieldMap = getFieldAnnotationList(cls);
+        for(SqlField field : fieldMap){
+            builder.append(field.getName())
+                    .append(" ")
+                    .append(TypeCaster.getType(field.getType()));
+            //如果有字段说明，添加字段说明
+            if(StringUtils.isNotEmpty(field.getComment())) {
+               builder.append(" comment '")
+                       .append(field.getComment())
+                       .append("'");
+            }
+            builder.append(", \n");
+        }
+        builder.deleteCharAt(builder.lastIndexOf(","));
+        builder.append(") ");
+
+        // 如果有表说明，添加表说明
+        if(StringUtils.isNotEmpty(tableComment)){
+            builder.append("comment '")
+                    .append(tableComment)
+                    .append("'; \n");
+        }else {
+            builder.append("; \n");
+        }
+
+
+        // 设置主键
+        SqlField key = SqlFieldReader.getKey(cls);
+        SqlField autoIncrKey = SqlFieldReader.getAutoIncrKey(cls);
+
+        if(key != null && autoIncrKey != null){
+            builder .append("alter table ")
+                    .append(tableName)
+                    .append(" change ")
+                    .append(autoIncrKey.getName())
+                    .append(" ")
+                    .append(autoIncrKey.getName())
+                    .append(" ")
+                    .append(TypeCaster.getType(autoIncrKey.getType()))
+                    .append(" auto_increment primary key ; \n");
+        }else if(key != null){
+            builder.append("alter table ")
+                    .append(tableName)
+                    .append(" add primary key (")
+                    .append(key.getName())
+                    .append("); \n");
+        }
+
+        //设置索引
+        List<SqlField> indexMap = SqlFieldReader.getIndexList(cls);
+        for(SqlField field:indexMap){
+            builder.append("alter table ")
+                    .append(tableName)
+                    .append(" add index ")
+                    .append(tableName)
+                    .append("_index_")
+                    .append(field.getName())
+                    .append(" (")
+                    .append(field.getName())
+                    .append("); \n");
+        }
+        Console.print("",builder.toString());
+        return builder.toString();
     }
+
 
     /**
      *
      * @param cls           实体类 Class
-     * @param annotation    注解 Class ；如果annotation为Null时，表示获取cls中所有属性的map
+     * @param annotation    注解 Class
      * @return
      */
     public static List<SqlField> getAnnotationList(Class cls, Class annotation){
         Field[] fields = cls.getDeclaredFields();
         List<SqlField> list = new ArrayList<>();
         for(Field field:fields){
-            if(annotation == null){
+            if(annotation != null && field.getAnnotation(annotation) != null){
                 list.add(new SqlField(field.getName(), field.getType().getSimpleName()));
-            }else{
-                if(field.getAnnotation(annotation) != null){
-                    list.add(new SqlField(field.getName(), field.getType().getSimpleName()));
-                }
             }
         }
         return list;
     }
+
+    /**
+     * 获取字段列表
+     * @param cls
+     * @return
+     */
+    public static List<SqlField> getFieldAnnotationList(Class cls){
+        Field[] fields = cls.getDeclaredFields();
+        List<SqlField> list = new ArrayList<>();
+        for(Field field:fields){
+            FieldAttribute fieldAttribute = (FieldAttribute)field.getAnnotation(FieldAttribute.class);
+            if(fieldAttribute != null){
+                list.add(new SqlField(field.getName(),
+                        field.getType().getSimpleName(),
+                        fieldAttribute.value()));
+
+            }
+        }
+        return list;
+    }
+
+    /**
+     * 获取索引字段列表
+     * @param cls
+     * @return
+     */
     public static List<SqlField> getIndexList(Class cls){
         return getAnnotationList(cls,IndexAttribute.class);
     }
@@ -256,6 +366,20 @@ public class SqlFieldReader {
             return list.get(0);
         }
         return null;
+    }
+
+    /**
+     * 获取自增主键
+     * @param cls
+     * @return
+     */
+    public static SqlField getAutoIncrKey(Class cls){
+        List<SqlField> list = getAnnotationList(cls,AutoIncrKeyAttribute.class);
+        if(list.size() == 0){
+            return null;
+        }else {
+            return list.get(0);
+        }
     }
 
     /**
@@ -286,7 +410,7 @@ public class SqlFieldReader {
 
     public static void main(String[] args){
         UserInfo log = new UserInfo();
-        List fieldList = getFieldList(log.getClass());
+        List fieldList = getFieldAnnotationList(log.getClass());
         List indexList = getIndexList(log.getClass());
         SqlField key = getKey(log.getClass());
         Console.print("fieldList",fieldList);
