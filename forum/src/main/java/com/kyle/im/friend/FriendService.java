@@ -44,4 +44,8 @@ public class FriendService {
         return ResultData.success();
     }
 
+    public ResultData deleteFriend(int userId,int friendId){
+        return ResultData.success();
+    }
+
 }

@@ -23,7 +23,7 @@ public @interface RouterAttribute {
 
     /**
      * 权限
-     * 默认不设置访问权限
+     * 默认登录用户可以访问
      * @return
      */
     int authority() default PublicConfig.AUTHORITY_COMMON;
