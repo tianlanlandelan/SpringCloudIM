@@ -234,11 +234,15 @@ public class SqlFieldReader {
                 .append(tableName)
                 .append("( \n");
 
-        List<SqlField> fieldMap = getFieldAnnotationList(cls);
-        for(SqlField field : fieldMap){
+        List<SqlField> fieldList = getFieldAnnotationList(cls);
+        for(SqlField field : fieldList){
             builder.append(field.getName())
                     .append(" ")
                     .append(TypeCaster.getType(field.getType()));
+            if(field.isNotNull()){
+                builder.append(" not null ");
+            }
+
             //如果有字段说明，添加字段说明
             if(StringUtils.isNotEmpty(field.getComment())) {
                builder.append(" comment '")
@@ -325,12 +329,15 @@ public class SqlFieldReader {
     public static List<SqlField> getFieldAnnotationList(Class cls){
         Field[] fields = cls.getDeclaredFields();
         List<SqlField> list = new ArrayList<>();
+
         for(Field field:fields){
-            FieldAttribute fieldAttribute = (FieldAttribute)field.getAnnotation(FieldAttribute.class);
+            FieldAttribute fieldAttribute = field.getAnnotation(FieldAttribute.class);
             if(fieldAttribute != null){
                 list.add(new SqlField(field.getName(),
                         field.getType().getSimpleName(),
-                        fieldAttribute.value()));
+                        fieldAttribute.value(),
+                        fieldAttribute.notNull()
+                ));
 
             }
         }

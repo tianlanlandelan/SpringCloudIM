@@ -2,6 +2,7 @@ package com.kyle.im.group.entity;
 
 import com.kyle.im.common.mybatis.annotation.AutoIncrKeyAttribute;
 import com.kyle.im.common.mybatis.annotation.FieldAttribute;
+import com.kyle.im.common.mybatis.annotation.IndexAttribute;
 import com.kyle.im.common.mybatis.annotation.TableAttribute;
 
 import java.util.Date;
@@ -17,13 +18,16 @@ public class GroupInfo {
     @AutoIncrKeyAttribute
     private int id;
 
+    @IndexAttribute
     @FieldAttribute("群名称")
     private String name;
 
+    @IndexAttribute
     @FieldAttribute("创建时间，不可更改，记录该群最初创建的时间")
     private Date createTime = new Date();
 
-    @FieldAttribute("创建人")
+    @IndexAttribute
+    @FieldAttribute(value = "创建人",notNull = true)
     private int createUserId;
 
     @FieldAttribute("群公告，管理员可修改")

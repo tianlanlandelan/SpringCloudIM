@@ -6,9 +6,22 @@ package com.kyle.im.common.mybatis;
  * @date 2019-09-12 15:40:23
  */
 public class SqlField {
+    /**
+     * 字段名
+     */
     private String name;
+    /**
+     * 字段类型
+     */
     private String type;
+    /**
+     * 字段说明
+     */
     private String comment;
+    /**
+     * 是否必填
+     */
+    private boolean notNull;
 
     public SqlField(String name, String type){
         this.name = name;
@@ -20,6 +33,12 @@ public class SqlField {
         this.comment = comment;
     }
 
+    public SqlField(String name, String type,String comment,boolean notNull){
+        this.name = name;
+        this.type = type;
+        this.comment = comment;
+        this.notNull = notNull;
+    }
     public String getName() {
         return name;
     }
@@ -44,12 +63,21 @@ public class SqlField {
         this.comment = comment;
     }
 
+    public boolean isNotNull() {
+        return notNull;
+    }
+
+    public void setNotNull(boolean notNull) {
+        this.notNull = notNull;
+    }
+
     @Override
     public String toString() {
         return "SqlField{" +
                 "name='" + name + '\'' +
                 ", type='" + type + '\'' +
-                ", value='" + comment + '\'' +
+                ", comment='" + comment + '\'' +
+                ", notNull=" + notNull +
                 '}';
     }
 }
