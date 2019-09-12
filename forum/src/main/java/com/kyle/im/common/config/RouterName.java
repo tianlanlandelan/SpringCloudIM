@@ -18,4 +18,13 @@ public class RouterName {
 
     public static final String LOG_CHECK_EMAIL_VALIDATE_CODE = "/B1001";
     public static final String LOG_CHECK_SMS_VALIDATE_CODE = "/B1002";
+
+    public static final String FRIEND_ADD = "/C1001";
+    public static final String FRIEND_DELETE = "/C1002";
+    public static final String FRIEND_SET_NICKNAME = "/C1003";
+    public static final String FRIEND_GETLIST = "/C1004";
+    public static final String FRIEND_GET = "/C1005";
+    public static final String FRIEND_ACTION_ADD = "/C1006";
+
+
 }
