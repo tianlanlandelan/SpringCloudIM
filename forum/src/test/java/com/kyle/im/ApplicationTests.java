@@ -1,6 +1,8 @@
 package com.kyle.im;
 
 import com.kyle.im.common.util.Console;
+import com.kyle.im.group.entity.GroupInfo;
+import com.kyle.im.group.mapper.GroupInfoMapper;
 import com.kyle.im.user.entity.UserInfo;
 import com.kyle.im.user.mapper.UserInfoMapper;
 import org.junit.Test;
@@ -18,6 +20,9 @@ public class ApplicationTests {
     @Resource
     UserInfoMapper userInfoMapper;
 
+    @Resource
+    GroupInfoMapper groupInfoMapper;
+
     @Test
     public void contextLoads() {
         ConcurrentHashMap map = new ConcurrentHashMap(16);
@@ -27,6 +32,12 @@ public class ApplicationTests {
     public void createUserInfoTable(){
         UserInfo userInfo = new UserInfo();
         userInfoMapper.baseCreate(userInfo);
+    }
+
+    @Test
+    public void createGroupInfoTable(){
+        GroupInfo groupInfo = new GroupInfo();
+        groupInfoMapper.baseCreate(groupInfo);
     }
 
     @Test
