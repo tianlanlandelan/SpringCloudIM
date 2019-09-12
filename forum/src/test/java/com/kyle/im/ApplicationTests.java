@@ -1,6 +1,8 @@
 package com.kyle.im;
 
 import com.kyle.im.common.util.Console;
+import com.kyle.im.friend.entity.Friend;
+import com.kyle.im.friend.mapper.FriendMapper;
 import com.kyle.im.group.entity.GroupInfo;
 import com.kyle.im.group.entity.GroupMember;
 import com.kyle.im.group.mapper.GroupInfoMapper;
@@ -28,6 +30,9 @@ public class ApplicationTests {
     @Resource
     GroupMemberMapper groupMemberMapper;
 
+    @Resource
+    FriendMapper friendMapper;
+
     @Test
     public void contextLoads() {
         ConcurrentHashMap map = new ConcurrentHashMap(16);
@@ -45,6 +50,11 @@ public class ApplicationTests {
     @Test
     public void createGroupMemberTable(){
         groupMemberMapper.baseCreate(new GroupMember());
+    }
+
+    @Test
+    public void createFriendTable(){
+        friendMapper.baseCreate(new Friend());
     }
 
     @Test
