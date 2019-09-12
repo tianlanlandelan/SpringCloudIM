@@ -2,6 +2,7 @@ package com.kyle.im.common.mybatis.provider;
 
 
 
+import com.kyle.im.common.mybatis.SqlFieldReader;
 import com.kyle.im.common.util.Console;
 import com.kyle.im.common.util.StringUtils;
 
@@ -31,11 +32,11 @@ public class BaseInsertProvider {
         String className = cls.getName();
         String sql = insertMap.get(className);
         if(StringUtils.isEmpty(sql)){
-            String fieldStr = ProviderUtil.getFieldStr(cls);
+            String fieldStr = SqlFieldReader.getFieldStr(cls);
 
             StringBuilder builder = new StringBuilder();
             builder.append("INSERT INTO ")
-                    .append(ProviderUtil.getTableName(cls)).append(" ")
+                    .append(SqlFieldReader.getTableName(cls)).append(" ")
                     .append("(").append(fieldStr).append(") ")
                     .append("VALUES(");
 
@@ -58,7 +59,7 @@ public class BaseInsertProvider {
         String className = cls.getName();
         String sql = insertAndReturnKeyMap.get(className);
         if(StringUtils.isEmpty(sql)){
-            String fieldStr = ProviderUtil.getFieldStr(cls);
+            String fieldStr = SqlFieldReader.getFieldStr(cls);
             String[] arrays = fieldStr.split(",");
 
             StringBuilder builder = new StringBuilder();
@@ -66,7 +67,7 @@ public class BaseInsertProvider {
             StringBuilder valuesStr = new StringBuilder();
 
             builder.append("INSERT INTO ")
-                    .append(ProviderUtil.getTableName(cls)).append(" ")
+                    .append(SqlFieldReader.getTableName(cls)).append(" ")
                     .append("(");
             for(String str:arrays){
                 if("id".equals(str)){

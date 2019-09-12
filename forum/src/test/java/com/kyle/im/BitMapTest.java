@@ -17,5 +17,7 @@ public class BitMapTest {
         Console.print("",bitMap.at(8));
         Console.print("",bitMap.size());
         Console.print("",bitMap.toString());
+        int a = 100;
+        Console.print("",BitMap.setBits(a,30));
     }
 }

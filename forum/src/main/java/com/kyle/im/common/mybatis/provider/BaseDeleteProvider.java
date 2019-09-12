@@ -4,6 +4,7 @@ package com.kyle.im.common.mybatis.provider;
 
 
 import com.kyle.im.common.mybatis.BaseEntity;
+import com.kyle.im.common.mybatis.SqlFieldReader;
 import com.kyle.im.common.util.Console;
 import com.kyle.im.common.util.StringUtils;
 
@@ -38,7 +39,7 @@ public class BaseDeleteProvider {
 
     public static  <T> String deleteByKey(T entity){
         try {
-            String sql =  getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionByKeySuffix(entity);
+            String sql =  getDeletePrefix(entity.getClass()) + SqlFieldReader.getConditionByKeySuffix(entity);
             Console.info("deleteByKey",sql,entity);
             return sql;
         }catch (Exception e){
@@ -56,13 +57,13 @@ public class BaseDeleteProvider {
      * @return DELETE FROM router  WHERE name = #{name} AND serviceName = #{serviceName}
      */
     public static <T extends BaseEntity> String deleteByCondition(T entity){
-        String sql = getDeletePrefix(entity.getClass()) + ProviderUtil.getConditionSuffix(entity);
+        String sql = getDeletePrefix(entity.getClass()) + SqlFieldReader.getConditionSuffix(entity);
         Console.info("deleteByCondition",sql,entity);
         return sql;
     }
 
     private static String getDeletePrefix(Class cls){
-        return "DELETE FROM " + ProviderUtil.getTableName(cls) + " ";
+        return "DELETE FROM " + SqlFieldReader.getTableName(cls) + " ";
     }
 
     public static void main(String[] args){

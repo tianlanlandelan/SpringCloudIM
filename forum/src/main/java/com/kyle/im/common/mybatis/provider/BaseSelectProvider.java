@@ -2,6 +2,7 @@ package com.kyle.im.common.mybatis.provider;
 
 import com.kyle.im.common.entity.Router;
 import com.kyle.im.common.mybatis.BaseEntity;
+import com.kyle.im.common.mybatis.SqlFieldReader;
 import com.kyle.im.common.util.Console;
 import com.kyle.im.common.util.StringUtils;
 
@@ -53,7 +54,7 @@ public class BaseSelectProvider {
      */
     public static  <T> String selectByKey(T entity){
         try {
-            String sql = getSelectPrefix(entity.getClass()) + ProviderUtil.getConditionByKeySuffix(entity);
+            String sql = getSelectPrefix(entity.getClass()) + SqlFieldReader.getConditionByKeySuffix(entity);
             Console.info("selectByKey",sql,entity);
             return sql;
         }catch (Exception e){
@@ -94,8 +95,8 @@ public class BaseSelectProvider {
      */
     public static <T extends BaseEntity> String selectByCondition(T entity){
         String sql = getSelectPrefix(entity.getClass())
-                + ProviderUtil.getConditionSuffix(entity)
-                + ProviderUtil.getSortSuffix(entity);
+                + SqlFieldReader.getConditionSuffix(entity)
+                + SqlFieldReader.getSortSuffix(entity);
         Console.info("selectByCondition",sql,entity);
         return  sql;
     }
@@ -107,7 +108,7 @@ public class BaseSelectProvider {
      * @return SELECT COUNT(1) FROM router
      */
     public static <T> String selectCount(T entity){
-        String sql = "SELECT COUNT(1) FROM " + ProviderUtil.getTableName(entity.getClass());
+        String sql = "SELECT COUNT(1) FROM " + SqlFieldReader.getTableName(entity.getClass());
         Console.info("selectCount",sql,entity);
         return sql;
     }
@@ -121,7 +122,7 @@ public class BaseSelectProvider {
      * @return SELECT COUNT(1) FROM router WHERE name = #{name} AND serviceName = #{serviceName}
      */
     public static <T extends BaseEntity> String selectCountByCondition(T entity){
-        String sql = selectCount(entity) + ProviderUtil.getConditionSuffix(entity);
+        String sql = selectCount(entity) + SqlFieldReader.getConditionSuffix(entity);
         Console.info("selectCountByCondition",sql,entity);
         return sql;
     }
@@ -168,7 +169,7 @@ public class BaseSelectProvider {
         if(StringUtils.isNotEmpty(sql)){
             return sql;
         }else {
-            sql = "SELECT " + ProviderUtil.getFieldStr(cls) + " FROM " + ProviderUtil.getTableName(cls) + " ";
+            sql = "SELECT " + SqlFieldReader.getFieldStr(cls) + " FROM " + SqlFieldReader.getTableName(cls) + " ";
             return sql;
         }
     }

@@ -1,5 +1,6 @@
 package com.kyle.im.common.mybatis.provider;
 
+import com.kyle.im.common.mybatis.SqlFieldReader;
 import com.kyle.im.common.util.Console;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class BaseUpdateProvider {
      */
     public static  <T> String updateByKey(T entity){
         try {
-            String sql = getUpdatePrefix(entity) + ProviderUtil.getConditionByKeySuffix(entity);
+            String sql = getUpdatePrefix(entity) + SqlFieldReader.getConditionByKeySuffix(entity);
             Console.info("updateByKey",sql,entity);
             return sql;
         }catch (Exception e){
@@ -46,11 +47,11 @@ public class BaseUpdateProvider {
     private static <T> String getUpdatePrefix(T entity){
         Class cls = entity.getClass();
         StringBuilder builder = new StringBuilder();
-        builder.append("UPDATE ").append(ProviderUtil.getTableName(cls)).append(" SET ");
-        List<String> fields = ProviderUtil.getFields(cls);
+        builder.append("UPDATE ").append(SqlFieldReader.getTableName(cls)).append(" SET ");
+        List<String> fields = SqlFieldReader.getFields(cls);
         try{
             for(String field:fields){
-                if(ProviderUtil.hasValue(entity,field)){
+                if(SqlFieldReader.hasValue(entity,field)){
                     builder.append(field).append(" = #{")
                             .append(field).append("} ").append(",");
                 }

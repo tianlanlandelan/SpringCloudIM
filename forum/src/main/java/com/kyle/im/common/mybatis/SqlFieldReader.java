@@ -1,14 +1,12 @@
-package com.kyle.im.common.mybatis.provider;
+package com.kyle.im.common.mybatis;
 
 
 
 
-import com.kyle.im.common.entity.EmailLog;
-import com.kyle.im.common.mybatis.BaseEntity;
-import com.kyle.im.common.mybatis.BaseException;
 import com.kyle.im.common.mybatis.annotation.*;
 import com.kyle.im.common.util.Console;
 import com.kyle.im.common.util.StringUtils;
+import com.kyle.im.user.entity.UserInfo;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -20,7 +18,7 @@ import java.util.*;
  * 提供获取读取表名、字段名等公用方法
  * Created by yangkaile on 2019/7/12.
  */
-public class ProviderUtil {
+public class SqlFieldReader {
     /**
      * 读取表名，要求类上有@TableAttribute注解
      * @param cls 实体类型
@@ -85,7 +83,7 @@ public class ProviderUtil {
         try {
             for(Field field:fields){
                 if(field.getAnnotation(IndexAttribute.class) != null){
-                    if(ProviderUtil.hasValue(entity,field.getName())){
+                    if(SqlFieldReader.hasValue(entity,field.getName())){
                         builder.append(field.getName())
                                 .append(" = #{").append(field.getName()).append("} ")
                                 .append(condition).append(" ");
@@ -123,7 +121,7 @@ public class ProviderUtil {
         try {
             for(Field field:fields){
                 if(field.getAnnotation(KeyAttribute.class) != null){
-                    if(ProviderUtil.hasValue(entity,field.getName())){
+                    if(hasValue(entity,field.getName())){
                         builder.append(field.getName())
                                 .append(" = #{").append(field.getName()).append("} ");
                     }else {
@@ -206,12 +204,12 @@ public class ProviderUtil {
         return fieldList;
     }
 
-    public static Map<String,String> getFieldMap(Class cls){
-        Map<String,String> map = getAnnotationMap(cls,FieldAttribute.class);
-        if(map.size() == 0){
-            return getAnnotationMap(cls,null);
+    public static List<SqlField> getFieldList(Class cls){
+        List<SqlField> list = getAnnotationList(cls,FieldAttribute.class);
+        if(list.size() == 0){
+            return getAnnotationList(cls,null);
         }
-        return map;
+        return list;
     }
 
     /**
@@ -220,35 +218,44 @@ public class ProviderUtil {
      * @param annotation    注解 Class ；如果annotation为Null时，表示获取cls中所有属性的map
      * @return
      */
-    public static Map<String,String> getAnnotationMap(Class cls,Class annotation){
+    public static List<SqlField> getAnnotationList(Class cls, Class annotation){
         Field[] fields = cls.getDeclaredFields();
-        Map<String,String> map = new HashMap<>(16);
+        List<SqlField> list = new ArrayList<>();
         for(Field field:fields){
             if(annotation == null){
-                map.put(field.getName(), field.getType().getSimpleName());
+                list.add(new SqlField(field.getName(), field.getType().getSimpleName()));
             }else{
                 if(field.getAnnotation(annotation) != null){
-                    map.put(field.getName(), field.getType().getSimpleName());
+                    list.add(new SqlField(field.getName(), field.getType().getSimpleName()));
                 }
             }
         }
-        return map;
+        return list;
     }
-    public static Map<String,String> getIndexMap(Class cls){
-        return getAnnotationMap(cls,IndexAttribute.class);
+    public static List<SqlField> getIndexList(Class cls){
+        return getAnnotationList(cls,IndexAttribute.class);
     }
-    public static Map<String,String> getKeyMap(Class cls){
-        Map<String,String> map = getAnnotationMap(cls,KeyAttribute.class);
-        if(map.size() == 0){
+
+    /**
+     * 获取主键，默认id字段是主键
+     * 如果没有设置主键时，将id字段设为主键
+     * 如果设置了多个主键，只取第一个
+     * @param cls
+     * @return
+     */
+    public static SqlField getKey(Class cls){
+        List<SqlField> list = getAnnotationList(cls,KeyAttribute.class);
+        if(list.size() == 0){
             Field[] fields = cls.getDeclaredFields();
             for(Field field:fields){
                 if("id".equals(field.getName())){
-                    map.put(field.getName(), field.getType().getSimpleName());
-                    break;
+                    return new SqlField(field.getName(),field.getType().getSimpleName());
                 }
             }
+        }else {
+            return list.get(0);
         }
-        return map;
+        return null;
     }
 
     /**
@@ -278,18 +285,12 @@ public class ProviderUtil {
     }
 
     public static void main(String[] args){
-        EmailLog log = new EmailLog();
-        Map fieldMap = getFieldMap(log.getClass());
-        Map indexMap = getIndexMap(log.getClass());
-        Map keyMap = getKeyMap(log.getClass());
-        Console.print("fieldMap",fieldMap);
-        Console.print("indexMap",indexMap);
-        Console.print("keyMap",keyMap);
-
-        Iterator<Map.Entry<String, String>> it = fieldMap.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<String, String> entry = it.next();
-            System.out.println("key= " + entry.getKey() + " and value= " + entry.getValue());
-        }
+        UserInfo log = new UserInfo();
+        List fieldList = getFieldList(log.getClass());
+        List indexList = getIndexList(log.getClass());
+        SqlField key = getKey(log.getClass());
+        Console.print("fieldList",fieldList);
+        Console.print("indexList",indexList);
+        Console.print("key",key);
     }
 }
