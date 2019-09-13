@@ -1,10 +1,9 @@
 package com.kyle.im.friend.controller;
 
-import com.kyle.im.common.config.PublicConfig;
 import com.kyle.im.common.config.RouterName;
 import com.kyle.im.common.response.MyResponse;
 import com.kyle.im.common.router.RouterAttribute;
-import com.kyle.im.friend.FriendService;
+import com.kyle.im.friend.service.FriendService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;

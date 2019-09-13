@@ -1,8 +1,16 @@
-package com.kyle.im.friend;
+package com.kyle.im.friend.service;
 
+import com.kyle.im.common.config.RouterName;
+import com.kyle.im.common.config.ServiceName;
+import com.kyle.im.common.response.ResponseReader;
 import com.kyle.im.common.response.ResultData;
 import com.kyle.im.friend.mapper.FriendMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 
@@ -14,6 +22,11 @@ import javax.annotation.Resource;
 public class FriendService {
     @Resource
     private FriendMapper friendMapper;
+
+    @Resource
+    RestTemplate restTemplate;
+    @Autowired
+    private LoadBalancerClient loadBalancer;
 
     /**
      * 添加好友
@@ -27,6 +40,20 @@ public class FriendService {
      * @return
      */
     public ResultData addFriend(int userId,int friendId){
+
+        ServiceInstance serviceInstance = loadBalancer.choose(ServiceName.USER);
+        System.out.println("服务地址：" + serviceInstance.getUri());
+        System.out.println("服务名称：" + serviceInstance.getServiceId());
+
+        ResponseEntity<String> response = restTemplate.getForEntity(
+                serviceInstance.getUri().toString()
+                        + RouterName.USER_GET_SWITCH  + "?id=" + friendId , String.class);
+
+//        if(ResponseReader.isSuccess(response)){
+//
+//        }else {
+//            return ResponseReader.isSuccess()
+//        }
 
         return ResultData.success();
     }

@@ -43,31 +43,17 @@ import javax.annotation.Resource;
         return MyResponse.badRequest();
     }
 
-    @RouterAttribute(name = "",description = "")
-    @PostMapping(RouterName.USER_ADD_EMAIL)
-    public ResponseEntity addEmail(int id,String email){
-        return MyResponse.ok();
-    }
-    @RouterAttribute(name = "",description = "")
-    @PostMapping(RouterName.USER_ADD_PHONE)
-    public ResponseEntity addPhoneNo(int id,String phoneNo){
-        return MyResponse.ok();
-    }
-    @RouterAttribute(name = "",description = "")
-    @PutMapping(RouterName.USER_UPDATE_EMAIL)
-    public ResponseEntity updateEmail(int id,String email){
-        return MyResponse.ok();
-    }
-    @RouterAttribute(name = "",description = "")
-    @PutMapping(RouterName.USER_UPDATE_PHONE)
-    public ResponseEntity updatePhoneNo(int id,String phoneNo){
-        return MyResponse.ok();
-    }
 
     @GetMapping(RouterName.USER_GETBYID)
     public ResponseEntity getById(Integer id){
         return MyResponse.ok(userInfoService.getById(id));
     }
+
+    @GetMapping(RouterName.USER_GET_SWITCH)
+    public ResponseEntity getUserSwitch(Integer id){
+        return MyResponse.ok(userInfoService.getUserSwitch(id));
+    }
+
 
     @GetMapping("/getAll")
     public ResponseEntity getAll(){

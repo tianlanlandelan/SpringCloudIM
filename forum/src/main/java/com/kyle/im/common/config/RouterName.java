@@ -5,12 +5,19 @@ package com.kyle.im.common.config;
  * @date 2019年07月09日13:53:00
  */
 public class RouterName {
-    public static final String USER_LOGON_WITH_VALIDATE_CODE = "/A1001";
+    /**
+     * 验证码登录、自动注册
+     */
+    public static final String USER_LOGON_BY_CODE = "/A1001";
+    /**
+     * 账号密码登录
+     */
     public static final String USER_LOGON = "/A1002";
-    public static final String USER_ADD_EMAIL = "/A1003";
-    public static final String USER_ADD_PHONE = "/A1004";
-    public static final String USER_UPDATE_EMAIL = "/A1005";
-    public static final String USER_UPDATE_PHONE = "/A1006";
+    /**
+     * 获取用户个人设置
+     */
+    public static final String USER_GET_SWITCH = "/A1003";
+
     public static final String USER_SET_USER_PROFILE = "/A1007";
     public static final String USER_GET_USER_PROFILE = "/A1008";
     public static final String USER_INSERT_USERINFO = "/A1009";

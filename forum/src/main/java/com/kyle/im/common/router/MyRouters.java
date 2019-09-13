@@ -2,7 +2,8 @@ package com.kyle.im.common.router;
 
 
 import com.kyle.im.common.entity.Router;
-import com.kyle.im.common.response.MyResponseReader;
+import com.kyle.im.common.response.ResponseReader;
+import com.kyle.im.common.response.ResultData;
 import com.kyle.im.common.util.Constants;
 import com.kyle.im.common.util.StringUtils;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
@@ -126,7 +127,7 @@ public class MyRouters {
     public static List<Router> getRouters(){
         RestTemplate restTemplate = getRestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("",String.class);
-        List<Router> list = MyResponseReader.getList(responseEntity,Router.class);
+        List<Router> list = ResponseReader.getList(responseEntity,Router.class);
         MyRouters.initRouterMap(list);
         return list;
     }

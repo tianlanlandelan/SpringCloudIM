@@ -4,7 +4,7 @@ package com.kyle.im.proxy.controller;
 import com.kyle.im.common.config.PublicConfig;
 import com.kyle.im.common.config.RouterName;
 import com.kyle.im.common.response.MyResponse;
-import com.kyle.im.common.response.MyResponseReader;
+import com.kyle.im.common.response.ResponseReader;
 import com.kyle.im.common.util.Console;
 import com.kyle.im.common.util.StringUtils;
 import com.kyle.im.common.util.ValidUserName;
@@ -55,7 +55,7 @@ public class BaseController {
         map.put("password",password);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(
                 PublicConfig.SERVICE_URL + RouterName.USER_LOGON,null,String.class,map);
-        if(!MyResponseReader.isSuccess(responseEntity)){
+        if(!ResponseReader.isSuccess(responseEntity)){
             return MyResponse.badRequest();
         }
 
@@ -79,8 +79,8 @@ public class BaseController {
         map.put("userName", userName);
         map.put("code",code);
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(
-                PublicConfig.SERVICE_URL + RouterName.USER_LOGON_WITH_VALIDATE_CODE,null,String.class,map);
-        if(!MyResponseReader.isSuccess(responseEntity)){
+                PublicConfig.SERVICE_URL + RouterName.USER_LOGON_BY_CODE,null,String.class,map);
+        if(!ResponseReader.isSuccess(responseEntity)){
             return MyResponse.badRequest();
         }
 

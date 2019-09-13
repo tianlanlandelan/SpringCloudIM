@@ -3,7 +3,7 @@ package com.kyle.im.user.service;
 import com.kyle.im.common.config.PublicConfig;
 import com.kyle.im.common.config.RouterName;
 import com.kyle.im.common.entity.LogonLog;
-import com.kyle.im.common.response.MyResponseReader;
+import com.kyle.im.common.response.ResponseReader;
 import com.kyle.im.common.response.ResultData;
 import com.kyle.im.common.util.*;
 import com.kyle.im.user.entity.UserInfo;
@@ -55,7 +55,7 @@ public class UserInfoService {
             /*
                验证码有效
              */
-            if(MyResponseReader.isSuccess(responseEntity)){
+            if(ResponseReader.isSuccess(responseEntity)){
                 UserInfo userInfo = getByPhoneOrEmail(userName);
                 if(userInfo != null){
                     //记录登录日志
@@ -188,6 +188,18 @@ public class UserInfoService {
         userInfo = userInfoMapper.baseSelectById(userInfo);
         return ResultData.success(userInfo);
     }
+    public ResultData getUserSwitch(int id){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(id);
+        userInfo = userInfoMapper.baseSelectById(userInfo);
+        if(userInfo == null){
+            return ResultData.error("用户不存在");
+        }else{
+            return ResultData.success(userInfo.getSwitchs());
+        }
+    }
+
+
     public ResultData getAll(){
         UserInfo userInfo = new UserInfo();
         List<UserInfo> list = userInfoMapper.baseSelectAll(userInfo);

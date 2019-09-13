@@ -30,7 +30,7 @@ public class LogonController {
      * @return
      */
     @RouterAttribute(name = "验证码登录接口",description = "发现手机号或邮箱没有注册时自动注册")
-    @PostMapping(value = RouterName.USER_LOGON_WITH_VALIDATE_CODE)
+    @PostMapping(value = RouterName.USER_LOGON_BY_CODE)
     public ResponseEntity logonWithCode(String userName,String code){
 
         if(StringUtils.isEmpty(userName,code) || ValidUserName.notPhoneOrEmail(userName)){
