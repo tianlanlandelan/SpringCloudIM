@@ -24,7 +24,7 @@ public class UserInfo extends BaseEntity {
     /**
     * 用户名,不重复，默认为手机号，可用于登录
     */
-    @FieldAttribute("用户名")
+    @FieldAttribute(value = "用户名",length = 20)
     @IndexAttribute
     private String userName;
     /**
@@ -54,7 +54,7 @@ public class UserInfo extends BaseEntity {
     * 掩码值，用来表示一系列开关（如：是否开启用户名登录、是否已删除、是否开启邮箱登录等）
     */
     @FieldAttribute("用户个人设置")
-     private int switchs;
+     private byte[] switchs;
 
      public Integer getId(){
            return this.id;
@@ -92,12 +92,14 @@ public class UserInfo extends BaseEntity {
      public void setCreateTime(Date createTime){
            this.createTime = createTime;
      }
-     public int getSwitchs(){
-           return this.switchs;
-     }
-     public void setSwitchs(int switchs){
-           this.switchs = switchs;
-     }
+
+    public byte[] getSwitchs() {
+        return switchs;
+    }
+
+    public void setSwitchs(byte[] switchs) {
+        this.switchs = switchs;
+    }
 
     @Override
     public String toString() {

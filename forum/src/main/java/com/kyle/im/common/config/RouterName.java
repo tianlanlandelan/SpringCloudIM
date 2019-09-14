@@ -20,6 +20,9 @@ public class RouterName {
 
     public static final String USER_SET_USER_PROFILE = "/A1007";
     public static final String USER_GET_USER_PROFILE = "/A1008";
+    /**
+     * 添加userInfo,仅超级管理员有权限
+     */
     public static final String USER_INSERT_USERINFO = "/A1009";
     public static final String USER_GETBYID = "/A1010";
 

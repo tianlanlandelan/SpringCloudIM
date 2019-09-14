@@ -23,22 +23,15 @@ public class SqlField {
      */
     private boolean notNull;
 
+    private int length;
+
+
+
     public SqlField(String name, String type){
         this.name = name;
         this.type = type;
     }
-    public SqlField(String name, String type,String comment){
-        this.name = name;
-        this.type = type;
-        this.comment = comment;
-    }
 
-    public SqlField(String name, String type,String comment,boolean notNull){
-        this.name = name;
-        this.type = type;
-        this.comment = comment;
-        this.notNull = notNull;
-    }
     public String getName() {
         return name;
     }
@@ -71,6 +64,14 @@ public class SqlField {
         this.notNull = notNull;
     }
 
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
     @Override
     public String toString() {
         return "SqlField{" +
@@ -78,6 +79,7 @@ public class SqlField {
                 ", type='" + type + '\'' +
                 ", comment='" + comment + '\'' +
                 ", notNull=" + notNull +
+                ", length=" + length +
                 '}';
     }
 }

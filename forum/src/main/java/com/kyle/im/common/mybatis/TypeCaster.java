@@ -11,12 +11,13 @@ import java.util.Map;
 public class TypeCaster {
     private static Map<String,String> map = new HashMap<>(16);
     static {
-        map.put("String","varchar(255)");
+        map.put("String","varchar(50)");
         map.put("int","int");
         map.put("Integer","int");
         map.put("long","bigint");
         map.put("Long","bigint");
         map.put("Date","datetime");
+        map.put("byte[]","varbinary(50)");
     }
     public static String getType(String key){
         return map.get(key);

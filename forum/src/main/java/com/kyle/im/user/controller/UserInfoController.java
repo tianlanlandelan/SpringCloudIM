@@ -1,6 +1,7 @@
 package com.kyle.im.user.controller;
 
 
+import com.kyle.im.common.config.PublicConfig;
 import com.kyle.im.common.config.RouterName;
 import com.kyle.im.common.response.MyResponse;
 import com.kyle.im.common.router.RouterAttribute;
@@ -31,7 +32,7 @@ import javax.annotation.Resource;
      * @param password
      * @return
      */
-    @RouterAttribute(name = "",description = "")
+    @RouterAttribute(name = "添加用户",description = "添加用户，仅供超级管理员使用",authority = PublicConfig.AUTHORITY_SUPPER_ADMIN)
     @PostMapping(RouterName.USER_INSERT_USERINFO)
     public ResponseEntity insert(String userName ,String password){
         if(StringUtils.isEmpty(userName,password)){

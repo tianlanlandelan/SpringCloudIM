@@ -140,7 +140,7 @@ public class UserInfoService {
     }
 
     /**
-     *
+     * 添加用户时，查看是否已存在有相同的用户
      * @param userName
      * @param password
      * @return
@@ -148,7 +148,7 @@ public class UserInfoService {
     public ResultData insert(String userName,String password){
         UserInfo userInfo = getByPhoneOrEmail(userName);
         if(userInfo != null){
-            return ResultData.success(userInfo.getId());
+            return ResultData.error("该用户已存在，请直接登录");
         }
         userInfo = new UserInfo();
         if(ValidUserName.isPhoneNo(userName)){

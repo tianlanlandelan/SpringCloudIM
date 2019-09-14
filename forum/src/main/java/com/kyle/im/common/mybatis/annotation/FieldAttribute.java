@@ -23,4 +23,11 @@ public @interface FieldAttribute {
      * @return
      */
     boolean notNull() default false;
+
+    /**
+     * 字段长度 ，仅可变长类型设置
+     * String 、byte[] 类型分别对应 mysql 中 varchar、varbinary类型，需要设置长度，默认50
+     * @return
+     */
+    int length() default 0;
 }

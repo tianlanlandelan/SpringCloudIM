@@ -239,6 +239,12 @@ public class SqlFieldReader {
             builder.append(field.getName())
                     .append(" ")
                     .append(TypeCaster.getType(field.getType()));
+            //设置变长类型的长度,默认变长类型的长度都是50
+            if(field.getLength() != 0){
+                builder.delete(builder.lastIndexOf("(") + 1,builder.length());
+                builder.append(field.getLength())
+                        .append(")");
+            }
             if(field.isNotNull()){
                 builder.append(" not null ");
             }
@@ -333,12 +339,11 @@ public class SqlFieldReader {
         for(Field field:fields){
             FieldAttribute fieldAttribute = field.getAnnotation(FieldAttribute.class);
             if(fieldAttribute != null){
-                list.add(new SqlField(field.getName(),
-                        field.getType().getSimpleName(),
-                        fieldAttribute.value(),
-                        fieldAttribute.notNull()
-                ));
-
+                SqlField sqlField = new SqlField(field.getName(),field.getType().getSimpleName());
+                sqlField.setComment(fieldAttribute.value());
+                sqlField.setNotNull(fieldAttribute.notNull());
+                sqlField.setLength(fieldAttribute.length());
+                list.add(sqlField);
             }
         }
         return list;
