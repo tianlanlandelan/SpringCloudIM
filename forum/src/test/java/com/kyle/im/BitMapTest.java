@@ -2,6 +2,9 @@ package com.kyle.im;
 
 import com.kyle.im.common.util.BitMap;
 import com.kyle.im.common.util.Console;
+import org.junit.Test;
+
+import java.util.Arrays;
 
 
 public class BitMapTest {
@@ -19,5 +22,15 @@ public class BitMapTest {
         Console.print("",bitMap.toString());
         int a = 100;
         Console.print("",BitMap.setBits(a,30));
+    }
+
+    @Test
+    public void tryResize(){
+        byte[] array = new byte[]{100};
+        BitMap bitMap = new BitMap(array);
+        Console.print("扩容前",bitMap,bitMap.size(),bitMap.at(2));
+        if(bitMap.tryResize(17)){
+            Console.print("扩容后",bitMap,bitMap.size(),bitMap.at(2));
+        }
     }
 }

@@ -1,5 +1,7 @@
 package com.kyle.im.common.util;
 
+import java.util.Arrays;
+
 /**
  * 简单的BitMap
  * 参照 sun.jvm.hotspot.utilities.BitMap
@@ -27,6 +29,20 @@ public class BitMap {
     public BitMap(byte[] data){
         this.data = data;
         this.size = size();
+    }
+
+    /**
+     * 扩容，每次扩容大小不能超过64位
+     * @param offset
+     * @return
+     */
+    public boolean tryResize(int offset){
+        if(offset > 0 && offset < WORD_SIZE * WORD_SIZE){
+            size += offset;
+            data = Arrays.copyOf(data,sizeInWords());
+            return true;
+        }
+        return false;
     }
 
     public int size(){

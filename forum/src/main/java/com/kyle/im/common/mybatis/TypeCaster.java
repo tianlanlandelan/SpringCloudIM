@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Java类型和mysql类型间的转换
+ * Java类型和mysql类型间的转换，仅创建数据表时使用
  * @author yangkaile
  * @date 2019-09-12 09:08:43
  */
