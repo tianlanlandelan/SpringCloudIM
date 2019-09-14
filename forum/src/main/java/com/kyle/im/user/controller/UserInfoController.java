@@ -69,11 +69,4 @@ import javax.annotation.Resource;
             return MyResponse.badRequest();
         }
     }
-
-
-
-
-
-
-
 }

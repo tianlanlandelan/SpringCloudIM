@@ -1,5 +1,7 @@
 package com.kyle.im;
 
+import com.kyle.im.common.switchs.UserSwitch;
+import com.kyle.im.common.util.BitMap;
 import com.kyle.im.common.util.Console;
 import com.kyle.im.friend.entity.Friend;
 import com.kyle.im.friend.mapper.FriendMapper;
@@ -62,8 +64,38 @@ public class ApplicationTests {
         UserInfo userInfo = new UserInfo();
         userInfo.setEmail("email");
         userInfo.setPassword("password");
+        BitMap bitMap = new BitMap(16);
+        bitMap.atPut(UserSwitch.addGroupNoVerify,true);
+        userInfo.setSwitchs(bitMap.getData());
         userInfoMapper.baseInsertAndReturnKey(userInfo);
         Console.print("insertUserInfo",userInfo);
+    }
+
+    @Test
+    public void findByIdUserInfo(){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(1);
+        userInfo = userInfoMapper.baseSelectById(userInfo);
+        Console.print("",userInfo);
+        BitMap bitMap = new BitMap(userInfo.getSwitchs());
+        Console.print("",bitMap);
+    }
+
+    @Test
+    public void updateById(){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(1);
+        userInfo = userInfoMapper.baseSelectById(userInfo);
+        Console.print("修改前",userInfo,new BitMap(userInfo.getSwitchs()));
+
+        BitMap bitMap = new BitMap(UserSwitch.MAX);
+        bitMap.atPut(UserSwitch.addFriendNoVerify,true);
+        bitMap.atPut(UserSwitch.addGroupNoVerify,true);
+        userInfo.setSwitchs(bitMap.getData());
+        userInfoMapper.baseUpdateById(userInfo);
+
+        userInfo = userInfoMapper.baseSelectById(userInfo);
+        Console.print("修改后",userInfo,new BitMap(userInfo.getSwitchs()));
     }
 
 }

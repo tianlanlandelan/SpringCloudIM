@@ -54,7 +54,7 @@ public class UserInfo extends BaseEntity {
     * 掩码值，用来表示一系列开关（如：是否开启用户名登录、是否已删除、是否开启邮箱登录等）
     */
     @FieldAttribute("用户个人设置")
-     private byte[] switchs;
+     private byte[] switchs ;
 
      public Integer getId(){
            return this.id;

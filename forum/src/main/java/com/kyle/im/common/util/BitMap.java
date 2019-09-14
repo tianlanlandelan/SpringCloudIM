@@ -49,6 +49,10 @@ public class BitMap {
         return data.length * WORD_SIZE;
     }
 
+    public byte[] getData(){
+        return data;
+    }
+
     /**
      * 取BitMap某一位的值，如果是1 返回 true;否则返回 false
      * @param offset

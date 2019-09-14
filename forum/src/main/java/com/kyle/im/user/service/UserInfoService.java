@@ -5,6 +5,7 @@ import com.kyle.im.common.config.RouterName;
 import com.kyle.im.common.entity.LogonLog;
 import com.kyle.im.common.response.ResponseReader;
 import com.kyle.im.common.response.ResultData;
+import com.kyle.im.common.switchs.UserSwitch;
 import com.kyle.im.common.util.*;
 import com.kyle.im.user.entity.UserInfo;
 import com.kyle.im.user.mapper.UserInfoMapper;
@@ -166,6 +167,11 @@ public class UserInfoService {
             e.printStackTrace();
             return ResultData.error("数据异常");
         }
+
+        // 初始化用户设置
+        BitMap bitMap = new BitMap(UserSwitch.MAX);
+        userInfo.setSwitchs(bitMap.getData());
+
         userInfoMapper.baseInsertAndReturnKey(userInfo);
         return ResultData.success(userInfo.getId());
     }

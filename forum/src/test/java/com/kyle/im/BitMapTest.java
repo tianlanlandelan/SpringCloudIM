@@ -1,7 +1,9 @@
 package com.kyle.im;
 
+import com.kyle.im.common.switchs.UserSwitch;
 import com.kyle.im.common.util.BitMap;
 import com.kyle.im.common.util.Console;
+import com.kyle.im.user.entity.UserInfo;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -32,5 +34,15 @@ public class BitMapTest {
         if(bitMap.tryResize(17)){
             Console.print("扩容后",bitMap,bitMap.size(),bitMap.at(2));
         }
+    }
+
+    @Test
+    public void user(){
+        UserInfo userInfo = new UserInfo();
+        Console.print("",userInfo.getSwitchs());
+        BitMap bitMap = new BitMap(8);
+        bitMap.atPut(UserSwitch.addFriendNoVerify,true);
+        userInfo.setSwitchs(bitMap.getData());
+
     }
 }

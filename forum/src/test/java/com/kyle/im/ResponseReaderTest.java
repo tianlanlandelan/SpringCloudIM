@@ -3,6 +3,8 @@ package com.kyle.im;
 import com.kyle.im.common.response.MyResponse;
 import com.kyle.im.common.response.ResponseReader;
 import com.kyle.im.common.response.ResultData;
+import com.kyle.im.common.switchs.UserSwitch;
+import com.kyle.im.common.util.BitMap;
 import com.kyle.im.common.util.Console;
 import com.kyle.im.user.entity.UserInfo;
 import org.junit.Test;
@@ -45,5 +47,13 @@ public class ResponseReaderTest {
     public void getMessage(){
         ResponseEntity entity = MyResponse.ok(ResultData.error("用户不存在"));
         Console.print("",ResponseReader.getMessage(entity));
+    }
+
+    @Test
+    public void getUserSwitch(){
+        BitMap bitMap = new BitMap(UserSwitch.MAX);
+        bitMap.atPut(UserSwitch.addGroupNoVerify,true);
+        ResponseEntity entity = MyResponse.ok(ResultData.success(bitMap.getData()));
+        Console.print("",new BitMap(ResponseReader.getObject(entity,byte[].class)));
     }
 }
