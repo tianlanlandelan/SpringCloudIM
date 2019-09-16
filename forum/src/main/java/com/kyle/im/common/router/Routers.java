@@ -3,7 +3,6 @@ package com.kyle.im.common.router;
 
 import com.kyle.im.common.entity.Router;
 import com.kyle.im.common.response.ResponseReader;
-import com.kyle.im.common.response.ResultData;
 import com.kyle.im.common.util.Constants;
 import com.kyle.im.common.util.StringUtils;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
@@ -23,7 +22,7 @@ import java.util.Map;
  * @author yangkaile
  * @date 2018-10-09 09:37:33
  */
-public class MyRouters {
+public class Routers {
     public static Map<String,Router> routerMap = new HashMap();
     public static void initRouterMap(List<Router> list){
         routerMap.clear();
@@ -128,7 +127,7 @@ public class MyRouters {
         RestTemplate restTemplate = getRestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity("",String.class);
         List<Router> list = ResponseReader.getList(responseEntity,Router.class);
-        MyRouters.initRouterMap(list);
+        Routers.initRouterMap(list);
         return list;
     }
 

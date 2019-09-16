@@ -33,4 +33,10 @@ public class SMSService {
         }
         return ResultData.error("验证码无效");
     }
+    public ResultData save(SMSLog log){
+        smsMapper.baseInsertAndReturnKey(log);
+        return ResultData.success();
+    }
+
+
 }

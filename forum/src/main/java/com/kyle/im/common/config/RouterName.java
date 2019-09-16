@@ -28,6 +28,7 @@ public class RouterName {
 
     public static final String LOG_CHECK_EMAIL_VALIDATE_CODE = "/B1001";
     public static final String LOG_CHECK_SMS_VALIDATE_CODE = "/B1002";
+    public static final String LOG_SAVE_SMS = "/B1003";
 
     public static final String FRIEND_ADD = "/C1001";
     public static final String FRIEND_DELETE = "/C1002";
@@ -35,6 +36,15 @@ public class RouterName {
     public static final String FRIEND_GETLIST = "/C1004";
     public static final String FRIEND_GET = "/C1005";
     public static final String FRIEND_ACTION_ADD = "/C1006";
+
+
+    /**
+     * 注册登录的验证码
+     */
+    public static final String GATEWAY_SEND_LOGON_SMS = "/D1001";
+    public static final String GATEWAY_SEND_RESET_PASSWORD_SMS = "/D1002";
+    public static final String GATEWAY_SEND_LOGON_EMAIL = "/D1003";
+    public static final String GATEWAY_SEND_RESET_PASSWORD_EMAIL = "/D1004";
 
 
 }

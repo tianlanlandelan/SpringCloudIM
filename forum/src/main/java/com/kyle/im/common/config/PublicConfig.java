@@ -1,10 +1,17 @@
 package com.kyle.im.common.config;
 
+/**
+ * @author yangkaile
+ * @date 2019-09-16 14:41:23
+ */
 public class PublicConfig {
-    public static final int EMAIL_SEND_STATUSCODE_SUCCESS = 0;
-    public static final int EMAIL_SEND_STATUSCODE_FAILED = 1;
 
     public static final String SERVICE_URL = "http://127.0.0.1:8801";
+
+    /**
+     * 验证码有效期，5分钟
+     */
+    public static final int TERM_OF_VALIDITY = 5;
 
     /**
      * 通用，不做访问权限设置

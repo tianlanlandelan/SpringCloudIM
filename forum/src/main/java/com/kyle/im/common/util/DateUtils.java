@@ -37,6 +37,13 @@ public class DateUtils {
         return getDateTime(new Date());
     }
 
+    public static String getTimeMaskSecond(){
+        SimpleDateFormat simpleDateFormat =
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return simpleDateFormat.format(new Date());
+    }
+
+
     /**
      * 获取时间标识，年月日时分秒毫秒，用于文件名
      * @param date

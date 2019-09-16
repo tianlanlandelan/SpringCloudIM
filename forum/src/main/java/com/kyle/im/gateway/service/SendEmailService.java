@@ -1,7 +1,8 @@
 package com.kyle.im.gateway.service;
 
-public class SendEmailService {
-    public static void sendVerificationCode(String email){
+import org.springframework.stereotype.Service;
 
-    }
+@Service
+public class SendEmailService {
+
 }

@@ -5,10 +5,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 @EnableDiscoveryClient
 @SpringBootApplication
+/**
+ * @author yangkaile
+ * @date 2019-09-16 15:19:45
+ */
 public class Application {
 
     @Bean
@@ -21,6 +27,7 @@ public class Application {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.getMessageConverters().clear();
         restTemplate.getMessageConverters().add(new FastJsonHttpMessageConverter());
+
         return restTemplate;
 
     }

@@ -6,8 +6,6 @@ import com.kyle.im.common.util.Console;
 import com.kyle.im.user.entity.UserInfo;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 
 public class BitMapTest {
     public static void main(String[] args){
@@ -43,6 +41,5 @@ public class BitMapTest {
         BitMap bitMap = new BitMap(8);
         bitMap.atPut(UserSwitch.addFriendNoVerify,true);
         userInfo.setSwitchs(bitMap.getData());
-
     }
 }

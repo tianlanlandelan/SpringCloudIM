@@ -2,64 +2,80 @@ package com.kyle.im.common.entity;
 
 
 import com.kyle.im.common.mybatis.BaseEntity;
-import com.kyle.im.common.mybatis.annotation.IndexAttribute;
-import com.kyle.im.common.mybatis.annotation.SortAttribute;
-import com.kyle.im.common.mybatis.annotation.TableAttribute;
+import com.kyle.im.common.mybatis.annotation.*;
 
 import java.util.Date;
 
 
-@TableAttribute(name = "sms_log")
+@TableAttribute(name = "sms_log",comment = "短信发送记录")
 public class SMSLog extends BaseEntity{
-    private int id;
+    public static final int Logon = 0;
+    public static final int ReSetPassword = 1;
+
+    public static final int NoUse = 0;
+    public static final int Used = 1;
+
+
+    @FieldAttribute
+    @AutoIncrKeyAttribute
+    private Integer id;
     /**
     * 用户ID
     */
     @IndexAttribute
+    @FieldAttribute(value = "手机号",notNull = true)
      private String phone;
     /**
     * 类型
     */
-     private Integer type;
+    @FieldAttribute(value = "短信类型",notNull = true)
+    private Integer type = Logon;
     /**
     * 短信模板ID
     */
-     private String templateId;
+    @FieldAttribute(value = "短信模板编号")
+    private String templateId;
     /**
      * 验证码
      * 模板里第一个参数
      * 123456
      */
     @IndexAttribute
+    @FieldAttribute(value = "验证码")
      private String codeStr;
      /**
      * 有效时间
      * 模板里第二个参数
      * 单位：分钟
      */
+     @FieldAttribute(value = "有效时间")
      private String minuteStr;
 
     /**
      *  返回结果
      *  {data={templateSMS={dateCreated=20180827170721, smsMessageSid=a21809d2dbe84872878a3e9cd9a3da17}}, statusCode=000000}
      */
+    @FieldAttribute(value = "短信服务器返回结果")
     private String result;
 
     /**
     * 返回码
     */
+    @FieldAttribute(value = "业务返回码")
      private String statusCode;
 
     /**
      * 发送时间，短信验证码5分钟内有效
      */
     @SortAttribute
+    @FieldAttribute(value = "短信发送时间")
     private Date createTime = new Date();
 
     /**
      * 验证码是否已使用  0:未使用 1:已使用
      */
-    private int isUsed = 0;
+    @FieldAttribute(value = "短信是否已使用")
+    private int isUsed = NoUse;
 
     public SMSLog(){
         super();
@@ -81,17 +97,18 @@ public class SMSLog extends BaseEntity{
      * @return
      */
     public boolean isEfficientVerificationCode(){
-        return (System.currentTimeMillis() - createTime.getTime() < 5 * 60 * 1000
-                && isUsed == 0
-                && statusCode.equals("000000")
-        );
+        return true;
+//        return (System.currentTimeMillis() - createTime.getTime() < 5 * 60 * 1000
+//                && isUsed == 0
+//                && statusCode.equals("000000")
+//        );
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
