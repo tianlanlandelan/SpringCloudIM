@@ -54,11 +54,11 @@ public class BaseEntity {
         return baseKylePageSize;
     }
 
-    public int getBaseKyleStartRows() {
+    private int getBaseKyleStartRows() {
         return baseKyleStartRows;
     }
 
-    public void setBaseKyleStartRows(int baseKyleStartRows) {
+    private void setBaseKyleStartRows(int baseKyleStartRows) {
         this.baseKyleStartRows = baseKyleStartRows;
     }
 

@@ -25,7 +25,9 @@ public class SMSService {
         sms.setPhone(phone);
         sms.setCodeStr(code);
         sms.setBaseKyleUseASC(false);
-        List<SMSLog> list = smsMapper.baseSelectByCondition(sms);
+        sms.setBaseKylePageSize(1);
+        sms.setBaseKyleCurrentPage(1);
+        List<SMSLog> list = smsMapper.baseSelectPageListByCondition(sms);
         if(list != null && list.size() > 0){
             if(list.get(0).isEfficientVerificationCode()){
                 return ResultData.success();

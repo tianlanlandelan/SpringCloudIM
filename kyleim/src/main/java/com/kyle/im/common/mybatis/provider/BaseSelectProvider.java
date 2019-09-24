@@ -153,7 +153,7 @@ public class BaseSelectProvider {
      * @return SELECT id,name... FROM router  WHERE name = #{name} AND serviceName = #{serviceName}  ORDER BY createTime ASC LIMIT #{startRows},#{pageSize}
      */
     public static <T extends BaseEntity> String selectPageListByCondition(T entity){
-        String sql = selectByCondition(entity) + " LIMIT #{startRows},#{pageSize}";
+        String sql = selectByCondition(entity) + " LIMIT #{baseKyleStartRows},#{baseKylePageSize}";
         Console.info("selectPageListByCondition",sql,entity);
         return sql;
     }
