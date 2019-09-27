@@ -48,8 +48,6 @@ public class BaseController {
         if(StringUtils.isEmpty(userName,password) || ValidUserName.notPhoneOrEmail(userName)){
             return MyResponse.badRequest();
         }
-
-
         Map<String, String> map = new HashMap<>(16);
         map.put("userName", userName);
         map.put("password",password);
@@ -103,6 +101,8 @@ public class BaseController {
         }
         return MyResponse.badRequest();
     }
+
+
     @RequestMapping(value = "/checkVCode",method = RequestMethod.GET)
     public ResponseEntity checkVCode(String userName,String code){
         Console.print("checkVCode",userName,code);

@@ -1,6 +1,5 @@
 package com.kyle.im.common.router;
 
-
 import com.kyle.im.common.entity.Router;
 import com.kyle.im.common.response.ResponseReader;
 import com.kyle.im.common.util.Constants;
@@ -23,6 +22,7 @@ import java.util.Map;
  * @date 2018-10-09 09:37:33
  */
 public class Routers {
+
     public static Map<String,Router> routerMap = new HashMap();
     public static void initRouterMap(List<Router> list){
         routerMap.clear();

@@ -44,6 +44,15 @@ import javax.annotation.Resource;
         return MyResponse.badRequest();
     }
 
+    @GetMapping(RouterName.USER_GET_BY_NAME)
+    public ResponseEntity getByName(String userName){
+        if(ValidUserName.isPhoneNo(userName)){
+            return MyResponse.ok(userInfoService.getByPhone(userName));
+        }else if(ValidUserName.isEmail(userName)) {
+            return MyResponse.ok(userInfoService.getByEmail(userName));
+        }
+        return MyResponse.badRequest();
+    }
 
     @GetMapping(RouterName.USER_GETBYID)
     public ResponseEntity getById(Integer id){
@@ -61,12 +70,5 @@ import javax.annotation.Resource;
         return MyResponse.ok(userInfoService.getAll());
     }
 
-    @GetMapping("/getByPhone")
-    public ResponseEntity getByPhone(String phone){
-        if(ValidUserName.isPhoneNo(phone)){
-            return MyResponse.ok(userInfoService.getByPhone(phone));
-        }else {
-            return MyResponse.badRequest();
-        }
-    }
+
 }

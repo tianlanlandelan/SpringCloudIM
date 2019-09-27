@@ -215,7 +215,19 @@ public class UserInfoService {
         UserInfo userInfo = new UserInfo();
         userInfo.setPhone(phone);
         List<UserInfo> list = userInfoMapper.baseSelectByCondition(userInfo);
-        return ResultData.success(list);
+        if(list == null || list.size() == 0){
+            return ResultData.error("手机号未注册");
+        }
+        return ResultData.success(list.get(0));
+    }
+    public ResultData getByEmail(String email){
+        UserInfo userInfo = new UserInfo();
+        userInfo.setEmail(email);
+        List<UserInfo> list = userInfoMapper.baseSelectByCondition(userInfo);
+        if(list == null || list.size() == 0){
+            return ResultData.error("邮箱未注册");
+        }
+        return ResultData.success(list.get(0));
     }
 
 
