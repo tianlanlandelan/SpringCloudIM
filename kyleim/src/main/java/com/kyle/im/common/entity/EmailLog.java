@@ -2,6 +2,7 @@ package com.kyle.im.common.entity;
 
 
 
+import com.kyle.im.common.config.PublicConfig;
 import com.kyle.im.common.mybatis.BaseEntity;
 import com.kyle.im.common.mybatis.annotation.IndexAttribute;
 import com.kyle.im.common.mybatis.annotation.SortAttribute;
@@ -42,7 +43,7 @@ public class EmailLog extends BaseEntity {
      * 0 成功
      * 1 失败
      */
-     private int statusCode = 0;
+     private int statusCode = PublicConfig.SUCCESS;
 
     /**
      * 发送时间，验证码邮件的有效时间为5分钟

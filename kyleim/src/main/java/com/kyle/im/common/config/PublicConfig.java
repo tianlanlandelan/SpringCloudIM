@@ -6,12 +6,22 @@ package com.kyle.im.common.config;
  */
 public class PublicConfig {
 
+    public static final String AppName = "Chat";
+
+    public static final int SUCCESS  = 0;
+    public static final int FAILED = 1;
+
+    public static final int RegisterType = 0;
+    public static final int LoginType = 1;
+    public static final int ResetPasswordType = 2;
+
+
     public static final String SERVICE_URL = "http://127.0.0.1:8801";
 
     /**
      * 验证码有效期，5分钟
      */
-    public static final int TERM_OF_VALIDITY = 5;
+    public static final int CodeValidatyTime = 5;
 
     /**
      * 通用，不做访问权限设置

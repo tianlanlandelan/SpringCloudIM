@@ -2,6 +2,7 @@ package com.kyle.im.gateway.utils;
 
 
 import com.kyle.im.common.config.PublicConfig;
+import com.kyle.im.common.entity.EmailLog;
 import com.kyle.im.common.util.StringUtils;
 import com.kyle.im.gateway.config.ServiceConfig;
 import org.slf4j.Logger;
@@ -91,23 +92,37 @@ public class SendEmailUtils {
      * @param email 收件人邮箱
      * @return 邮件实体类EmailEntity
      */
-//    public static EmailEntity sendVerificationCode(String email){
-//        String code = StringUtils.getAllCharString(ServiceConfig.EMAIL_VERIFICATIONCODE_LENGTH);
-//        EmailEntity entity = new EmailEntity();
-//        entity.setEmail(email);
-//        entity.setType(ServiceConfig.EMAIL_SEND_TYPE_REGISTER);
-//        entity.setTitle(ServiceConfig.EMAIL_VERIFICATIONCODE_TITLE);
-//        entity.setContent(String.format(ServiceConfig.EMAIL_VERIFICATIONCODE_BODY,code));
-//        entity.setCode(code);
-//        try {
-//            sendSimpleMail(entity.getEmail(),entity.getTitle(),entity.getContent());
-//        }catch (Exception e){
-//            e.printStackTrace();
-//            logger.error("send sendVerificationCode error :" + e.getMessage());
-//            entity.setResult(e.getMessage());
-//            entity.setStatusCode(PublicConfig.EMAIL_SEND_STATUSCODE_FAILED);
-//        }finally {
-//            return entity;
-//        }
-//    }
+    public static EmailLog sendVCode(int type,String email){
+        String code = StringUtils.getNumbserString(ServiceConfig.EMAIL_VERIFICATIONCODE_LENGTH);
+        EmailLog entity = new EmailLog();
+        entity.setEmail(email);
+        entity.setType(type);
+        entity.setTitle(ServiceConfig.EMAIL_VERIFICATIONCODE_TITLE);
+        String body;
+        switch (type){
+            case PublicConfig.RegisterType :
+                body = String.format(ServiceConfig.RegisterBody,code,email);
+                break;
+            case PublicConfig.LoginType :
+                body = String.format(ServiceConfig.LoginBody,code,email);
+                break;
+            case PublicConfig.ResetPasswordType :
+                body = String.format(ServiceConfig.ResetPasswordBody,code,email);
+                break;
+            default:return null;
+        }
+        entity.setContent(body);
+        entity.setCode(code);
+        try {
+            sendSimpleMail(entity.getEmail(),entity.getTitle(),entity.getContent());
+        }catch (Exception e){
+            e.printStackTrace();
+            logger.error("send sendVerificationCode error :" + e.getMessage());
+            entity.setResult(e.getMessage());
+            entity.setStatusCode(PublicConfig.FAILED);
+        }
+        return entity;
+    }
+
+
 }
