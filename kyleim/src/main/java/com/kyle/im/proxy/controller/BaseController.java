@@ -3,6 +3,7 @@ package com.kyle.im.proxy.controller;
 
 import com.kyle.im.common.config.PublicConfig;
 import com.kyle.im.common.config.RouterName;
+import com.kyle.im.common.config.ServiceName;
 import com.kyle.im.common.response.MyResponse;
 import com.kyle.im.common.response.ResponseReader;
 import com.kyle.im.common.util.Console;
@@ -11,6 +12,7 @@ import com.kyle.im.common.util.ValidUserName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,9 @@ public class BaseController {
     private Logger logger = LoggerFactory.getLogger(BaseController.class);
     @Autowired
     RestTemplate restTemplate;
+    @Autowired
+    private LoadBalancerClient loadBalancer;
+
 
 
     /**
@@ -86,20 +91,67 @@ public class BaseController {
     }
 
     /**
-     * 发送验证码
+     * 发送登录验证码
+     * @param userName
+     * @return
+     */
+    @RequestMapping(value = "/sendLoginCode",method = RequestMethod.POST)
+    public ResponseEntity sendLoginCode(String userName){
+        //用户名不合法
+        if(ValidUserName.notPhoneOrEmail(userName)){
+            return MyResponse.badRequest();
+        }
+        int type = hasUser(userName)?PublicConfig.LoginType:PublicConfig.RegisterType;
+        ResponseEntity<String>  responseEntity;
+        //发送邮件验证码
+        if(ValidUserName.isEmail(userName)){
+            responseEntity = restTemplate.postForEntity(
+                    ServiceName.getUserUrl(loadBalancer) + RouterName.GATEWAY_SEND_LOGON_EMAIL
+                            + "?type=" + type + "&email=" + userName
+                    ,null,String.class);
+            return responseEntity;
+        }
+        else{
+            //TODO 发送短信验证码
+            return MyResponse.error("暂时只支持邮箱");
+        }
+    }
+
+    private Boolean hasUser(String userName){
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                ServiceName.getUserUrl(loadBalancer) + RouterName.USER_GET_BY_NAME + "?userName=" + userName
+                ,String.class);
+        return ResponseReader.isSuccess(responseEntity);
+    }
+
+    /**
+     * 发送注册验证码
      * @param userName 手机号或邮箱
      * @return
      */
-    @RequestMapping(value = "/sendVCode",method = RequestMethod.GET)
-    public ResponseEntity sendVCode(String userName){
-        Console.print("sendVCode",userName);
-        if(StringUtils.isEmpty(userName)){
+    @RequestMapping(value = "/sendRegisterCode",method = RequestMethod.POST)
+    public ResponseEntity sendRegisterCode(String userName){
+        //用户名不合法
+        if(ValidUserName.notPhoneOrEmail(userName)){
             return MyResponse.badRequest();
         }
-        if(ValidUserName.isEmail(userName) || ValidUserName.isPhoneNo(userName)){
-            return  MyResponse.ok();
+
+        if(hasUser(userName)){
+            return MyResponse.badRequest();
         }
-        return MyResponse.badRequest();
+        ResponseEntity<String>  responseEntity;
+        if(ValidUserName.isEmail(userName)){
+            responseEntity = restTemplate.postForEntity(
+                    ServiceName.getUserUrl(loadBalancer) + RouterName.GATEWAY_SEND_LOGON_EMAIL
+                            + "?type=" + PublicConfig.RegisterType + "&email=" + userName
+                    ,null,String.class);
+            return responseEntity;
+        }else {
+            //TODO 短信验证码
+            return MyResponse.error("暂时只支持邮箱");
+        }
+
+
     }
 
 
