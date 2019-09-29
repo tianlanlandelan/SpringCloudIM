@@ -92,6 +92,8 @@ public class BaseController {
 
     /**
      * 发送登录验证码
+     * 查询用户是否已注册，如果已注册，发送登录验证码，
+     *  如果未注册，发送注册验证码
      * @param userName
      * @return
      */

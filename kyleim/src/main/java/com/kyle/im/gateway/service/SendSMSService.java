@@ -33,7 +33,7 @@ public class SendSMSService {
         log.setPhone(phone);
         log.setCodeStr(code);
         ResponseEntity responseEntity = restTemplate.postForEntity(
-                ServiceName.getUrl(loadBalancer,ServiceName.LOG) + RouterName.LOG_SAVE_SMS + "?log={log}" ,
+                ServiceName.getLogUrl(loadBalancer) + RouterName.LOG_SAVE_SMS + "?log={log}" ,
                 null,String.class,JsonUtils.toJSONString(log));
         Console.print("sendLogonCode",responseEntity);
         return ResultData.success();

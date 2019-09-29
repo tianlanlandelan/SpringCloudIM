@@ -4,56 +4,69 @@ package com.kyle.im.common.entity;
 
 import com.kyle.im.common.config.PublicConfig;
 import com.kyle.im.common.mybatis.BaseEntity;
-import com.kyle.im.common.mybatis.annotation.IndexAttribute;
-import com.kyle.im.common.mybatis.annotation.SortAttribute;
-import com.kyle.im.common.mybatis.annotation.TableAttribute;
+import com.kyle.im.common.mybatis.annotation.*;
 
 import java.util.Date;
 
+/**
+ * @author yangkaile
+ * @date 2019-09-29 10:58:52
+ */
 @TableAttribute(name = "email_log")
 public class EmailLog extends BaseEntity {
+    @FieldAttribute
+    @AutoIncrKeyAttribute
     private int id;
     /**
     * 邮件发送类型
     */
+    @FieldAttribute(value = "邮件发送类型,不能为空",notNull = true)
      private Integer type;
     /**
     * 收件人
     */
+    @FieldAttribute(value = "收件人，不能为空",notNull = true)
     @IndexAttribute
      private String email;
     /**
     * 标题
     */
+    @FieldAttribute(value = "邮件标题，不能为空",notNull = true,length = 200)
      private String title;
     /**
     * 内容
     */
+    @FieldAttribute(value = "邮件内容，不能为空",notNull = true,length = 500)
      private String content;
     /**
      * 验证码
      * 包含验证码的邮件，需要将验证码单独填写，方便查询
     */
+    @FieldAttribute("验证码")
     @IndexAttribute
      private String code;
 
+    @FieldAttribute("发送结果描述，如：发送失败的原因等")
      private String result;
     /**
      * 状态码
      * 0 成功
      * 1 失败
      */
+    @FieldAttribute(value = "发送状态",notNull = true)
      private int statusCode = PublicConfig.SUCCESS;
 
     /**
      * 发送时间，验证码邮件的有效时间为5分钟
      */
+    @FieldAttribute(value = "发送时间",notNull = true)
     @SortAttribute
     private Date createTime = new Date();
 
     /**
      * 验证码是否已使用 0:未使用 1:已使用
      */
+    @FieldAttribute("验证码是否已使用")
     private int isUsed = 0;
 
     public EmailLog(){

@@ -30,6 +30,7 @@ public class RouterName {
     public static final String LOG_CHECK_EMAIL_VALIDATE_CODE = "/B1001";
     public static final String LOG_CHECK_SMS_VALIDATE_CODE = "/B1002";
     public static final String LOG_SAVE_SMS = "/B1003";
+    public static final String LOG_SAVE_EMAIL = "/B1004";
 
     public static final String FRIEND_ADD = "/C1001";
     public static final String FRIEND_DELETE = "/C1002";

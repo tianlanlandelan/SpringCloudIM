@@ -1,5 +1,6 @@
 package com.kyle.im;
 
+import com.kyle.im.common.entity.EmailLog;
 import com.kyle.im.common.entity.SMSLog;
 import com.kyle.im.common.switchs.UserSwitch;
 import com.kyle.im.common.util.BitMap;
@@ -10,6 +11,7 @@ import com.kyle.im.group.entity.GroupInfo;
 import com.kyle.im.group.entity.GroupMember;
 import com.kyle.im.group.mapper.GroupInfoMapper;
 import com.kyle.im.group.mapper.GroupMemberMapper;
+import com.kyle.im.log.mapper.EmailMapper;
 import com.kyle.im.log.mapper.SMSMapper;
 import com.kyle.im.user.entity.UserInfo;
 import com.kyle.im.user.mapper.UserInfoMapper;
@@ -40,6 +42,9 @@ public class ApplicationTests {
     @Resource
     SMSMapper smsMapper;
 
+    @Resource
+    EmailMapper emailMapper;
+
     @Test
     public void contextLoads() {
         ConcurrentHashMap map = new ConcurrentHashMap(16);
@@ -67,6 +72,11 @@ public class ApplicationTests {
     @Test
     public void createSMSLogTable(){
         smsMapper.baseCreate(new SMSLog());
+    }
+
+    @Test
+    public void createEmailLogTable(){
+        emailMapper.baseCreate(new EmailLog());
     }
 
     @Test

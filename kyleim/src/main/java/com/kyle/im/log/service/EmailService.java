@@ -31,4 +31,9 @@ public class EmailService {
         return ResultData.error("验证码无效");
     }
 
+    public ResultData save(EmailLog log){
+        emailMapper.baseInsertAndReturnKey(log);
+        return ResultData.success();
+    }
+
 }
