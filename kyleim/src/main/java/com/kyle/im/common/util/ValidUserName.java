@@ -25,12 +25,18 @@ public class ValidUserName {
             "(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
 
     public static boolean isUserName(String userName) {
+        if(userName == null){
+            return false;
+        }
         Pattern pattern = Pattern.compile(USER_NAME_PATTERN);
         Matcher matcher = pattern.matcher(userName);
         return matcher.matches();
     }
 
     public static boolean isPhoneNo(String userName) {
+        if(userName == null){
+            return false;
+        }
         Pattern pattern = Pattern.compile(PHONE_NUMBER_PATTERN);
         Matcher matcher = pattern.matcher(userName);
         return matcher.matches();
@@ -51,6 +57,9 @@ public class ValidUserName {
      * @return
      */
     public static boolean isEmail(String userName) {
+        if(userName == null){
+            return false;
+        }
         Pattern pattern = Pattern.compile(EMAIL_ADDRESS_PATTERN);
         Matcher matcher = pattern.matcher(userName);
         return matcher.matches();

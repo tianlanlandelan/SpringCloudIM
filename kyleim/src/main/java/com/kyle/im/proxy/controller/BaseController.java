@@ -32,7 +32,6 @@ import java.util.Map;
 @CrossOrigin(origins = "*",allowedHeaders="*", maxAge = 3600)
 public class BaseController {
 
-    private Logger logger = LoggerFactory.getLogger(BaseController.class);
     @Autowired
     RestTemplate restTemplate;
     @Autowired
@@ -99,6 +98,7 @@ public class BaseController {
      */
     @RequestMapping(value = "/sendLoginCode",method = RequestMethod.POST)
     public ResponseEntity sendLoginCode(String userName){
+        Console.info("sendLoginCode,userName:",userName);
         //用户名不合法
         if(ValidUserName.notPhoneOrEmail(userName)){
             return MyResponse.badRequest();

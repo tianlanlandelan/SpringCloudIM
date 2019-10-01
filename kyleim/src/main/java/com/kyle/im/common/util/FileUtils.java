@@ -18,7 +18,14 @@ public class FileUtils {
     public static String getSuffix(String fileName){
         return fileName.substring(fileName.lastIndexOf(SUFFIX_SPLIT) + 1);
     }
-
+    /**
+     * 获取文件名的后缀和分隔符，如 .jpg/.txt等
+     * @param fileName
+     * @return
+     */
+    public static String getSuffixWithSpilt(String fileName){
+        return fileName.substring(fileName.lastIndexOf(SUFFIX_SPLIT));
+    }
     public static void main(String[] args){
         Console.print("getSuffix",getSuffix("abc.jpg"));
     }
