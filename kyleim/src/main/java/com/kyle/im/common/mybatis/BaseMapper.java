@@ -2,6 +2,7 @@ package com.kyle.im.common.mybatis;
 
 import com.kyle.im.common.mybatis.provider.*;
 import org.apache.ibatis.annotations.*;
+import org.springframework.dao.DuplicateKeyException;
 
 import java.util.List;
 
@@ -30,19 +31,21 @@ public interface BaseMapper<K> {
      * 将实体类的所有字段和字段的值分别列出来，适用于主键不是自增的表
      * @param entity
      * @return INSERT INTO tableName (id,name...) VALUES (#{id},#{name}...)
+     * @throws DuplicateKeyException 当唯一字段重复插入时，会抛该异常
      */
     @InsertProvider(type = BaseInsertProvider.class,method = "insert")
-    Integer baseInsert(K entity);
+    Integer baseInsert(K entity) throws DuplicateKeyException;;
 
     /**
      * 插入数据并返回自增的主键(建议使用id)
      * 将实体类中除主键以外的字段和值分别列出来，适用于主键是自增的表
      * @param entity
      * @return INSERT INTO tableName (name...) VALUES(#{name}...)
+     * @throws DuplicateKeyException 当唯一字段重复插入时，会抛该异常
      */
     @InsertProvider(type = BaseInsertProvider.class,method = "insertAndReturnKey")
     @Options(useGeneratedKeys=true,keyProperty = "id", keyColumn = "id")
-    Integer baseInsertAndReturnKey(K entity);
+    Integer baseInsertAndReturnKey(K entity) throws DuplicateKeyException;;
 
 
     /**

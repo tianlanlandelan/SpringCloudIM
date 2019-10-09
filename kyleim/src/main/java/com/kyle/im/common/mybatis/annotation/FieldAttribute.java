@@ -30,4 +30,10 @@ public @interface FieldAttribute {
      * @return
      */
     int length() default 0;
+
+    /**
+     * 是否唯一，默认不唯一
+     * @return
+     */
+    boolean unique() default false;
 }

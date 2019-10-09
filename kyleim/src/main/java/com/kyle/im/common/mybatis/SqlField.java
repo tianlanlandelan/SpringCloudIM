@@ -23,6 +23,8 @@ public class SqlField {
      */
     private boolean notNull;
 
+    private boolean unique;
+
     private int length;
 
 
@@ -72,6 +74,14 @@ public class SqlField {
         this.length = length;
     }
 
+    public boolean isUnique() {
+        return unique;
+    }
+
+    public void setUnique(boolean unique) {
+        this.unique = unique;
+    }
+
     @Override
     public String toString() {
         return "SqlField{" +
@@ -79,6 +89,7 @@ public class SqlField {
                 ", type='" + type + '\'' +
                 ", comment='" + comment + '\'' +
                 ", notNull=" + notNull +
+                ", unique=" + unique +
                 ", length=" + length +
                 '}';
     }

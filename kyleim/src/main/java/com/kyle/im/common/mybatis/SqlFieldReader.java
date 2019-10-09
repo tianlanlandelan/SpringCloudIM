@@ -245,8 +245,15 @@ public class SqlFieldReader {
                 builder.append(field.getLength())
                         .append(")");
             }
+
+            //设置是否必填
             if(field.isNotNull()){
                 builder.append(" not null ");
+            }
+
+            //设置是否唯一
+            if(field.isUnique()){
+                builder.append(" unique ");
             }
 
             //如果有字段说明，添加字段说明
@@ -342,6 +349,7 @@ public class SqlFieldReader {
                 SqlField sqlField = new SqlField(field.getName(),field.getType().getSimpleName());
                 sqlField.setComment(fieldAttribute.value());
                 sqlField.setNotNull(fieldAttribute.notNull());
+                sqlField.setUnique(fieldAttribute.unique());
                 sqlField.setLength(fieldAttribute.length());
                 list.add(sqlField);
             }
