@@ -41,7 +41,7 @@ public interface BaseMapper<K> {
      * @return INSERT INTO tableName (name...) VALUES(#{name}...)
      */
     @InsertProvider(type = BaseInsertProvider.class,method = "insertAndReturnKey")
-    @Options(useGeneratedKeys=true)
+    @Options(useGeneratedKeys=true,keyProperty = "id", keyColumn = "id")
     Integer baseInsertAndReturnKey(K entity);
 
 
