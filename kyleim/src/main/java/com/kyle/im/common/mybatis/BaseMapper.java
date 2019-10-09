@@ -34,7 +34,7 @@ public interface BaseMapper<K> {
      * @throws DuplicateKeyException 当唯一字段重复插入时，会抛该异常
      */
     @InsertProvider(type = BaseInsertProvider.class,method = "insert")
-    Integer baseInsert(K entity) throws DuplicateKeyException;;
+    Integer baseInsert(K entity) throws DuplicateKeyException;
 
     /**
      * 插入数据并返回自增的主键(建议使用id)
